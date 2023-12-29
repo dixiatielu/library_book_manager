@@ -1,0 +1,3 @@
+D:/coding/clion_projs/library_book_manager/cmake-build-debug/CMakeFiles/library_book_manager.dir
+D:/coding/clion_projs/library_book_manager/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/coding/clion_projs/library_book_manager/cmake-build-debug/CMakeFiles/rebuild_cache.dir

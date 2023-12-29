@@ -1,0 +1,7 @@
+# ninja log v5
+3	829	7255243804300518	CMakeFiles/library_book_manager.dir/src/main.cpp.obj	6f3e618a0f786f26
+1	903	7252658406593182	CMakeFiles/library_book_manager.dir/main.cpp.obj	6ef8cfe4aa15a692
+829	935	7255243805293034	library_book_manager.exe	6691b9d3b5bf612f
+1	474	7255244268864708	build.ninja	205c263e7cf3fdb5
+3	932	7255249943222477	CMakeFiles/library_book_manager.dir/src/main.cpp.obj	6f3e618a0f786f26
+932	1052	7255249944390502	library_book_manager.exe	6691b9d3b5bf612f
