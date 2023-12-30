@@ -1,3 +1,4 @@
+#include <ctime>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,6 +11,7 @@
  * @brief Get the Time Current object
  *        获取当前时间并返回Time结构体
  * @return Time
+ * @assignee CP
 **/
 Time TimeGetCurrent(void);
 

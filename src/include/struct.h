@@ -1,3 +1,15 @@
+/**
+ * @file struct.h
+ * @author ChengPu (chengpu@stu.scu.edu.cn)
+ * @brief 1. 中图分类号由 char(*)[4] classify_letter
+ *                    改为 std::string classifier
+ * @version 0.2
+ * @date 2023-12-29
+ *
+ * @copyright Copyright (c) 2023
+ *
+**/
+
 #ifndef MY_STRUCT
 
 // 时间结构体
@@ -49,7 +61,7 @@ typedef struct{
 // 图书结构体
 typedef struct{
     std::string name;               // 名称
-    char classify_letter[4] = {0};  // 中图分类号
+    std::string classifier;         // 中图分类号
     AuthorList authors_info_list;   // 作、译者表数组
     PublishInfo publish_info;       // 出版信息
     BookID identification;          // 编号
