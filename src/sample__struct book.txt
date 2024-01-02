@@ -1,0 +1,64 @@
+// 仅作示意，不能直接赋值
+{
+    .name = "他改变了中国：江泽民传";
+    .classifier = "K827";
+    .authors_info_list = { // 不能直接赋值，未申请内存空间
+                           {
+                            .name         = "罗伯特·劳伦斯·库恩";
+                            .nationality  = "US";
+                            .gender       = 0;
+                            .isTranslator = 0;
+                           },
+                           {
+                            .name         = "谈峥";
+                            .nationality  = "CN";
+                            .gender       = 0;
+                            .isTranslator = 1;
+                           },
+                           {
+                            .name         = "于海江";
+                            .nationality  = "CN";
+                            .gender       = 0;
+                            .isTranslator = 1;
+                           }
+    };
+    .publish_info = {
+                        .press = "上海译文出版社";
+                        .date  = {
+                                    .YY = "2005";
+                        };
+                        .price = 59;
+
+    };
+    .identification = {
+                        .ISBN = "9787532736539";
+                        .copy = 1;      // 假定只有一本副本
+                        .store_date = { // 假定藏书日期
+                                        .YY = 2013;
+                                        .MM = 9;
+                                        .DD = 1
+                        }
+    };
+    .lend_state_flag = 0;
+    .lend_history = {
+                        .lend_times = 2;
+                        .borrower_list_hPTR = { // 不能直接赋值，未申请内存空间
+                                                {
+                                                    .borrower_ID = "2012141450076";
+                                                    .lend_date = {
+                                                                    .YY = 2013;
+                                                                    .MM = 9;
+                                                                    .DD = 1
+                                                    }
+                                                },
+                                                {
+                                                    .borrower_ID = "2022141580045";
+                                                    .lend_date = {
+                                                                    .YY = 2022;
+                                                                    .MM = 12;
+                                                                    .DD = 1
+                                                    }
+                                                }
+                        }
+    };
+}
