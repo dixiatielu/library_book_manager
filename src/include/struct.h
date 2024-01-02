@@ -1,195 +1,206 @@
 /**
- * @file main.h
+ * @file struct.h
  * @author ChengPu (chengpu@stu.scu.edu.cn)
  * @brief
  * @version 0.5
- * @date 2024-01-02
+ * @date 2023-1-2
  *
- * @copyright Copyright (c) 2024
+ * @copyright Copyright (c) 2023
  *
 **/
-#include <ctime>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <queue>
+#ifndef MY_STRUCT
+#define MY_STRUCT
 
-#include "fmt.h"
-#include "struct.h"
+#include <vector>
+#include <fstream>
+#include "fmt/core.h"
+#include "nlohmann/json.hpp"
 #include "macro.h"
 
-/**
- * @brief Get the Time Current object
- *        获取当前时间并返回Time结构体
- * @return Time
-**/
-Time TimeGetCurrent(void);
-
-/**
- * @brief Get the Time Input object
- *        在函数中获取用户输入的年、月、日时间并返回Time结构体
- * @return Time
-**/
-Time TimeGetInput(void);
-
-/*-----------------------------------------------------------------------------*/
-
-Library LibraryInitialize(void);
-/**
- * @brief 初始化借书者群
- *
- * @return BorrowerGroup
-**/
-BorrowerGroup GroupInitialize(void);
-
-/*-----------------------------------------------------------------------------*/
-
-/**
- * @brief 按ID查找是否存在该借书者
- *
- * @param gp
- * @param id
- * @return int 存在则返回1，不存在返回0
-**/
-int UserIDSearch(BorrowerGroup &gp, std::string id);
+// 时间结构体
+typedef struct{
+    std::string YY, MM, DD; // 取 10000 为无效值
+}Time;
 
 /*-----------------------------------------------------------------------------*/
 
 
-/**
- * @brief 按唯一识别码查找图书（先查找ISBN，再查找副本号）
- *
- * @param lib
- * @param id
- * @return int 返回书单中的自然位置（1，2，3...）
- *             失败返回长度为0的vector
-**/
-std::vector<int> LibraryBookIDSearch(Library lib, std::string id);
+// 作者信息
+typedef struct{
+    std::string name;
+    std::string nationality;     // 使用ISO3166-1 alpha-2两字符代码标注国籍
+    unsigned int gender;       // 0 为男性，1 为女性
+    unsigned int isTranslator; // 0 表示为非译者，1 表示为译者
+}AuthorInfo;
 
-/**
- * @brief 按名称查找图书，并以vector返回书单中所有满足条件的图书的自然位置
- *
- * @param lib
- * @param bk_name
- * @return vector 返回书单中的自然位置（1，2，3...）
- *                失败返回长度为0的vector
-**/
-std::vector<int> LibraryBookNameSearch(Library lib, std::string bk_name);
+// 出版信息
+typedef struct{
+    std::string ISBN;               // ISBN号（eg：9787020024759）
+    std::string press;              // 出版社
+    Time date;                      // 出版日期
+    float price = 0;                // 价格
+}PublishInfo;
 
-/**
- * @brief 按ISBN查找图书，并以vector返回书单中所有满足条件的图书的自然位置
- *
- * @param lib
- * @param ISBN
- * @return vector 返回书单中的自然位置（1，2，3...）
- *                失败返回长度为0的vector
-**/
-std::vector<int> LibraryBookISBNSearch(Library lib, std::string ISBN);
+
+// 借书者链表节点
+typedef struct BorrowerNode{
+    std::string borrower_ID;                 // 借书者ID
+    Time lend_date;                       // 借书时间
+
+    BorrowerNode* next_ptr = nullptr;
+}BorrowerNode, *BorrowerNodePTR;
+
+// 借出历史
+typedef struct{
+    int lend_times;                   // 借出次数
+    BorrowerNodePTR borrower_list_hPTR = nullptr;   // 借书者链表头指针
+}LendHistory;
+
+
+// 图书结构体
+typedef struct Book{
+    std::string name;               // 名称
+    std::string classifier;    // 中图分类号
+    std::vector<AuthorInfo> authors_info_list;   // 作、译者表数组
+    PublishInfo publish_info;       // 出版信息
+    std::string identification;     // 唯一识别码
+    int lend_state_flag = 2;          // 出借状态（-3：图书废弃；-2：图书逾期；-1：图书借出；0: 图书在馆；1：图书在途；2：无图书）
+    LendHistory lend_history;       // 借出历史
+
+    Book() = default;
+
+// 重定义运算符 <<， 用于直接输出图书信息。用法 cout << bk
+    friend std::ostream &operator << (std::ostream &o_s, Book &bk)
+    {
+        o_s << fmt::format("书名          ：{:<30}\n"
+                           "中图分类号    ：{:<10}\n"
+                           "作/译者（{:^1}人）：\n", bk.name, bk.classifier, bk.authors_info_list.size());
+
+        int author_total_calc     = 1;
+        int translator_total_calc = 1;
+        for (int i = 0; i <= bk.authors_info_list.size()-1; i++) {
+            o_s << fmt::format("\t{:->6}{:-<3}:\n"
+                               "\t\t姓名：{}\n"
+                               "\t\t性别：{}\n"
+                               "\t\t国籍：{}\n", bk.authors_info_list[i].isTranslator
+                                                ? "译者" : "作者"
+                                              , bk.authors_info_list[i].isTranslator
+                                                ? translator_total_calc : author_total_calc
+                                              , bk.authors_info_list[i].name
+                                              , bk.authors_info_list[i].gender ? "女" : "男"
+                                              , bk.authors_info_list[i].nationality);
+            bk.authors_info_list[i].isTranslator ? translator_total_calc++ : author_total_calc++;
+        }
+
+        o_s << fmt::format("出版社  ：{}\n"
+                           "出版日期：{}/{}/{}\n"
+                           "价格    ：{:<.2f}\n", bk.publish_info.press
+                                          , bk.publish_info.date.YY
+                                          , bk.publish_info.date.MM == (std::string)"0" ? "N.A." : bk.publish_info.date.MM
+                                          , bk.publish_info.date.DD == (std::string)"0" ? "N.A." : bk.publish_info.date.DD
+                                          , bk.publish_info.price);
+
+        o_s << fmt::format("图书唯一识别码：{}\n", bk.identification);
+        o_s << fmt::format("图书借阅状态  ：{}\n", bk.lend_state_flag);
+        o_s << fmt::format("借阅次数      ：{}\n", bk.lend_history.lend_times);
+        return o_s;
+    }
+
+    void writeAsJSON(std::ostream& o_s, const std::string& filePath) const
+    {
+        nlohmann::json bookJson;
+
+        bookJson["name"] = name;
+        bookJson["classifier"] = classifier;
+
+        // Authors Info List
+        nlohmann::json authorsInfoListJson;
+        for (const auto& authorInfo : authors_info_list)
+        {
+            nlohmann::json authorInfoJson;
+            authorInfoJson["name"] = authorInfo.name;
+            authorInfoJson["gender"] = authorInfo.gender;
+            authorInfoJson["nationality"] = authorInfo.nationality;
+            authorInfoJson["isTranslator"] = authorInfo.isTranslator;
+            authorsInfoListJson.push_back(authorInfoJson);
+        }
+        bookJson["authors_info_list"] = authorsInfoListJson;
+
+        // Publish Info
+        nlohmann::json publishInfoJson;
+        publishInfoJson["press"] = publish_info.press;
+        publishInfoJson["date"]["YY"] = publish_info.date.YY;
+        publishInfoJson["date"]["MM"] = publish_info.date.MM;
+        publishInfoJson["date"]["DD"] = publish_info.date.DD;
+        publishInfoJson["price"] = publish_info.price;
+        bookJson["publish_info"] = publishInfoJson;
+
+        // Other fields
+        bookJson["identification"] = identification;
+        bookJson["lend_state_flag"] = lend_state_flag;
+        bookJson["lend_history"]["lend_times"] = lend_history.lend_times;
+
+        // Write JSON to ostream
+        o_s << bookJson.dump(4); // 缩进等级: 4 空格
+
+        // Optionally, write JSON to file
+        if (!filePath.empty())
+        {
+            std::ofstream file(filePath);
+            file << bookJson.dump(4);
+            file.close();
+        }
+    }
+
+}Book, *BookList, *BookPTR;
+
+
+// 图书馆结构体
+struct Library{
+    int book_amount;               // 图书馆藏书量
+    BookList book_list;            // 图书馆书单
+    // 构造函数
+    explicit Library(const int& BookAmount)
+    {
+        book_amount = BookAmount;
+        book_list = new Book[BOOK_MAX_NUM + 1];
+    }
+                                        /* 应使用数组建立，空0位使用自然排序（1，2，3...）
+                                        */
+};
 
 /*-----------------------------------------------------------------------------*/
+// 借书链表节点
+typedef struct BookNode{
+    std::string book_ID;            // 图书唯一识别码
+    Time borrow_date;               // 借书时间
+    int borrow_state_flag;        // 借书状态（-2：借书逾期；-1：借书正常；0：已归还；1：归还未缴逾期罚款）
 
-/**
- * @brief 录入和修改图书
- *        可增强修改部分的方便性
- *        注意：
- *        没有 book_sample 参数时，copy 置 1；否则不做修改
- *        不修改藏书日期
- * @param book_ptr
- * @param book_sample
- * @return int
-**/
-int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN);
-int LibraryBook_Update(BookPTR book_ptr, Book book_sample);
+    BookNode* next_ptr = nullptr;
+}BookNode, *BookNodePTR;
 
+// 借书历史
+typedef struct{
+    int borrowed_books_acc;                 // 累计借书量
+    int borrowed_books_cur;                 // 当前借书量
+    BookNodePTR book_list_hPTR = nullptr;             // 借书链表头指针
+}BorrowHistory;
 
-/**
- * @brief 添加图书副本
- *        将 book_sample 复制到 book_ptr 所指的位置
- *        注意：
- *        不修改副本数
- *        不修改藏书日期
- * @param book_ptr
- * @param book_sample
- * @return int
-**/
-int LibraryBook_Copy(Book &bk, Book book_sample);
+// 借书者结构体
+typedef struct Borrower{
+    std::string ID;                      // 借书者ID
+    unsigned int gender;               // 性别
+    unsigned int permission_flag;      // 借书权限（0：允许借书；1：不允许借书）
 
-int LibraryBook_Delete(BookPTR book_ptr);
+    BorrowHistory borrow_history;        // 借阅历史
+    Borrower* next_borrower;
+}Borrower, *BorrowerList; // 使用链表建立借书者群
 
+// 借书者群（权限组）
+typedef struct{
+    int borrower_amount;                 // 借书者总量
+    BorrowerList borrower_list = nullptr;          // 借书者名单
+    // TODO: 链表建立借书者群
+}BorrowerGroup;
 
-/**
- * @brief 图书录入与修改、删除向导                                  // 未考虑藏书日期，可默认从 TimeGetCurrent 返回值赋值
- *        要求用户输入书名或ISBN
- *        1. 当书单中不存在该书时，询问是否要录入该书，若是则在图书馆书单数组末尾录入；
- *        2. 当书单中存  在该书时，返回副本数，询问要
- *          a. 修改 一 副本；       (从函数返回时将该副本的副本号置1) // 有漏洞，当修改为其他相同图书时，副本数不为1
- *          aa.修改所有副本；       (不修改副本号)
- *          b. 删除 一 副本；       (不修改副本号)
- *          bb.删除所有副本；       (不修改副本号)
- *          c. 录入（复制）一本副本。(副本号置 原副本数+1)
- *          d. 退出
- *          并从最后一本副本开始传入相关函数
- *        注意：
- *        1. 使用 ...Search 函数查找图书；
- *        2. 使用 LibraryBook_Append_Update 函数修改和录入图书，
- *           修改所有副本时，使用 LibraryBook_Copy 函数将首个修改后的图书复制到其他副本位置；
- *        3. 使用 LibraryBook_Delete 函数删除图书。
- * @param lib
- * @param bk_position
-**/
-void LibraryBook_Append_Update_Delete_Director(Library &lib);
-void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_position);
-
-/*-----------------------------------------------------------------------------*/
-
-
-/**
- * @brief 图书借出
- *        要求用户输入
- *          1. ID                       // 后续可添加密码
- *          使用函数查找是否有该人
- *          若有：
- *              检测其是否具备借书资格（0：允许借书）（1：不允许借书）
- *          若无则输出“查无此人”
- *          2. 书名/ISBN
- *          使用函数查找是否有该书
- *          若返回vector长度不为0，则遍历：
- *              检测是否有剩余图书（0：图书在馆）（-2：图书逾期；-1：图书借出1：图书在途）
- *          若返回vector长度 为 0，则输出“查无此书”
- *        检测该用户是否已借出该书副本
- *        如以上任一条件不满足时，立即按值输出不满足原因并退出函数；
- *        如以上条件均满足，修改该 BookID 对应图书借出历史和用户借阅历史，借书时间从 TimeGetCurrent 返回值赋值（仅精确到天） // 存在跨日可能
- *                        修改该 BookID 对应图书出借状态
- *
- * @param gp
- * @param lib
-**/
-void UserBookBorrow(BorrowerGroup &gp, Library &lib);
-int UserBookHistory_Append(BorrowHistory brrw_history, std::string bk_ID);
-
-/*-----------------------------------------------------------------------------*/
-/**
- * @brief 图书归还
- *        要求用户输入
- *          1. ID                       // 后续可添加密码
- *          使用函数查找是否有该人
- *          若有：
- *              检测其当前借书量是否为0，为 0 则输出“无借书记录”，否则继续
- *          若无则输出“查无此人”
- *          2. 书名/ISBN
- *          查找该人借书链表中是否有该书
- *          若有：
- *              检查该书借书状态（-2：借书逾期；-1：借书正常）（0：已归还） // 暂不考虑逾期的处理问题
- *          若无则输出“未借出该书”
- *        以上条件任一不满足时，立即输出不满足原因并退出函数
- *        如以上条件均满足，修改该 BookID 对应图书出借状态（0：图书在馆）和
- *                            该用户的当前借书量、借阅历史中该 BookID 对应的借书状态（0：已归还） // 暂不考虑逾期罚款问题
- *
- * @param gp
- * @param lib
-**/
-void UserBookReturn(BorrowerGroup &gp, Library &lib);
-
-
-
-#include "..\func\functions.cpp"
+#endif
