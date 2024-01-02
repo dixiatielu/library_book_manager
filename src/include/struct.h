@@ -106,9 +106,8 @@ typedef struct Book{
         return o_s;
     }
 
-    void writeAsJSON(std::ostream& o_s, const std::string& filePath) const
+    void writeAsJSON(nlohmann::json &bookJson) const
     {
-        nlohmann::json bookJson;
 
         bookJson["name"] = name;
         bookJson["classifier"] = classifier;
@@ -140,17 +139,48 @@ typedef struct Book{
         bookJson["lend_state_flag"] = lend_state_flag;
         bookJson["lend_history"]["lend_times"] = lend_history.lend_times;
 
-        // Write JSON to ostream
-        o_s << bookJson.dump(4); // 缩进等级: 4 空格
-
-        // Optionally, write JSON to file
-        if (!filePath.empty())
-        {
-            std::ofstream file(filePath);
-            file << bookJson.dump(4);
-            file.close();
-        }
     }
+
+    void readFromJSON(const nlohmann::json& bookJson)
+    {
+        // Fill Book structure from JSON
+        try
+        {
+            name = bookJson["name"];
+            classifier = bookJson["classifier"];
+
+            // Authors Info List
+            authors_info_list.clear();
+            for (const auto& authorInfoJson : bookJson["authors_info_list"])
+            {
+                AuthorInfo authorInfo;
+                authorInfo.name = authorInfoJson["name"];
+                authorInfo.gender = (authorInfoJson["gender"] == "女");
+                authorInfo.nationality = authorInfoJson["nationality"];
+                authorInfo.isTranslator = authorInfoJson["isTranslator"];
+                authors_info_list.push_back(authorInfo);
+            }
+
+            // Publish Info
+            publish_info.press = bookJson["publish_info"]["press"];
+            publish_info.date.YY = bookJson["publish_info"]["date"]["YY"];
+            publish_info.date.MM = bookJson["publish_info"]["date"]["MM"];
+            publish_info.date.DD = bookJson["publish_info"]["date"]["DD"];
+            publish_info.price = bookJson["publish_info"]["price"];
+
+            // Other fields
+            identification = bookJson["identification"];
+            lend_state_flag = bookJson["lend_state_flag"];
+            lend_history.lend_times = bookJson["lend_history"]["lend_times"];
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Error reading data from JSON: " << e.what() << std::endl;
+            return;
+        }
+
+    }
+
 
 }Book, *BookList, *BookPTR;
 
@@ -165,8 +195,80 @@ struct Library{
         book_amount = BookAmount;
         book_list = new Book[BOOK_MAX_NUM + 1];
     }
-                                        /* 应使用数组建立，空0位使用自然排序（1，2，3...）
-                                        */
+
+    void readFromJSONFile(const std::string& filePath)
+    {
+        std::ifstream file(filePath);
+        if (!file.is_open())
+        {
+            std::cerr << "Error opening file: " << filePath << std::endl;
+            return;
+        }
+
+        nlohmann::json libraryJson;
+        try
+        {
+            file >> libraryJson;
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Error parsing JSON: " << e.what() << std::endl;
+            file.close();
+            return;
+        }
+
+        // Fill Library structure from JSON
+        try
+        {
+            book_amount = libraryJson["book_amount"];
+            const nlohmann::json& bookListJson = libraryJson["book_list"];
+
+            for (int i = 0; i < book_amount; ++i)
+            {
+                book_list[i].readFromJSON(bookListJson[i]);
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Error reading data from JSON: " << e.what() << std::endl;
+            file.close();
+            return;
+        }
+
+        file.close();
+    }
+
+    void writeToJSONFile(const std::string& filePath) const
+    {
+        nlohmann::json libraryJson;
+        libraryJson["book_amount"] = book_amount;
+
+        nlohmann::json bookListJson;
+        for (int i = 1; i <= book_amount; ++i)
+        {
+            nlohmann::json bookJson;
+            book_list[i].writeAsJSON(bookJson);
+            bookListJson.push_back(bookJson);
+        }
+
+        libraryJson["book_list"] = bookListJson;
+
+        // Write JSON to file
+        std::ofstream file(filePath);
+        if (file.is_open())
+        {
+            file << libraryJson.dump(4); // Indentation level: 4 spaces
+            file.close();
+        }
+        else
+        {
+            std::cerr << "Error opening file for writing: " << filePath << std::endl;
+        }
+    }
+
+
+    /* 应使用数组建立，空0位使用自然排序（1，2，3...）
+    */
 };
 
 /*-----------------------------------------------------------------------------*/

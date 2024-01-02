@@ -193,7 +193,7 @@ void LibraryBook_Append_Update_Delete_Director(Library &lib)
     }
 
     if (result_search.size() == 0) {
-        int append_flag;
+        int append_flag; // 选项，是否添加书
         std::cout << "图书馆中无相同书\n";
         std::cout << "是否要添加该书？\n"
                       "\t0. 否\n"
@@ -206,8 +206,8 @@ void LibraryBook_Append_Update_Delete_Director(Library &lib)
         } else if (lib.book_amount >= BOOK_MAX_NUM) {
             std::cout << "图书馆藏书已满\n";
         } else{
-            LibraryBook_Append(lib.book_list[lib.book_amount + 1], bkname_input, bkISBN_input);
             lib.book_amount++; // 健壮性不足，可通过返回值进一步判断是否应该增加藏书量
+            LibraryBook_Append(lib.book_list[lib.book_amount], bkname_input, bkISBN_input);
         }
     } else{
         std::cout << "图书馆中有相同书\n";
@@ -220,9 +220,9 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN
     time_t id;
     time(&id); // 使用时间戳作为书本唯一识别码
 
-    if (bk_name.size() != 0) {
+    if (!bk_name.empty()) {
         bk.name = bk_name;
-        std::cout << "书名已输入\n";
+//        std::cout << "书名已输入\n";
     }
     else {
         std::cout << "请输入书名\n$?-";
@@ -266,17 +266,17 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN
     std::cout << "\n下面输入出版信息\n";
     system("timeout 1");
 
-    if (bk_ISBN.size() != 0) {
-        bk.publish_info.ISBN = bk_ISBN;
-        std::cout << "ISBN号已输入\n";
-    }
-    else {
-        std::cout << "请输入ISBN号\n$?-";
-        std::cin >> bk.publish_info.ISBN;
-    }
-
-    std::cout << "请输入出版社名称\n$?-";
-    std::cin >> bk.publish_info.press;
+        std::cout << "\n下面输入出版信息\n";
+        if(!bk_ISBN.empty())
+        {
+            bk.publish_info.ISBN = bk_ISBN;
+        }
+        else {
+            std::cout << "请输入ISBN号\n$?-";
+            std::cin >> bk.publish_info.ISBN;
+        }
+        std::cout << "请输入出版社名称\n$?-";
+        std::cin >> bk.publish_info.press;
 
     std::cout << "请输入出版日期\n";
     bk.publish_info.date = TimeGetInput();

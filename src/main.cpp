@@ -9,10 +9,10 @@
  *
 **/
 #include ".\include\main.h"
-
+using namespace std;
 int main(void)
 {
-    system("chcp 936");
+    system("chcp 65001"); // 终端UTF-8编码
     Library library_local(0);
 
     // Time a = TimeGetCurrent();
@@ -21,10 +21,19 @@ int main(void)
     // Book a;
     // std::cout << a;
 
-
-    LibraryBook_Append_Update_Delete_Director(library_local);
-    std::cout << library_local.book_list[1];
-    library_local.book_list[1].writeAsJSON(std::cout, "");
+    while(true)
+    {
+        LibraryBook_Append_Update_Delete_Director(library_local);
+        cout << "是否继续键入图书？（0：否，1：是）" << endl;
+        int continue_flag;
+        cin >> continue_flag;
+        if(!continue_flag)
+        {
+            break;
+        }
+    }
+//    std::cout << library_local.book_list[1];
+    library_local.writeToJSONFile("firstTestLib.json");
 
     return 0;
 }
