@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 
 #include "fmt.h"
 #include "struct.h"
@@ -111,7 +112,7 @@ int LibraryBook_Update(BookPTR book_ptr, Book book_sample);
  * @param book_sample
  * @return int
 **/
-int LibraryBook_Copy(BookPTR book_ptr, Book book_sample);
+int LibraryBook_Copy(Book &bk, Book book_sample);
 
 int LibraryBook_Delete(BookPTR book_ptr);
 
@@ -164,6 +165,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
  * @param lib
 **/
 void UserBookBorrow(BorrowerGroup &gp, Library &lib);
+int UserBookHistory_Append(BorrowHistory brrw_history, std::string bk_ID);
 
 /*-----------------------------------------------------------------------------*/
 /**

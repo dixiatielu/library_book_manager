@@ -1,10 +1,8 @@
 /**
  * @file struct.h
  * @author ChengPu (chengpu@stu.scu.edu.cn)
- * @brief 1. 删除了BookID, ISBN信息并入Publish_Info结构体
- *        2. 增加的书本唯一识别码 （std::string identification）
- *        3. 对 Book 结构体重载运算符，现在可以直接通过 std::cout 输出Book类型变量
- * @version 0.4
+ * @brief
+ * @version 0.5
  * @date 2023-1-2
  *
  * @copyright Copyright (c) 2023
@@ -15,7 +13,7 @@
 
 #include <vector>
 #include <fstream>
-#include "fmt/format.h"
+#include "fmt/core.h"
 #include "nlohmann/json.hpp"
 #include "macro.h"
 
@@ -66,11 +64,8 @@ typedef struct Book{
     std::vector<AuthorInfo> authors_info_list;   // 作、译者表数组
     PublishInfo publish_info;       // 出版信息
     std::string identification;     // 唯一识别码
-                                        /* 待解决
-                                            副本问题
-                                        */
-    int lend_state_flag = 0;          // 出借状态（-2：图书逾期；-1：图书借出；0: 图书在馆；1：图书在途）
-    LendHistory lend_history       ;// 借出历史
+    int lend_state_flag = 2;          // 出借状态（-3：图书废弃；-2：图书逾期；-1：图书借出；0: 图书在馆；1：图书在途；2：无图书）
+    LendHistory lend_history;       // 借出历史
 
     Book() = default;
 
@@ -290,22 +285,23 @@ typedef struct BookNode{
 typedef struct{
     int borrowed_books_acc;                 // 累计借书量
     int borrowed_books_cur;                 // 当前借书量
-    BookNodePTR book_list_hPTR;             // 借书链表头指针
+    BookNodePTR book_list_hPTR = nullptr;             // 借书链表头指针
 }BorrowHistory;
 
 // 借书者结构体
-typedef struct{
+typedef struct Borrower{
     std::string ID;                      // 借书者ID
     unsigned int gender;               // 性别
     unsigned int permission_flag;      // 借书权限（0：允许借书；1：不允许借书）
 
     BorrowHistory borrow_history;        // 借阅历史
+    Borrower* next_borrower;
 }Borrower, *BorrowerList; // 使用链表建立借书者群
 
 // 借书者群（权限组）
 typedef struct{
     int borrower_amount;                 // 借书者总量
-    BorrowerList borrower_list;          // 借书者名单
+    BorrowerList borrower_list = nullptr;          // 借书者名单
     // TODO: 链表建立借书者群
 }BorrowerGroup;
 
