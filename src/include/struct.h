@@ -1,9 +1,9 @@
 /**
  * @file struct.h
  * @author ChengPu (chengpu@stu.scu.edu.cn)
- * @brief 1. É¾³ıÁËBookID, ISBNĞÅÏ¢²¢ÈëPublish_Info½á¹¹Ìå
- *        2. Ôö¼ÓµÄÊé±¾Î¨Ò»Ê¶±ğÂë £¨std::string identification£©
- *        3. ¶Ô Book ½á¹¹ÌåÖØÔØÔËËã·û£¬ÏÖÔÚ¿ÉÒÔÖ±½ÓÍ¨¹ı std::cout Êä³öBookÀàĞÍ±äÁ¿
+ * @brief 1. åˆ é™¤äº†BookID, ISBNä¿¡æ¯å¹¶å…¥Publish_Infoç»“æ„ä½“
+ *        2. å¢åŠ çš„ä¹¦æœ¬å”¯ä¸€è¯†åˆ«ç  ï¼ˆstd::string identificationï¼‰
+ *        3. å¯¹ Book ç»“æ„ä½“é‡è½½è¿ç®—ç¬¦ï¼Œç°åœ¨å¯ä»¥ç›´æ¥é€šè¿‡ std::cout è¾“å‡ºBookç±»å‹å˜é‡
  * @version 0.4
  * @date 2023-1-2
  *
@@ -12,136 +12,199 @@
 **/
 #ifndef MY_STRUCT
 #define MY_STRUCT
-// Ê±¼ä½á¹¹Ìå
+
+#include <vector>
+#include <fstream>
+#include "fmt/format.h"
+#include "nlohmann/json.hpp"
+#include "macro.h"
+
+// æ—¶é—´ç»“æ„ä½“
 typedef struct{
-    std::string YY, MM, DD; // È¡ 10000 ÎªÎŞĞ§Öµ
+    std::string YY, MM, DD; // å– 10000 ä¸ºæ— æ•ˆå€¼
 }Time;
 
 /*-----------------------------------------------------------------------------*/
 
 
-// ×÷ÕßĞÅÏ¢
+// ä½œè€…ä¿¡æ¯
 typedef struct{
     std::string name;
-    std::string nationality;     // Ê¹ÓÃISO3166-1 alpha-2Á½×Ö·û´úÂë±ê×¢¹ú¼®
-    unsigned int gender;       // 0 ÎªÄĞĞÔ£¬1 ÎªÅ®ĞÔ
-    unsigned int isTranslator; // 0 ±íÊ¾Îª·ÇÒëÕß£¬1 ±íÊ¾ÎªÒëÕß
+    std::string nationality;     // ä½¿ç”¨ISO3166-1 alpha-2ä¸¤å­—ç¬¦ä»£ç æ ‡æ³¨å›½ç±
+    unsigned int gender;       // 0 ä¸ºç”·æ€§ï¼Œ1 ä¸ºå¥³æ€§
+    unsigned int isTranslator; // 0 è¡¨ç¤ºä¸ºéè¯‘è€…ï¼Œ1 è¡¨ç¤ºä¸ºè¯‘è€…
 }AuthorInfo;
 
-// ³ö°æĞÅÏ¢
+// å‡ºç‰ˆä¿¡æ¯
 typedef struct{
-    std::string ISBN;               // ISBNºÅ£¨eg£º9787020024759£©
-    std::string press;              // ³ö°æÉç
-    Time date;                      // ³ö°æÈÕÆÚ
-    float price = 0;                // ¼Û¸ñ
+    std::string ISBN;               // ISBNå·ï¼ˆegï¼š9787020024759ï¼‰
+    std::string press;              // å‡ºç‰ˆç¤¾
+    Time date;                      // å‡ºç‰ˆæ—¥æœŸ
+    float price = 0;                // ä»·æ ¼
 }PublishInfo;
 
 
-// ½èÊéÕßÁ´±í½Úµã
+// å€Ÿä¹¦è€…é“¾è¡¨èŠ‚ç‚¹
 typedef struct BorrowerNode{
-    std::string borrower_ID;                 // ½èÊéÕßID
-    Time lend_date;                       // ½èÊéÊ±¼ä
+    std::string borrower_ID;                 // å€Ÿä¹¦è€…ID
+    Time lend_date;                       // å€Ÿä¹¦æ—¶é—´
 
     BorrowerNode* next_ptr = nullptr;
 }BorrowerNode, *BorrowerNodePTR;
 
-// ½è³öÀúÊ·
+// å€Ÿå‡ºå†å²
 typedef struct{
-    int lend_times;                   // ½è³ö´ÎÊı
-    BorrowerNodePTR borrower_list_hPTR = nullptr;   // ½èÊéÕßÁ´±íÍ·Ö¸Õë
+    int lend_times;                   // å€Ÿå‡ºæ¬¡æ•°
+    BorrowerNodePTR borrower_list_hPTR = nullptr;   // å€Ÿä¹¦è€…é“¾è¡¨å¤´æŒ‡é’ˆ
 }LendHistory;
 
 
-// Í¼Êé½á¹¹Ìå
+// å›¾ä¹¦ç»“æ„ä½“
 typedef struct Book{
-    std::string name;               // Ãû³Æ
-    std::string classifier;    // ÖĞÍ¼·ÖÀàºÅ
-    std::vector<AuthorInfo> authors_info_list;   // ×÷¡¢ÒëÕß±íÊı×é
-    PublishInfo publish_info;       // ³ö°æĞÅÏ¢
-    std::string identification;     // Î¨Ò»Ê¶±ğÂë
-                                        /* ´ı½â¾ö
-                                            ¸±±¾ÎÊÌâ
+    std::string name;               // åç§°
+    std::string classifier;    // ä¸­å›¾åˆ†ç±»å·
+    std::vector<AuthorInfo> authors_info_list;   // ä½œã€è¯‘è€…è¡¨æ•°ç»„
+    PublishInfo publish_info;       // å‡ºç‰ˆä¿¡æ¯
+    std::string identification;     // å”¯ä¸€è¯†åˆ«ç 
+                                        /* å¾…è§£å†³
+                                            å‰¯æœ¬é—®é¢˜
                                         */
-    int lend_state_flag;          // ³ö½è×´Ì¬£¨-2£ºÍ¼ÊéÓâÆÚ£»-1£ºÍ¼Êé½è³ö£»0: Í¼ÊéÔÚ¹İ£»1£ºÍ¼ÊéÔÚÍ¾£©
-    LendHistory lend_history;       // ½è³öÀúÊ·
+    int lend_state_flag = 0;          // å‡ºå€ŸçŠ¶æ€ï¼ˆ-2ï¼šå›¾ä¹¦é€¾æœŸï¼›-1ï¼šå›¾ä¹¦å€Ÿå‡ºï¼›0: å›¾ä¹¦åœ¨é¦†ï¼›1ï¼šå›¾ä¹¦åœ¨é€”ï¼‰
+    LendHistory lend_history       ;// å€Ÿå‡ºå†å²
 
+    Book() = default;
+
+// é‡å®šä¹‰è¿ç®—ç¬¦ <<ï¼Œ ç”¨äºç›´æ¥è¾“å‡ºå›¾ä¹¦ä¿¡æ¯ã€‚ç”¨æ³• cout << bk
     friend std::ostream &operator << (std::ostream &o_s, Book &bk)
     {
-        o_s << fmt::format("ÊéÃû          £º{:<30}\n"
-                           "ÖĞÍ¼·ÖÀàºÅ    £º{:<10}\n"
-                           "×÷/ÒëÕß£¨{:^1}ÈË£©£º\n", bk.name, bk.classifier, bk.authors_info_list.size());
+        o_s << fmt::format("ä¹¦å          ï¼š{:<30}\n"
+                           "ä¸­å›¾åˆ†ç±»å·    ï¼š{:<10}\n"
+                           "ä½œ/è¯‘è€…ï¼ˆ{:^1}äººï¼‰ï¼š\n", bk.name, bk.classifier, bk.authors_info_list.size());
 
         int author_total_calc     = 1;
         int translator_total_calc = 1;
         for (int i = 0; i <= bk.authors_info_list.size()-1; i++) {
             o_s << fmt::format("\t{:->6}{:-<3}:\n"
-                               "\t\tĞÕÃû£º{}\n"
-                               "\t\tĞÔ±ğ£º{}\n"
-                               "\t\t¹ú¼®£º{}\n", bk.authors_info_list[i].isTranslator
-                                                ? "ÒëÕß" : "×÷Õß"
+                               "\t\tå§“åï¼š{}\n"
+                               "\t\tæ€§åˆ«ï¼š{}\n"
+                               "\t\tå›½ç±ï¼š{}\n", bk.authors_info_list[i].isTranslator
+                                                ? "è¯‘è€…" : "ä½œè€…"
                                               , bk.authors_info_list[i].isTranslator
                                                 ? translator_total_calc : author_total_calc
                                               , bk.authors_info_list[i].name
-                                              , bk.authors_info_list[i].gender ? "Å®" : "ÄĞ"
+                                              , bk.authors_info_list[i].gender ? "å¥³" : "ç”·"
                                               , bk.authors_info_list[i].nationality);
             bk.authors_info_list[i].isTranslator ? translator_total_calc++ : author_total_calc++;
         }
 
-        o_s << fmt::format("³ö°æÉç  £º{}\n"
-                           "³ö°æÈÕÆÚ£º{}/{}/{}\n"
-                           "¼Û¸ñ    £º{:<.2f}\n", bk.publish_info.press
+        o_s << fmt::format("å‡ºç‰ˆç¤¾  ï¼š{}\n"
+                           "å‡ºç‰ˆæ—¥æœŸï¼š{}/{}/{}\n"
+                           "ä»·æ ¼    ï¼š{:<.2f}\n", bk.publish_info.press
                                           , bk.publish_info.date.YY
                                           , bk.publish_info.date.MM == (std::string)"0" ? "N.A." : bk.publish_info.date.MM
                                           , bk.publish_info.date.DD == (std::string)"0" ? "N.A." : bk.publish_info.date.DD
                                           , bk.publish_info.price);
 
-        o_s << fmt::format("Í¼ÊéÎ¨Ò»Ê¶±ğÂë£º{}\n", bk.identification);
-        o_s << fmt::format("Í¼Êé½èÔÄ×´Ì¬  £º{}\n", bk.lend_state_flag);
-        o_s << fmt::format("½èÔÄ´ÎÊı      £º{}\n", bk.lend_history.lend_times);
+        o_s << fmt::format("å›¾ä¹¦å”¯ä¸€è¯†åˆ«ç ï¼š{}\n", bk.identification);
+        o_s << fmt::format("å›¾ä¹¦å€Ÿé˜…çŠ¶æ€  ï¼š{}\n", bk.lend_state_flag);
+        o_s << fmt::format("å€Ÿé˜…æ¬¡æ•°      ï¼š{}\n", bk.lend_history.lend_times);
         return o_s;
     }
+
+    void writeAsJSON(std::ostream& o_s, const std::string& filePath) const
+    {
+        nlohmann::json bookJson;
+
+        bookJson["name"] = name;
+        bookJson["classifier"] = classifier;
+
+        // Authors Info List
+        nlohmann::json authorsInfoListJson;
+        for (const auto& authorInfo : authors_info_list)
+        {
+            nlohmann::json authorInfoJson;
+            authorInfoJson["name"] = authorInfo.name;
+            authorInfoJson["gender"] = authorInfo.gender;
+            authorInfoJson["nationality"] = authorInfo.nationality;
+            authorInfoJson["isTranslator"] = authorInfo.isTranslator;
+            authorsInfoListJson.push_back(authorInfoJson);
+        }
+        bookJson["authors_info_list"] = authorsInfoListJson;
+
+        // Publish Info
+        nlohmann::json publishInfoJson;
+        publishInfoJson["press"] = publish_info.press;
+        publishInfoJson["date"]["YY"] = publish_info.date.YY;
+        publishInfoJson["date"]["MM"] = publish_info.date.MM;
+        publishInfoJson["date"]["DD"] = publish_info.date.DD;
+        publishInfoJson["price"] = publish_info.price;
+        bookJson["publish_info"] = publishInfoJson;
+
+        // Other fields
+        bookJson["identification"] = identification;
+        bookJson["lend_state_flag"] = lend_state_flag;
+        bookJson["lend_history"]["lend_times"] = lend_history.lend_times;
+
+        // Write JSON to ostream
+        o_s << bookJson.dump(4); // ç¼©è¿›ç­‰çº§: 4 ç©ºæ ¼
+
+        // Optionally, write JSON to file
+        if (!filePath.empty())
+        {
+            std::ofstream file(filePath);
+            file << bookJson.dump(4);
+            file.close();
+        }
+    }
+
 }Book, *BookList, *BookPTR;
 
 
-// Í¼Êé¹İ½á¹¹Ìå
-typedef struct{
-    int book_amount;               // Í¼Êé¹İ²ØÊéÁ¿
-    BookList book_list;            // Í¼Êé¹İÊéµ¥
-                                        /* Ó¦Ê¹ÓÃÊı×é½¨Á¢£¬¿Õ0Î»Ê¹ÓÃ×ÔÈ»ÅÅĞò£¨1£¬2£¬3...£©
+// å›¾ä¹¦é¦†ç»“æ„ä½“
+struct Library{
+    int book_amount;               // å›¾ä¹¦é¦†è—ä¹¦é‡
+    BookList book_list;            // å›¾ä¹¦é¦†ä¹¦å•
+    // æ„é€ å‡½æ•°
+    explicit Library(const int& BookAmount)
+    {
+        book_amount = BookAmount;
+        book_list = new Book[BOOK_MAX_NUM + 1];
+    }
+                                        /* åº”ä½¿ç”¨æ•°ç»„å»ºç«‹ï¼Œç©º0ä½ä½¿ç”¨è‡ªç„¶æ’åºï¼ˆ1ï¼Œ2ï¼Œ3...ï¼‰
                                         */
-}Library;
+};
 
 /*-----------------------------------------------------------------------------*/
-// ½èÊéÁ´±í½Úµã
+// å€Ÿä¹¦é“¾è¡¨èŠ‚ç‚¹
 typedef struct BookNode{
-    std::string book_ID;            // Í¼ÊéÎ¨Ò»Ê¶±ğÂë
-    Time borrow_date;               // ½èÊéÊ±¼ä
-    int borrow_state_flag;        // ½èÊé×´Ì¬£¨-2£º½èÊéÓâÆÚ£»-1£º½èÊéÕı³££»0£ºÒÑ¹é»¹£»1£º¹é»¹Î´½ÉÓâÆÚ·£¿î£©
+    std::string book_ID;            // å›¾ä¹¦å”¯ä¸€è¯†åˆ«ç 
+    Time borrow_date;               // å€Ÿä¹¦æ—¶é—´
+    int borrow_state_flag;        // å€Ÿä¹¦çŠ¶æ€ï¼ˆ-2ï¼šå€Ÿä¹¦é€¾æœŸï¼›-1ï¼šå€Ÿä¹¦æ­£å¸¸ï¼›0ï¼šå·²å½’è¿˜ï¼›1ï¼šå½’è¿˜æœªç¼´é€¾æœŸç½šæ¬¾ï¼‰
 
     BookNode* next_ptr = nullptr;
 }BookNode, *BookNodePTR;
 
-// ½èÊéÀúÊ·
+// å€Ÿä¹¦å†å²
 typedef struct{
-    int borrowed_books_acc;                 // ÀÛ¼Æ½èÊéÁ¿
-    int borrowed_books_cur;                 // µ±Ç°½èÊéÁ¿
-    BookNodePTR book_list_hPTR;             // ½èÊéÁ´±íÍ·Ö¸Õë
+    int borrowed_books_acc;                 // ç´¯è®¡å€Ÿä¹¦é‡
+    int borrowed_books_cur;                 // å½“å‰å€Ÿä¹¦é‡
+    BookNodePTR book_list_hPTR;             // å€Ÿä¹¦é“¾è¡¨å¤´æŒ‡é’ˆ
 }BorrowHistory;
 
-// ½èÊéÕß½á¹¹Ìå
+// å€Ÿä¹¦è€…ç»“æ„ä½“
 typedef struct{
-    std::string ID;                      // ½èÊéÕßID
-    unsigned int gender;               // ĞÔ±ğ
-    unsigned int permission_flag;      // ½èÊéÈ¨ÏŞ£¨0£ºÔÊĞí½èÊé£»1£º²»ÔÊĞí½èÊé£©
+    std::string ID;                      // å€Ÿä¹¦è€…ID
+    unsigned int gender;               // æ€§åˆ«
+    unsigned int permission_flag;      // å€Ÿä¹¦æƒé™ï¼ˆ0ï¼šå…è®¸å€Ÿä¹¦ï¼›1ï¼šä¸å…è®¸å€Ÿä¹¦ï¼‰
 
-    BorrowHistory borrow_history;        // ½èÔÄÀúÊ·
-}Borrower, *BorrowerList; // Ê¹ÓÃÁ´±í½¨Á¢½èÊéÕßÈº
+    BorrowHistory borrow_history;        // å€Ÿé˜…å†å²
+}Borrower, *BorrowerList; // ä½¿ç”¨é“¾è¡¨å»ºç«‹å€Ÿä¹¦è€…ç¾¤
 
+// å€Ÿä¹¦è€…ç¾¤ï¼ˆæƒé™ç»„ï¼‰
 typedef struct{
-    int borrower_amount;                 // ½èÊéÕß×ÜÁ¿
-    BorrowerList borrower_list;          // ½èÊéÕßÃûµ¥
-                                             /* Ó¦Ê¹ÓÃÁ´±í½¨Á¢
-                                             */
-}Group;
+    int borrower_amount;                 // å€Ÿä¹¦è€…æ€»é‡
+    BorrowerList borrower_list;          // å€Ÿä¹¦è€…åå•
+    // TODO: é“¾è¡¨å»ºç«‹å€Ÿä¹¦è€…ç¾¤
+}BorrowerGroup;
 
 #endif

@@ -19,59 +19,59 @@ Time TimeGetInput(void)
     float tmp_YY, tmp_MM, tmp_DD;
 
     while (1) {
-        std::cout << "ÇëÊäÈëÄê·Ý£º";
+        std::cout << "è¯·è¾“å…¥å¹´ä»½ï¼š";
         std::cin >> tmp_YY;
 
         if (!std::cin) {
-			std::cout << "ÇëÊäÈëÊý×Ö£¡\n\n";			     // Êä³öÌáÊ¾
-			std::cin.clear();								// Çå³ýstd::cinÒì³£Ö¸Ê¾
-			std::cin.ignore(500, '\n');						// Çå¿ÕÊäÈë»º³åÇø
-			continue;										// ÖØÐÂ¿ªÊ¼ÊäÈëÑ­»·
+			std::cout << "è¯·è¾“å…¥æ•°å­—ï¼\n\n";			     // è¾“å‡ºæç¤º
+			std::cin.clear();								// æ¸…é™¤std::cinå¼‚å¸¸æŒ‡ç¤º
+			std::cin.ignore(500, '\n');						// æ¸…ç©ºè¾“å…¥ç¼“å†²åŒº
+			continue;										// é‡æ–°å¼€å§‹è¾“å…¥å¾ªçŽ¯
 
-        } else if (tmp_YY - (int)tmp_YY != 0) {           // µ±ÊäÈë²»ÊÇÕûÊýÊ±
-			std::cout << "ÇëÊäÈëÕûÊý£¡\n\n";			     // Êä³öÌáÊ¾
-			std::cin.ignore(500, '\n');						// Çå¿ÕÊäÈë»º³åÇø
-			continue;										// ÖØÐÂ¿ªÊ¼ÊäÈëÑ­»·
+        } else if (tmp_YY - (int)tmp_YY != 0) {           // å½“è¾“å…¥ä¸æ˜¯æ•´æ•°æ—¶
+			std::cout << "è¯·è¾“å…¥æ•´æ•°ï¼\n\n";			     // è¾“å‡ºæç¤º
+			std::cin.ignore(500, '\n');						// æ¸…ç©ºè¾“å…¥ç¼“å†²åŒº
+			continue;										// é‡æ–°å¼€å§‹è¾“å…¥å¾ªçŽ¯
 
-		} else{											    // µ±ÊäÈëµÄ×Ü½áµãÊýºÏ·¨Ê±
+		} else{											    // å½“è¾“å…¥çš„æ€»ç»“ç‚¹æ•°åˆæ³•æ—¶
             break;
 		}
     }
     while (1) {
-        std::cout << "ÇëÊäÈëÔÂ·Ý£º£¨ÊäÈë 0 ±íÊ¾ÎÞ¸ÃÏîÐÅÏ¢£©";
+        std::cout << "è¯·è¾“å…¥æœˆä»½ï¼šï¼ˆè¾“å…¥ 0 è¡¨ç¤ºæ— è¯¥é¡¹ä¿¡æ¯ï¼‰";
         std::cin >> tmp_MM;
 
         if (!std::cin) {
-			std::cout << "ÇëÊäÈëÊý×Ö£¡\n\n";			     // Êä³öÌáÊ¾
-			std::cin.clear();								// Çå³ýstd::cinÒì³£Ö¸Ê¾
-			std::cin.ignore(500, '\n');						// Çå¿ÕÊäÈë»º³åÇø
-			continue;										// ÖØÐÂ¿ªÊ¼ÊäÈëÑ­»·
+			std::cout << "è¯·è¾“å…¥æ•°å­—ï¼\n\n";			     // è¾“å‡ºæç¤º
+			std::cin.clear();								// æ¸…é™¤std::cinå¼‚å¸¸æŒ‡ç¤º
+			std::cin.ignore(500, '\n');						// æ¸…ç©ºè¾“å…¥ç¼“å†²åŒº
+			continue;										// é‡æ–°å¼€å§‹è¾“å…¥å¾ªçŽ¯
 
-        } else if ((tmp_MM < 0) || (tmp_MM - (int)tmp_MM != 0)) { // µ±ÊäÈë²»ÊÇÕýÕûÊýÊ±
-			std::cout << "ÇëÊäÈë·Ç¸ºÕûÊý£¡\n\n";			     // Êä³öÌáÊ¾
-			std::cin.ignore(500, '\n');						// Çå¿ÕÊäÈë»º³åÇø
-			continue;										// ÖØÐÂ¿ªÊ¼ÊäÈëÑ­»·
+        } else if ((tmp_MM < 0) || (tmp_MM - (int)tmp_MM != 0)) { // å½“è¾“å…¥ä¸æ˜¯æ­£æ•´æ•°æ—¶
+			std::cout << "è¯·è¾“å…¥éžè´Ÿæ•´æ•°ï¼\n\n";			     // è¾“å‡ºæç¤º
+			std::cin.ignore(500, '\n');						// æ¸…ç©ºè¾“å…¥ç¼“å†²åŒº
+			continue;										// é‡æ–°å¼€å§‹è¾“å…¥å¾ªçŽ¯
 
-		} else{											    // µ±ÊäÈëµÄ×Ü½áµãÊýºÏ·¨Ê±
+		} else{											    // å½“è¾“å…¥çš„æ€»ç»“ç‚¹æ•°åˆæ³•æ—¶
             break;
 		}
     }
     while (1) {
-        std::cout << "ÇëÊäÈëÈÕÆÚ£º£¨ÊäÈë 0 ±íÊ¾ÎÞ¸ÃÏîÐÅÏ¢£©";
+        std::cout << "è¯·è¾“å…¥æ—¥æœŸï¼šï¼ˆè¾“å…¥ 0 è¡¨ç¤ºæ— è¯¥é¡¹ä¿¡æ¯ï¼‰";
         std::cin >> tmp_DD;
 
         if (!std::cin) {
-			std::cout << "ÇëÊäÈëÊý×Ö£¡\n\n";			     // Êä³öÌáÊ¾
-			std::cin.clear();								// Çå³ýstd::cinÒì³£Ö¸Ê¾
-			std::cin.ignore(500, '\n');						// Çå¿ÕÊäÈë»º³åÇø
-			continue;										// ÖØÐÂ¿ªÊ¼ÊäÈëÑ­»·
+			std::cout << "è¯·è¾“å…¥æ•°å­—ï¼\n\n";			     // è¾“å‡ºæç¤º
+			std::cin.clear();								// æ¸…é™¤std::cinå¼‚å¸¸æŒ‡ç¤º
+			std::cin.ignore(500, '\n');						// æ¸…ç©ºè¾“å…¥ç¼“å†²åŒº
+			continue;										// é‡æ–°å¼€å§‹è¾“å…¥å¾ªçŽ¯
 
-        } else if ((tmp_DD < 0) || (tmp_DD - (int)tmp_DD != 0)) { // µ±ÊäÈë²»ÊÇÕýÕûÊýÊ±
-			std::cout << "ÇëÊäÈë·Ç¸ºÕûÊý£¡\n\n";			     // Êä³öÌáÊ¾
-			std::cin.ignore(500, '\n');						// Çå¿ÕÊäÈë»º³åÇø
-			continue;										// ÖØÐÂ¿ªÊ¼ÊäÈëÑ­»·
+        } else if ((tmp_DD < 0) || (tmp_DD - (int)tmp_DD != 0)) { // å½“è¾“å…¥ä¸æ˜¯æ­£æ•´æ•°æ—¶
+			std::cout << "è¯·è¾“å…¥éžè´Ÿæ•´æ•°ï¼\n\n";			     // è¾“å‡ºæç¤º
+			std::cin.ignore(500, '\n');						// æ¸…ç©ºè¾“å…¥ç¼“å†²åŒº
+			continue;										// é‡æ–°å¼€å§‹è¾“å…¥å¾ªçŽ¯
 
-		} else{											    // µ±ÊäÈëµÄ×Ü½áµãÊýºÏ·¨Ê±
+		} else{											    // å½“è¾“å…¥çš„æ€»ç»“ç‚¹æ•°åˆæ³•æ—¶
             break;
 		}
     }
@@ -101,22 +101,22 @@ void LibraryBook_Append_Update_Delete_Director(Library &lib)
     std::vector<int> result_search;
 
     int mode_flag;
-    std::cout << "ÇëÑ¡ÔñÊäÈëÄ£Ê½\n"
+    std::cout << "è¯·é€‰æ‹©è¾“å…¥æ¨¡å¼\n"
                   "\t1. ISBN\n"
-                  "\t2. ÊéÃû\n"
+                  "\t2. ä¹¦å\n"
                   "$?-";
     std::cin >> mode_flag;
 
     switch (mode_flag)
     {
     case 1:
-        std::cout << "ÇëÊäÈëISBN:";
+        std::cout << "è¯·è¾“å…¥ISBN:";
         std::cin >> bkISBN_input;
         result_search = LibraryBookISBNSearch(lib, bkISBN_input);
         break;
 
     case 2:
-        std::cout << "ÇëÊäÈëÊéÃû";
+        std::cout << "è¯·è¾“å…¥ä¹¦å";
         std::cin >> bkname_input;
         result_search = LibraryBookNameSearch(lib, bkname_input);
         break;
@@ -127,122 +127,89 @@ void LibraryBook_Append_Update_Delete_Director(Library &lib)
 
     if (result_search.size() == 0) {
         int append_flag;
-        std::cout << "Í¼Êé¹ÝÖÐÎÞÏàÍ¬Êé\n";
-        std::cout << "ÊÇ·ñÒªÌí¼Ó¸ÃÊé£¿\n"
-                      "\t0. ·ñ\n"
-                      "\t1. ÊÇ\n"
+        std::cout << "å›¾ä¹¦é¦†ä¸­æ— ç›¸åŒä¹¦\n";
+        std::cout << "æ˜¯å¦è¦æ·»åŠ è¯¥ä¹¦ï¼Ÿ\n"
+                      "\t0. å¦\n"
+                      "\t1. æ˜¯\n"
                       "$?-";
         std::cin >> append_flag;
 
         if (append_flag == 0){
-            std::cout << "ÍË³ö\n";
+            std::cout << "é€€å‡º\n";
         } else if (lib.book_amount >= BOOK_MAX_NUM) {
-            std::cout << "Í¼Êé¹Ý²ØÊéÊéÒÑÂú\n";
+            std::cout << "å›¾ä¹¦é¦†è—ä¹¦å·²æ»¡\n";
         } else{
             LibraryBook_Append(lib.book_list[lib.book_amount + 1], bkname_input, bkISBN_input);
         }
     } else{
-        std::cout << "Í¼Êé¹ÝÖÐÓÐÏàÍ¬Êé\n";
+        std::cout << "å›¾ä¹¦é¦†ä¸­æœ‰ç›¸åŒä¹¦\n";
         LibraryBook_Update_Copy_Delete_Director(lib, result_search);
     }
 }
 
-int LibraryBook_Append(Book &bk, std::string bk_name, std::string bk_ISBN)
+int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN)
 {
     time_t id;
-    time(&id); // Ê¹ÓÃÊ±¼ä´Á×÷ÎªÊé±¾Î¨Ò»Ê¶±ðÂë
+    time(&id); // ä½¿ç”¨æ—¶é—´æˆ³ä½œä¸ºä¹¦æœ¬å”¯ä¸€è¯†åˆ«ç 
 
     if (bk_name.size() != 0) {
         bk.name = bk_name;
-        std::cout << "ÊéÃûÒÑÊäÈë\n";
-
-        std::cout << "ÇëÊäÈëÖÐÍ¼·ÖÀàºÅ\n$?-";
+        std::cout << "ä¹¦åå·²è¾“å…¥\n";
+    }
+    else {
+        std::cout << "è¯·è¾“å…¥ä¹¦å\n$?-";
+        std::cin >> bk.name;
+    }
+        std::cout << "è¯·è¾“å…¥ä¸­å›¾åˆ†ç±»å·\n$?-";
         std::cin >> bk.classifier;
 
-        std::cout << "\nÒÔÏÂÊäÈë×÷/ÒëÐÅÏ¢\n";
-        int authors_num;
-        std::cout << "ÇëÊäÈë×÷Õß¡¢ÒëÕßÈËÊý\n$?-";
-        std::cin >> authors_num;
+        std::cout << "\nä¸‹é¢è¾“å…¥ä½œ/è¯‘è€…ä¿¡æ¯\n";
+        int authors_num, translator_num;
+        std::cout << "è¯·è¾“å…¥ä½œè€…ã€è¯‘è€…äººæ•°ï¼ˆä»¥ç©ºæ ¼éš”å¼€ï¼‰\n$?-";
+        std::cin >> authors_num >> translator_num;
 
-        bk.authors_info_list.resize(authors_num);
+        bk.authors_info_list.resize(authors_num + translator_num);
         for(int i = 0; i <= authors_num - 1; i++) {
-            std::cout << fmt::format("ÇëÊäÈëµÚ{:^3}¸ö×÷Õß/ÒëÕßµÄÐÕÃû\n$?-", i+1);
+            std::cout << fmt::format("è¯·è¾“å…¥ç¬¬{:^3}ä¸ªä½œè€…çš„å§“å\n$?-", i+1);
             std::cin >> bk.authors_info_list[i].name;
 
-            std::cout << fmt::format("ÇëÊäÈëµÚ{:^3}¸ö×÷Õß/ÒëÕßµÄÐÔ±ð£¨0 ÎªÄÐÐÔ£¬1 ÎªÅ®ÐÔ£©\n$?-", i+1);
+            std::cout << fmt::format("è¯·è¾“å…¥ç¬¬{:^3}ä¸ªä½œè€…çš„æ€§åˆ«ï¼ˆ0 ä¸ºç”·æ€§ï¼Œ1 ä¸ºå¥³æ€§ï¼‰\n$?-", i+1);
             std::cin >> bk.authors_info_list[i].gender;
 
-            std::cout << fmt::format("ÇëÊäÈëµÚ{:^3}¸ö×÷Õß/ÒëÕßµÄ¹ú¼®\n$?-", i+1);
+            std::cout << fmt::format("è¯·è¾“å…¥ç¬¬{:^3}ä¸ªä½œè€…çš„å›½ç±\n$?-", i+1);
             std::cin >> bk.authors_info_list[i].nationality;
 
-            std::cout << fmt::format("ÇëÊäÈëµÚ{:^3}¸ö×÷Õß/ÒëÕßÊÇ×÷Õß»¹ÊÇÒëÕß£¨0 Îª×÷Õß£¬1ÎªÒëÕß£©\n$?-", i+1);
-            std::cin >> bk.authors_info_list[i].isTranslator;
+            bk.authors_info_list[i].isTranslator = 0;
+        }
+        for(int i = authors_num;i <= authors_num + translator_num - 1; i++){
+            std::cout << fmt::format("è¯·è¾“å…¥ç¬¬{:^3}ä¸ªè¯‘è€…çš„å§“å\n$?-", i+1);
+            std::cin >> bk.authors_info_list[i].name;
+
+            std::cout << fmt::format("è¯·è¾“å…¥ç¬¬{:^3}ä¸ªè¯‘è€…çš„æ€§åˆ«ï¼ˆ0 ä¸ºç”·æ€§ï¼Œ1 ä¸ºå¥³æ€§ï¼‰\n$?-", i+1);
+            std::cin >> bk.authors_info_list[i].gender;
+
+            std::cout << fmt::format("è¯·è¾“å…¥ç¬¬{:^3}ä¸ªè¯‘è€…çš„å›½ç±\n$?-", i+1);
+            std::cin >> bk.authors_info_list[i].nationality;
+
+            bk.authors_info_list[i].isTranslator = 1;
         }
 
-        std::cout << "\nÒÔÏÂÊäÈë³ö°æÐÅÏ¢\n";
-        std::cout << "ÇëÊäÈëISBNºÅ\n$?-";
+        std::cout << "\nä¸‹é¢è¾“å…¥å‡ºç‰ˆä¿¡æ¯\n";
+        std::cout << "è¯·è¾“å…¥ISBNå·\n$?-";
         std::cin >> bk.publish_info.ISBN;
 
-        std::cout << "ÇëÊäÈë³ö°æÉçÃû³Æ\n$?-";
+        std::cout << "è¯·è¾“å…¥å‡ºç‰ˆç¤¾åç§°\n$?-";
         std::cin >> bk.publish_info.press;
 
-        std::cout << "ÇëÊäÈë³ö°æÈÕÆÚ\n";
+        std::cout << "è¯·è¾“å…¥å‡ºç‰ˆæ—¥æœŸ\n";
         bk.publish_info.date = TimeGetInput();
 
-        std::cout << "ÇëÊäÈë¼Û¸ñ\n$?-";
+        std::cout << "è¯·è¾“å…¥ä»·æ ¼\n$?-";
         std::cin >> bk.publish_info.price;
 
         bk.lend_state_flag = 0;
         bk.lend_history.lend_times = 0;
         bk.identification = std::to_string(id);
-
-    } else{
-        std::cout << "ÇëÊäÈëÊéÃû\n$?-";
-        std::cin >> bk.name;
-
-        std::cout << "ÇëÊäÈëÖÐÍ¼·ÖÀàºÅ\n$?-";
-        std::cin >> bk.classifier;
-
-        std::cout << "\nÒÔÏÂÊäÈë×÷/ÒëÐÅÏ¢...\n";
-        system("timeout 2");
-        int authors_num;
-        std::cout << "ÇëÊäÈë×÷Õß¡¢ÒëÕßÈËÊý\n$?-";
-        std::cin >> authors_num;
-
-        bk.authors_info_list.resize(authors_num);
-        for(int i = 0; i <= authors_num - 1; i++) {
-            std::cout << fmt::format("\nÇëÊäÈëµÚ{:^3}¸ö×÷Õß/ÒëÕßµÄÐÕÃû\n$?-", i+1);
-            std::cin >> bk.authors_info_list[i].name;
-
-            std::cout << fmt::format("ÇëÊäÈëµÚ{:^3}¸ö×÷Õß/ÒëÕßµÄÐÔ±ð£¨0 ÎªÄÐÐÔ£¬1 ÎªÅ®ÐÔ£©\n$?-", i+1);
-            std::cin >> bk.authors_info_list[i].gender;
-
-            std::cout << fmt::format("ÇëÊäÈëµÚ{:^3}¸ö×÷Õß/ÒëÕßµÄ¹ú¼®\n$?-", i+1);
-            std::cin >> bk.authors_info_list[i].nationality;
-
-            std::cout << fmt::format("ÇëÊäÈëµÚ{:^3}¸ö×÷Õß/ÒëÕßÊÇ×÷Õß»¹ÊÇÒëÕß£¨0 Îª×÷Õß£¬1ÎªÒëÕß£©\n$?-", i+1);
-            std::cin >> bk.authors_info_list[i].isTranslator;
-        }
-
-        std::cout << "\nÒÔÏÂÊäÈë³ö°æÐÅÏ¢\n";
-        system("timeout 2");
-
-        bk.publish_info.ISBN = bk_ISBN;
-        std::cout << "ISBNºÅÒÑÊäÈë\n";
-
-        std::cout << "ÇëÊäÈë³ö°æÉçÃû³Æ\n$?-";
-        std::cin >> bk.publish_info.press;
-
-        std::cout << "ÇëÊäÈë³ö°æÈÕÆÚ\n";
-        bk.publish_info.date = TimeGetInput();
-
-        std::cout << "ÇëÊäÈë¼Û¸ñ\n$?-";
-        std::cin >> bk.publish_info.price;
-
-        bk.lend_state_flag = 0;
-        bk.lend_history.lend_times = 0;
-        bk.identification = std::to_string(id);
-    }
 
     return 0;
 }

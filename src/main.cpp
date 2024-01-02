@@ -13,11 +13,7 @@
 int main(void)
 {
     system("chcp 936");
-    Book books[BOOK_MAX_NUM + 1];
-    Library library_local = {
-        .book_amount = 0,
-        .book_list = books
-    };
+    Library library_local(0);
 
     // Time a = TimeGetCurrent();
     // std::cout << fmt::format("YY{}MM{}DD{}", a.YY, a.MM, a.DD);
@@ -28,6 +24,7 @@ int main(void)
 
     LibraryBook_Append_Update_Delete_Director(library_local);
     std::cout << library_local.book_list[1];
+    library_local.book_list[1].writeAsJSON(std::cout, "");
 
     return 0;
 }

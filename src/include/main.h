@@ -37,9 +37,9 @@ Library LibraryInitialize(void);
 /**
  * @brief 初始化借书者群
  *
- * @return Group
+ * @return BorrowerGroup
 **/
-Group GroupInitialize(void);
+BorrowerGroup GroupInitialize(void);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -50,7 +50,7 @@ Group GroupInitialize(void);
  * @param id
  * @return int 存在则返回1，不存在返回0
 **/
-int UserIDSearch(Group &gp, std::string id);
+int UserIDSearch(BorrowerGroup &gp, std::string id);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -97,7 +97,7 @@ std::vector<int> LibraryBookISBNSearch(Library lib, std::string ISBN);
  * @param book_sample
  * @return int
 **/
-int LibraryBook_Append(Book &bk, std::string bk_name, std::string bk_ISBN);
+int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN);
 int LibraryBook_Update(BookPTR book_ptr, Book book_sample);
 
 
@@ -134,6 +134,7 @@ int LibraryBook_Delete(BookPTR book_ptr);
  *           修改所有副本时，使用 LibraryBook_Copy 函数将首个修改后的图书复制到其他副本位置；
  *        3. 使用 LibraryBook_Delete 函数删除图书。
  * @param lib
+ * @param bk_position
 **/
 void LibraryBook_Append_Update_Delete_Director(Library &lib);
 void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_position);
@@ -162,7 +163,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
  * @param gp
  * @param lib
 **/
-void UserBookBorrow(Group &gp, Library &lib);
+void UserBookBorrow(BorrowerGroup &gp, Library &lib);
 
 /*-----------------------------------------------------------------------------*/
 /**
@@ -185,7 +186,7 @@ void UserBookBorrow(Group &gp, Library &lib);
  * @param gp
  * @param lib
 **/
-void UserBookReturn(Group &gp, Library &lib);
+void UserBookReturn(BorrowerGroup &gp, Library &lib);
 
 
 
