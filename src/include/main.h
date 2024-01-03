@@ -51,7 +51,10 @@ BorrowerGroup GroupInitialize(void);
  * @param id
  * @return int 存在则返回1，不存在返回0
 **/
-int UserIDSearch(BorrowerGroup &gp, std::string id);
+int UserID_Exist(BorrowerGroup &gp, std::string id);
+
+Borrower* UserValidation_Search_Borrow(BorrowerGroup gp, std::string id);
+Borrower* UserValidation_Search_Giveback(BorrowerGroup gp, std::string id);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -166,6 +169,29 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
 **/
 void UserBookBorrow(BorrowerGroup &gp, Library &lib);
 int UserBookHistory_Append(BorrowHistory brrw_history, std::string bk_ID);
+int BookLendHistory_Append(LendHistory ld_history, std::string brrwr_ID);
+
+/*-----------------------------------------------------------------------------*/
+
+/**
+ * @brief 按名称查找图书，并以vector返回书单中所有满足条件的图书的自然位置
+ *
+ * @param lib
+ * @param bk_name
+ * @return vector 返回书单中的自然位置（1，2，3...）
+ *                失败返回长度为0的vector
+**/
+std::vector<int> User_BorrowedBook_NameSearch(BorrowHistory brrw_history, std::string bk_name);
+
+/**
+ * @brief 按ISBN查找图书，并以vector返回书单中所有满足条件的图书的自然位置
+ *
+ * @param lib
+ * @param ISBN
+ * @return vector 返回书单中的自然位置（1，2，3...）
+ *                失败返回长度为0的vector
+**/
+std::vector<int> User_BorrowedBook_ISBNSearch(BorrowHistory brrw_history, std::string ISBN);
 
 /*-----------------------------------------------------------------------------*/
 /**
@@ -188,7 +214,7 @@ int UserBookHistory_Append(BorrowHistory brrw_history, std::string bk_ID);
  * @param gp
  * @param lib
 **/
-void UserBookReturn(BorrowerGroup &gp, Library &lib);
+void UserBookGiveback(BorrowerGroup &gp, Library &lib);
 
 
 
