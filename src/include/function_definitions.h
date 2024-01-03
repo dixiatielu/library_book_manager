@@ -33,23 +33,6 @@ Time GetCurrentTime();
 **/
 Time GetTimeInput();
 
-/*-----------------------------------------------------------------------------*/
-
-Library InitializeLibrary();
-
-
-/**
- * @brief 初始化借书者群
- *
- * @return BorrowerGroup
-**/
-BorrowerGroup InitializeGroup();
-
-/*-----------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------*/
-
-
 /**
  * @brief 按唯一识别码查找图书（先查找ISBN，再查找副本号）
  *
@@ -248,5 +231,3 @@ int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int giveback_brr
 int BookLendState_UpdateGiveback(Library &lib, const std::string& giveback_bkID);
 
 
-
-//#include "..\func\functions.cpp"

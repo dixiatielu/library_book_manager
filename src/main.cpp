@@ -8,21 +8,20 @@
  * @copyright Copyright (c) 2023
  *
 **/
-#include ".\include\main.h"
+#include ".\include\function_definitions.h"
+
 using namespace std;
-int main()
-{
+
+int main() {
     system("chcp 65001"); // 终端UTF-8编码
     Library library_local(0);
 
-    while(true)
-    {
+    while (true) {
         LibraryBook_Append_Update_Delete_Director(library_local);
         cout << "是否继续键入图书？（0：否，1：是）" << endl;
         int continue_flag;
         cin >> continue_flag;
-        if(!continue_flag)
-        {
+        if (!continue_flag) {
             break;
         }
     }
