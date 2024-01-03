@@ -1,5 +1,6 @@
 #include <utility>
 
+
 Time TimeGetCurrent(void)
 {
     static time_t raw_curtime;
@@ -209,8 +210,8 @@ void LibraryBook_Append_Update_Delete_Director(Library &lib)
         } else if (lib.book_amount >= BOOK_MAX_NUM) {
             std::cout << "图书馆藏书已满\n";
         } else{
-            LibraryBook_Append(lib.book_list[lib.book_amount], bkname_input, bkISBN_input);
             lib.book_amount++;
+            LibraryBook_Append(lib.book_list[lib.book_amount], bkname_input, bkISBN_input);
         }
     } else{
         std::cout << "图书馆中有相同书\n";
@@ -687,4 +688,8 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
         return;
     }
 
+}
+
+int LibraryBook_Update(Book &bk) {
+    return 0;
 }
