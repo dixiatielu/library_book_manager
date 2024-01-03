@@ -15,38 +15,23 @@
 #include <queue>
 #include <algorithm>
 
-#include "fmt.h"
+#include "../include/fmt.h"
 #include "struct.h"
-#include "macro.h"
+#include "../include/macro.h"
 
 /**
  * @brief Get the Time Current object
  *        获取当前时间并返回Time结构体
  * @return Time
 **/
-Time TimeGetCurrent(void);
+Time GetCurrentTime();
 
 /**
  * @brief Get the Time Input object
  *        在函数中获取用户输入的年、月、日时间并返回Time结构体
  * @return Time
 **/
-Time TimeGetInput(void);
-
-/*-----------------------------------------------------------------------------*/
-
-Library LibraryInitialize(void);
-/**
- * @brief 初始化借书者群
- *
- * @return BorrowerGroup
-**/
-BorrowerGroup GroupInitialize(void);
-
-/*-----------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------*/
-
+Time GetTimeInput();
 
 /**
  * @brief 按唯一识别码查找图书（先查找ISBN，再查找副本号）
@@ -56,7 +41,7 @@ BorrowerGroup GroupInitialize(void);
  * @return int 返回书单中的自然位置（1，2，3...）
  *             失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookIDSearch(Library lib, const std::string& id);
+std::vector<int> LibraryBookIDSearch(Library lib, const std::string &id);
 
 /**
  * @brief 按名称查找图书，并以vector返回书单中所有满足条件的图书的自然位置
@@ -66,7 +51,7 @@ std::vector<int> LibraryBookIDSearch(Library lib, const std::string& id);
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookNameSearch(Library lib, const std::string& bk_name);
+std::vector<int> LibraryBookNameSearch(Library lib, const std::string &bk_name);
 
 /**
  * @brief 按ISBN查找图书，并以vector返回书单中所有满足条件的图书的自然位置
@@ -76,7 +61,7 @@ std::vector<int> LibraryBookNameSearch(Library lib, const std::string& bk_name);
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookISBNSearch(Library lib, const std::string& ISBN);
+std::vector<int> LibraryBookISBNSearch(Library lib, const std::string &ISBN);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -97,7 +82,7 @@ int Library_DeletedBooks_sort(Library &lib);
  * @param book_sample
  * @return int
 **/
-int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& bk_ISBN);
+int LibraryBook_Append(Book &bk, const std::string &bk_name, const std::string &bk_ISBN);
 
 /**
  * @brief 添加图书副本
@@ -112,7 +97,7 @@ int LibraryBook_Update(Book &bk);
 
 
 /**
- * @brief 图书录入与修改、删除向导                                  // 未考虑藏书日期，可默认从 TimeGetCurrent 返回值赋值
+ * @brief 图书录入与修改、删除向导                                  // 未考虑藏书日期，可默认从 GetCurrentTime 返回值赋值
  *        要求用户输入书名或ISBN
  *        1. 当书单中不存在该书时，询问是否要录入该书，若是则在图书馆书单数组末尾录入；
  *        2. 当书单中存  在该书时，返回副本数，询问要
@@ -143,7 +128,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
  * @param id
  * @return int 存在则返回1，不存在返回0
 **/
-int UserID_Exist(BorrowerGroup gp, const std::string& id);
+int UserID_Exist(BorrowerGroup gp, const std::string &id);
 
 
 /**
@@ -155,7 +140,8 @@ int UserID_Exist(BorrowerGroup gp, const std::string& id);
  * @param id
  * @return
  */
-int UserValidation_Search_Borrow(BorrowerGroup gp, const std::string& id);
+int UserValidation_Search_Borrow(BorrowerGroup gp, const std::string &id);
+
 /**
  * @brief 无需检查用户是否有借书权限
  *        存在用户时，返回用户在名单中的位置1，2，3...，
@@ -165,7 +151,7 @@ int UserValidation_Search_Borrow(BorrowerGroup gp, const std::string& id);
  * @param id
  * @return
  */
-int UserValidation_Search_Giveback(BorrowerGroup gp, const std::string& id);
+int UserValidation_Search_Giveback(BorrowerGroup gp, const std::string &id);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -184,7 +170,7 @@ int UserValidation_Search_Giveback(BorrowerGroup gp, const std::string& id);
  *          若返回vector长度 为 0，则输出“查无此书”
  *        检测该用户是否已借出该书副本
  *        如以上任一条件不满足时，立即按值输出不满足原因并退出函数；
- *        如以上条件均满足，修改该 BookID 对应图书借出历史和用户借阅历史，借书时间从 TimeGetCurrent 返回值赋值（仅精确到天） // 存在跨日可能
+ *        如以上条件均满足，修改该 BookID 对应图书借出历史和用户借阅历史，借书时间从 GetCurrentTime 返回值赋值（仅精确到天） // 存在跨日可能
  *                        修改该 BookID 对应图书出借状态
  *
  * @param gp
@@ -208,7 +194,7 @@ int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::str
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> User_BorrowedBook_NameSearch(Library lib, BorrowHistory brrw_history, const std::string& bk_name);
+std::vector<int> User_BorrowedBook_NameSearch(Library lib, BorrowHistory brrw_history, const std::string &bk_name);
 
 /**
  * @brief 按ISBN查找图书，并以vector返回书单中所有满足条件的图书的自然位置
@@ -218,7 +204,7 @@ std::vector<int> User_BorrowedBook_NameSearch(Library lib, BorrowHistory brrw_hi
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> User_BorrowedBook_ISBNSearch(Library lib, BorrowHistory brrw_history, const std::string& bk_ISBN);
+std::vector<int> User_BorrowedBook_ISBNSearch(Library lib, BorrowHistory brrw_history, const std::string &bk_ISBN);
 
 /*-----------------------------------------------------------------------------*/
 /**
@@ -242,9 +228,12 @@ std::vector<int> User_BorrowedBook_ISBNSearch(Library lib, BorrowHistory brrw_hi
  * @param lib
 **/
 void UserBookGiveback(BorrowerGroup &gp, Library &lib);
+
 int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int giveback_brrwedbook_numero);
-int BookLendState_UpdateGiveback(Library &lib, const std::string& giveback_bkID);
+
+int BookLendState_UpdateGiveback(Library &lib, const std::string &giveback_bkID);
 
 
+int ShowMainMenu(Library &lib);
 
-#include "..\func\functions.cpp"
+void DataBackupAndRestoreMenu(Library& lib);

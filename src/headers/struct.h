@@ -16,9 +16,9 @@
 //#include <vector>
 #include <fstream>
 #include <iostream>
-#include "fmt/core.h"
-#include "nlohmann/json.hpp"
-#include "macro.h"
+#include "../include/fmt/core.h"
+#include "../include/nlohmann/json.hpp"
+#include "../include/macro.h"
 
 // 时间结构体
 typedef struct{
@@ -159,14 +159,17 @@ typedef struct Book{
         {
             name = bookJson["name"];
             classifier = bookJson["classifier"];
-
             // Authors Info List
             authors_info_list.clear();
             for (const auto& authorInfoJson : bookJson["authors_info_list"])
             {
+                if(authorInfoJson.empty())
+                {
+                    continue;
+                }
                 AuthorInfo authorInfo;
                 authorInfo.name = authorInfoJson["name"];
-                authorInfo.gender = (authorInfoJson["gender"] == "女");
+                authorInfo.gender = authorInfoJson["gender"];
                 authorInfo.nationality = authorInfoJson["nationality"];
                 authorInfo.isTranslator = authorInfoJson["isTranslator"];
                 authors_info_list.push_back(authorInfo);
@@ -186,6 +189,10 @@ typedef struct Book{
             // Lend History
             for(const auto &lendHistoryNode : bookJson["lend_history"])
             {
+                if(lendHistoryNode.empty())
+                {
+                    continue;
+                }
                 BorrowerNode _;
                 _.borrower_ID = lendHistoryNode["borrower_ID"];
                 _.lend_date.YY = lendHistoryNode["lend_date"]["YY"];
@@ -243,10 +250,15 @@ struct Library{
         {
             book_amount = libraryJson["book_amount"];
             const nlohmann::json& bookListJson = libraryJson["book_list"];
-
+            if(bookListJson.empty())
+            {
+                std::cerr << "Book List is Empty!" << std::endl;
+                file.close();
+                return;
+            }
             for (int i = 1; i <= book_amount; ++i)
             {
-                book_list[i].readFromJSON(bookListJson[i]);
+                book_list[i].readFromJSON(bookListJson[i - 1]);
             }
         }
         catch (const std::exception& e)
