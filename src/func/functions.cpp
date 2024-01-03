@@ -341,11 +341,27 @@ int UserValidation_Search_Giveback(BorrowerGroup gp, std::string id)
 
 int UserBookHistory_UpdateBorrow(BorrowHistory &brrw_history, std::string bk_ID)
 {
+    BookNode  brrw_bk_node = {
+            .book_ID           = bk_ID,
+            .borrow_date       = TimeGetCurrent(),
+            .giveback_date     = {},
+            .borrow_state_flag = -1
+    };
+
+    brrw_history.borrowed_books_cur++;
+    brrw_history.borrowed_books_acc++;
+    brrw_history.book_list.emplace(brrw_history.book_list.end(), brrw_bk_node);
     return 0;
 }
 
 int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::string brrwr_ID)
 {
+    BorrowerNode brrwr_node = {
+            .borrower_ID = brrwr_ID,
+            .lend_date = TimeGetCurrent()
+    };
+
+    ld_history.emplace(ld_history.end(), brrwr_node);
     return 0;
 }
 
