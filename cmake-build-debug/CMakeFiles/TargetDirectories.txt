@@ -1,3 +1,0 @@
-D:/Cp/Aca/#Programme/library_book_manager/cmake-build-debug/CMakeFiles/library_book_manager.dir
-D:/Cp/Aca/#Programme/library_book_manager/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Cp/Aca/#Programme/library_book_manager/cmake-build-debug/CMakeFiles/rebuild_cache.dir

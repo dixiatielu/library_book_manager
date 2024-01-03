@@ -1,5 +1,10 @@
-Time TimeGetCurrent(void)
-{
+#include <iostream>
+#include <vector>
+#include <queue>
+#include "../include/struct.h"
+
+
+Time TimeGetCurrent(void) {
     static time_t raw_curtime;
     static struct tm *curtime;
     Time r_time;
@@ -14,8 +19,7 @@ Time TimeGetCurrent(void)
     return r_time;
 }
 
-Time TimeGetInput(void)
-{
+Time TimeGetInput(void) {
     float tmp_YY, tmp_MM, tmp_DD;
 
     while (1) {
@@ -23,17 +27,17 @@ Time TimeGetInput(void)
         std::cin >> tmp_YY;
 
         if (!std::cin) {
-            std::cout << "请输入数字！\n\n";			     // 输出提示
-            std::cin.clear();								// 清除std::cin异常指示
-            std::cin.ignore(500, '\n');						// 清空输入缓冲区
-            continue;										// 重新开始输入循环
+            std::cout << "请输入数字！\n\n";                 // 输出提示
+            std::cin.clear();                                // 清除std::cin异常指示
+            std::cin.ignore(500, '\n');                        // 清空输入缓冲区
+            continue;                                        // 重新开始输入循环
 
-        } else if (tmp_YY - (int)tmp_YY != 0) {           // 当输入不是整数时
-            std::cout << "请输入整数！\n\n";			     // 输出提示
-            std::cin.ignore(500, '\n');						// 清空输入缓冲区
-            continue;										// 重新开始输入循环
+        } else if (tmp_YY - (int) tmp_YY != 0) {           // 当输入不是整数时
+            std::cout << "请输入整数！\n\n";                 // 输出提示
+            std::cin.ignore(500, '\n');                        // 清空输入缓冲区
+            continue;                                        // 重新开始输入循环
 
-        } else{											    // 当输入的总结点数合法时
+        } else {                                                // 当输入的总结点数合法时
             break;
         }
     }
@@ -42,17 +46,17 @@ Time TimeGetInput(void)
         std::cin >> tmp_MM;
 
         if (!std::cin) {
-            std::cout << "请输入数字！\n\n";			     // 输出提示
-            std::cin.clear();								// 清除std::cin异常指示
-            std::cin.ignore(500, '\n');						// 清空输入缓冲区
-            continue;										// 重新开始输入循环
+            std::cout << "请输入数字！\n\n";                 // 输出提示
+            std::cin.clear();                                // 清除std::cin异常指示
+            std::cin.ignore(500, '\n');                        // 清空输入缓冲区
+            continue;                                        // 重新开始输入循环
 
-        } else if ((tmp_MM < 0) || (tmp_MM - (int)tmp_MM != 0)) { // 当输入不是正整数时
-            std::cout << "请输入非负整数！\n\n";			     // 输出提示
-            std::cin.ignore(500, '\n');						// 清空输入缓冲区
-            continue;										// 重新开始输入循环
+        } else if ((tmp_MM < 0) || (tmp_MM - (int) tmp_MM != 0)) { // 当输入不是正整数时
+            std::cout << "请输入非负整数！\n\n";                 // 输出提示
+            std::cin.ignore(500, '\n');                        // 清空输入缓冲区
+            continue;                                        // 重新开始输入循环
 
-        } else{											    // 当输入的总结点数合法时
+        } else {                                                // 当输入的总结点数合法时
             break;
         }
     }
@@ -61,64 +65,58 @@ Time TimeGetInput(void)
         std::cin >> tmp_DD;
 
         if (!std::cin) {
-            std::cout << "请输入数字！\n\n";			     // 输出提示
-            std::cin.clear();								// 清除std::cin异常指示
-            std::cin.ignore(500, '\n');						// 清空输入缓冲区
-            continue;										// 重新开始输入循环
+            std::cout << "请输入数字！\n\n";                 // 输出提示
+            std::cin.clear();                                // 清除std::cin异常指示
+            std::cin.ignore(500, '\n');                        // 清空输入缓冲区
+            continue;                                        // 重新开始输入循环
 
-        } else if ((tmp_DD < 0) || (tmp_DD - (int)tmp_DD != 0)) { // 当输入不是正整数时
-            std::cout << "请输入非负整数！\n\n";			     // 输出提示
-            std::cin.ignore(500, '\n');						// 清空输入缓冲区
-            continue;										// 重新开始输入循环
+        } else if ((tmp_DD < 0) || (tmp_DD - (int) tmp_DD != 0)) { // 当输入不是正整数时
+            std::cout << "请输入非负整数！\n\n";                 // 输出提示
+            std::cin.ignore(500, '\n');                        // 清空输入缓冲区
+            continue;                                        // 重新开始输入循环
 
-        } else{											    // 当输入的总结点数合法时
+        } else {                                                // 当输入的总结点数合法时
             break;
         }
     }
 
-    Time r_time = {.YY = std::to_string((int)tmp_YY),
-            .MM = std::to_string((int)tmp_MM),
-            .DD = std::to_string((int)tmp_DD)};
+    Time r_time = {.YY = std::to_string((int) tmp_YY),
+            .MM = std::to_string((int) tmp_MM),
+            .DD = std::to_string((int) tmp_DD)};
 
     return r_time;
 }
 
-std::vector<int> LibraryBookNameSearch(Library lib, std::string bk_name)
-{
+std::vector<int> LibraryBookNameSearch(Library lib, std::string bk_name) {
     std::vector<int> bk_position;
-    for (int i = 1; i <= lib.book_amount; i++)
-    {
+    for (int i = 1; i <= lib.book_amount; i++) {
         if ((lib.book_list[i].name == bk_name) && (lib.book_list[i].lend_state_flag != -3)) {
             bk_position.emplace(bk_position.end(), i);
-        } else{
+        } else {
             continue;
         }
     }
     return bk_position;
 }
 
-std::vector<int> LibraryBookISBNSearch(Library lib, std::string bk_ISBN)
-{
+std::vector<int> LibraryBookISBNSearch(Library lib, std::string bk_ISBN) {
     std::vector<int> bk_position;
-    for (int i = 1; i <= lib.book_amount; i++)
-    {
+    for (int i = 1; i <= lib.book_amount; i++) {
         if ((lib.book_list[i].publish_info.ISBN == bk_ISBN) && (lib.book_list[i].lend_state_flag != -3)) {
             bk_position.emplace(bk_position.end(), i);
-        } else{
+        } else {
             continue;
         }
     }
     return bk_position;
 }
 
-std::vector<int> LibraryBookIDSearch(Library lib, std::string bk_ID)
-{
+std::vector<int> LibraryBookIDSearch(Library lib, std::string bk_ID) {
     std::vector<int> bk_position;
-    for (int i = 1; i <= lib.book_amount; i++)
-    {
+    for (int i = 1; i <= lib.book_amount; i++) {
         if ((lib.book_list[i].identification == bk_ID) && (lib.book_list[i].lend_state_flag != -3)) {
             bk_position.emplace(bk_position.end(), i);
-        } else{
+        } else {
             continue;
         }
     }
@@ -127,14 +125,12 @@ std::vector<int> LibraryBookIDSearch(Library lib, std::string bk_ID)
 
 /*-----------------------------------------------------------------------------*/
 
-void LibraryBook_Delete_fast(Library &lib, int bk_position)
-{
+void LibraryBook_Delete_fast(Library &lib, int bk_position) {
     lib.book_list[bk_position].lend_state_flag = -3;
     lib.book_amount--;
 }
 
-int Library_DeletedBooks_sort(Library &lib)
-{
+int Library_DeletedBooks_sort(Library &lib) {
     std::queue<int> books_deleted_position;
     for (int i = 1; i <= BOOK_MAX_NUM; i++) {
         if (lib.book_list[i].lend_state_flag == -3) {
@@ -142,7 +138,7 @@ int Library_DeletedBooks_sort(Library &lib)
             continue;
         } else if (books_deleted_position.size() == 0) {
             continue;
-        } else{
+        } else {
             LibraryBook_Copy(lib.book_list[books_deleted_position.front()], lib.book_list[i]);
             lib.book_list[i].lend_state_flag = -3;
             books_deleted_position.push(i);
@@ -154,16 +150,14 @@ int Library_DeletedBooks_sort(Library &lib)
 
 /*-----------------------------------------------------------------------------*/
 
-int LibraryBook_Copy(Book &bk, Book bk_sample)
-{
+int LibraryBook_Copy(Book &bk, Book bk_sample) {
     bk = bk_sample;
     return 0;
 }
 
 /*-----------------------------------------------------------------------------*/
 
-void LibraryBook_Append_Update_Delete_Director(Library &lib)
-{
+void LibraryBook_Append_Update_Delete_Director(Library &lib) {
     std::string bkISBN_input, bkname_input;
     std::vector<int> result_search;
 
@@ -174,8 +168,7 @@ void LibraryBook_Append_Update_Delete_Director(Library &lib)
                  "$?-";
     std::cin >> mode_flag;
 
-    switch (mode_flag)
-    {
+    switch (mode_flag) {
         case 1:
             std::cout << "请输入ISBN:";
             std::cin >> bkISBN_input;
@@ -201,30 +194,28 @@ void LibraryBook_Append_Update_Delete_Director(Library &lib)
                      "$?-";
         std::cin >> append_flag;
 
-        if (append_flag == 0){
+        if (append_flag == 0) {
             std::cout << "退出\n";
         } else if (lib.book_amount >= BOOK_MAX_NUM) {
             std::cout << "图书馆藏书已满\n";
-        } else{
-            LibraryBook_Append(lib.book_list[lib.book_amount], bkname_input, bkISBN_input);
+        } else {
             lib.book_amount++; // 健壮性不足，可通过返回值进一步判断是否应该增加藏书量
+            LibraryBook_Append(lib.book_list[lib.book_amount], bkname_input, bkISBN_input);
         }
-    } else{
+    } else {
         std::cout << "图书馆中有相同书\n";
         LibraryBook_Update_Copy_Delete_Director(lib, result_search);
     }
 }
 
-int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN)
-{
+int LibraryBook_Append(Book &bk, const std::string &bk_name, std::string bk_ISBN) {
     time_t id;
     time(&id); // 使用时间戳作为书本唯一识别码
 
     if (!bk_name.empty()) {
         bk.name = bk_name;
 //        std::cout << "书名已输入\n";
-    }
-    else {
+    } else {
         std::cout << "请输入书名\n$?-";
         std::cin >> bk.name;
     }
@@ -232,46 +223,44 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN
     std::cin >> bk.classifier;
 
     std::cout << "\n下面输入作/译者信息\n";
-    system("timeout 1");
+//    system("timeout 1");
     int authors_num, translator_num;
     std::cout << "请输入作者、译者人数（以空格隔开）\n$?-";
     std::cin >> authors_num >> translator_num;
 
     bk.authors_info_list.resize(authors_num + translator_num);
-    for(int i = 0; i <= authors_num - 1; i++) {
-        std::cout << fmt::format("请输入第{:^3}个作者的姓名\n$?-", i+1);
+    for (int i = 0; i <= authors_num - 1; i++) {
+        std::cout << fmt::format("请输入第{:^3}个作者的姓名\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i].name;
 
-        std::cout << fmt::format("请输入第{:^3}个作者的性别（0 为男性，1 为女性）\n$?-", i+1);
+        std::cout << fmt::format("请输入第{:^3}个作者的性别（0 为男性，1 为女性）\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i].gender;
 
-        std::cout << fmt::format("请输入第{:^3}个作者的国籍\n$?-", i+1);
+        std::cout << fmt::format("请输入第{:^3}个作者的国籍\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i].nationality;
 
         bk.authors_info_list[i].isTranslator = 0;
     }
-    for(int i = 0;i <= translator_num - 1; i++){
-        std::cout << fmt::format("\n请输入第{:^3}个译者的姓名\n$?-", i+1);
+    for (int i = 0; i <= translator_num - 1; i++) {
+        std::cout << fmt::format("\n请输入第{:^3}个译者的姓名\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i + authors_num].name;
 
-        std::cout << fmt::format("请输入第{:^3}个译者的性别（0 为男性，1 为女性）\n$?-", i+1);
+        std::cout << fmt::format("请输入第{:^3}个译者的性别（0 为男性，1 为女性）\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i + authors_num].gender;
 
-        std::cout << fmt::format("请输入第{:^3}个译者的国籍\n$?-", i+1);
+        std::cout << fmt::format("请输入第{:^3}个译者的国籍\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i + authors_num].nationality;
 
         bk.authors_info_list[i].isTranslator = 1;
     }
 
-    std::cout << "\n下面输入出版信息\n";
-    system("timeout 1");
+//    std::cout << "\n下面输入出版信息\n";
+//    system("timeout 1");
 
     std::cout << "\n下面输入出版信息\n";
-    if(!bk_ISBN.empty())
-    {
+    if (!bk_ISBN.empty()) {
         bk.publish_info.ISBN = bk_ISBN;
-    }
-    else {
+    } else {
         std::cout << "请输入ISBN号\n$?-";
         std::cin >> bk.publish_info.ISBN;
     }
@@ -291,20 +280,18 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN
     return 0;
 }
 
-void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_position)
-{
+void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_position) {
 
 }
 
 
 /*-----------------------------------------------------------------------------*/
 
-int UserID_Exist(BorrowerGroup gp, std::string id)
-{
+int UserID_Exist(BorrowerGroup gp, std::string id) {
     for (int i = 1; i <= gp.borrower_amount; i++) {
         if (gp.borrower_list[i].ID == id) {
             return 1;
-        } else{
+        } else {
             continue;
         }
     }
@@ -312,25 +299,23 @@ int UserID_Exist(BorrowerGroup gp, std::string id)
 }
 
 
-int UserValidation_Search_Borrow(BorrowerGroup gp, std::string id)
-{
+int UserValidation_Search_Borrow(BorrowerGroup gp, std::string id) {
     for (int i = 1; i <= gp.borrower_amount; i++) {
         if ((gp.borrower_list[i].ID == id)
-            &&(gp.borrower_list[i].permission_flag == 0)) {
+            && (gp.borrower_list[i].permission_flag == 0)) {
             return i;
-        } else{
+        } else {
             continue;
         }
     }
     return 0;
 }
 
-int UserValidation_Search_Giveback(BorrowerGroup gp, std::string id)
-{
+int UserValidation_Search_Giveback(BorrowerGroup gp, std::string id) {
     for (int i = 1; i <= gp.borrower_amount; i++) {
         if ((gp.borrower_list[i].ID == id)) {
             return i;
-        } else{
+        } else {
             continue;
         }
     }
@@ -339,20 +324,17 @@ int UserValidation_Search_Giveback(BorrowerGroup gp, std::string id)
 
 /*-----------------------------------------------------------------------------*/
 
-int UserBookHistory_UpdateBorrow(BorrowHistory &brrw_history, std::string bk_ID)
-{
+int UserBookHistory_UpdateBorrow(BorrowHistory &brrw_history, std::string bk_ID) {
     return 0;
 }
 
-int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::string brrwr_ID)
-{
+int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::string brrwr_ID) {
     return 0;
 }
 
 /*-----------------------------------------------------------------------------*/
 
-void UserBookBorrow(BorrowerGroup &gp, Library &lib)
-{
+void UserBookBorrow(BorrowerGroup &gp, Library &lib) {
     int user_position;
 
     std::string user_identification;
@@ -371,8 +353,7 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
                      "$?-";
         std::cin >> mode_flag;
 
-        switch (mode_flag)
-        {
+        switch (mode_flag) {
             case 1:
                 std::cout << "请输入ISBN:";
                 std::cin >> bkISBN_input;
@@ -393,16 +374,16 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
             for (int i = 0; i <= result_position.size() - 1; i++) { // 历史查询，不能同时借两本相同ISBN/name的书
 
                 if ((lib.book_list[result_position[i]].lend_state_flag == -1)
-                    ||(lib.book_list[result_position[i]].lend_state_flag == -2)) {
+                    || (lib.book_list[result_position[i]].lend_state_flag == -2)) {
 
-                    for (int j = 0; j <= lib.book_list[result_position[i]].lend_history.size() - 1; j++){
+                    for (int j = 0; j <= lib.book_list[result_position[i]].lend_history.size() - 1; j++) {
 
                         if (lib.book_list[result_position[i]].lend_history[j].borrower_ID == user_identification) {
 
                             std::cout << "该用户下有相同图书处于借出/逾期状态";
                             return;
 
-                        } else{
+                        } else {
                             continue;
                         }
                     }
@@ -413,10 +394,9 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
                 if (lib.book_list[result_position[i]].lend_state_flag == 0) {
                     lib.book_list[result_position[i]].lend_state_flag = -1;
 
-                    UserBookHistory_UpdateBorrow(gp.borrower_list[user_position].borrow_history
-                                                 , lib.book_list[result_position[i]].identification);
-                    BookLendHistory_UpdateBorrow(lib.book_list[result_position[i]].lend_history
-                                                 , user_identification);
+                    UserBookHistory_UpdateBorrow(gp.borrower_list[user_position].borrow_history,
+                                                 lib.book_list[result_position[i]].identification);
+                    BookLendHistory_UpdateBorrow(lib.book_list[result_position[i]].lend_history, user_identification);
                     // user_ptr->borrow_history.borrowed_books_acc++;
                     // user_ptr->borrow_history.borrowed_books_cur++;
                     // 并入 UB_A 函数
@@ -429,7 +409,7 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
             std::cout << "该书均已借出！";
             return;
 
-        } else{
+        } else {
             std::cout << "图书馆无该藏书！";
             return;
         }
@@ -437,7 +417,7 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
     } else if (!UserID_Exist(gp, user_identification)) {
         std::cout << "不存在该用户！";
         return;
-    } else{
+    } else {
         std::cout << "该用户无借书权限！";
         return;
     }
@@ -445,16 +425,14 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
 
 /*-----------------------------------------------------------------------------*/
 
-int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int rt_brrwedbook_numero)
-{
+int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int rt_brrwedbook_numero) {
     brrw_history.borrowed_books_cur--;
     brrw_history.book_list[rt_brrwedbook_numero].borrow_state_flag = 0; // TODO: 若要考虑罚款问题，可赋值为1
     brrw_history.book_list[rt_brrwedbook_numero].giveback_date = TimeGetCurrent();
     return 0;
 }
 
-int BookLendState_UpdateGiveback(Library &lib, std::string rt_bkID)
-{
+int BookLendState_UpdateGiveback(Library &lib, std::string rt_bkID) {
     std::vector<int> result_position = LibraryBookIDSearch(lib, rt_bkID);
     lib.book_list[result_position.front()].lend_state_flag = 0; // TODO: 若要考虑运输时间，可赋值为1
     return 0;
@@ -464,8 +442,7 @@ int BookLendState_UpdateGiveback(Library &lib, std::string rt_bkID)
 
 
 
-void UserBookGiveback(BorrowerGroup &gp, Library &lib)
-{
+void UserBookGiveback(BorrowerGroup &gp, Library &lib) {
     std::string user_identification;
     std::cout << "请输入您的ID：";
     std::cin >> user_identification;
@@ -482,14 +459,12 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
                      "$?-";
         std::cin >> mode_flag;
 
-        switch (mode_flag)
-        {
+        switch (mode_flag) {
             case 1:
                 std::cout << "请输入ISBN:";
                 std::cin >> bkISBN_input;
                 result_position = User_BorrowedBook_ISBNSearch(
-                                gp.borrower_list[user_position].borrow_history
-                                                , bkISBN_input);
+                        gp.borrower_list[user_position].borrow_history, bkISBN_input);
                 // result_position = LibraryBookISBNSearch(lib, bkISBN_input);
                 break;
 
@@ -497,8 +472,7 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
                 std::cout << "请输入书名";
                 std::cin >> bkname_input;
                 result_position = User_BorrowedBook_NameSearch(
-                                gp.borrower_list[user_position].borrow_history
-                                                , bkname_input);
+                        gp.borrower_list[user_position].borrow_history, bkname_input);
                 // result_position = LibraryBookNameSearch(lib, bkname_input);
                 break;
 
@@ -506,20 +480,28 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
                 break;
         }
         if (result_position.size() != 0) { // TODO: 可添加罚款功能
-            UserBookHistory_UpdateGiveback(gp.borrower_list[user_position].borrow_history
-                                           , result_position.front());
+            UserBookHistory_UpdateGiveback(gp.borrower_list[user_position].borrow_history, result_position.front());
             BookLendState_UpdateGiveback(lib,
                                          gp.borrower_list[user_position].borrow_history.book_list[result_position.front()].book_ID);
 
-        } else{
+        } else {
             std::cout << "该用户下无该书处于借阅/逾期状态！";
             return;
         }
 
-    } else{
+    } else {
 
         std::cout << "不存在该用户！";
         return;
     }
 
 }
+
+std::vector<int> User_BorrowedBook_ISBNSearch(BorrowHistory brrw_history, std::string ISBN) {
+    return std::vector<int>();
+}
+
+std::vector<int> User_BorrowedBook_NameSearch(BorrowHistory brrw_history, std::string bk_name) {
+    return std::vector<int>();
+}
+

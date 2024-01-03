@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <fstream>
+#include <iostream>
 #include "fmt/core.h"
 #include "nlohmann/json.hpp"
 #include "macro.h"
@@ -96,7 +97,7 @@ typedef struct Book{
 
         o_s << fmt::format("图书唯一识别码：{}\n", bk.identification);
         o_s << fmt::format("图书借阅状态  ：{}\n", bk.lend_state_flag);
-        o_s << fmt::format("借阅次数      ：{}\n", bk.lend_history.lend_times);
+        o_s << fmt::format("借阅次数      ：{}\n", bk.lend_history.size());
         return o_s;
     }
     void writeAsJSON(nlohmann::json &bookJson) const
@@ -130,7 +131,25 @@ typedef struct Book{
         // Other fields
         bookJson["identification"] = identification;
         bookJson["lend_state_flag"] = lend_state_flag;
-        bookJson["lend_history"]["lend_times"] = lend_history.lend_times;
+
+        // Lend History
+        bookJson["lend_times"] = lend_history.size(); // 借出次数
+
+        nlohmann::json lendHistoryJson;
+            // LendNode
+            for(const auto &lendHistoryNode : lend_history)
+            {
+                nlohmann::json lendHistoryNodeJson;
+                lendHistoryNodeJson["borrower_ID"] = lendHistoryNode.borrower_ID;
+
+                nlohmann::json lendDateJson;
+                lendDateJson["YY"] = lendHistoryNode.lend_date.YY;
+                lendDateJson["MM"] = lendHistoryNode.lend_date.MM;
+                lendDateJson["DD"] = lendHistoryNode.lend_date.DD;
+                lendHistoryNodeJson["lend_date"] = lendDateJson;
+                lendHistoryJson.push_back(lendHistoryNodeJson);
+            }
+        bookJson["lend_history"] = lendHistoryJson;
 
     }
     void readFromJSON(const nlohmann::json& bookJson)
@@ -163,7 +182,19 @@ typedef struct Book{
             // Other fields
             identification = bookJson["identification"];
             lend_state_flag = bookJson["lend_state_flag"];
-            lend_history.lend_times = bookJson["lend_history"]["lend_times"];
+
+            // Lend History
+            for(const auto &lendHistoryNode : bookJson["lend_history"])
+            {
+                BorrowerNode _;
+                _.borrower_ID = lendHistoryNode["borrower_ID"];
+                _.lend_date.YY = lendHistoryNode["lend_date"]["YY"];
+                _.lend_date.MM = lendHistoryNode["lend_date"]["MM"];
+                _.lend_date.DD = lendHistoryNode["lend_date"]["DD"];
+
+                lend_history.push_back(_);
+            }
+
         }
         catch (const std::exception& e)
         {
@@ -213,7 +244,7 @@ struct Library{
             book_amount = libraryJson["book_amount"];
             const nlohmann::json& bookListJson = libraryJson["book_list"];
 
-            for (int i = 0; i < book_amount; ++i)
+            for (int i = 1; i <= book_amount; ++i)
             {
                 book_list[i].readFromJSON(bookListJson[i]);
             }
@@ -266,7 +297,7 @@ struct Library{
 typedef struct BookNode{
     std::string book_ID;            // 图书唯一识别码
     Time borrow_date;               // 借书时间
-    Time giveback_date;             // 换书时间
+    Time giveback_date;             // 还书时间
     int borrow_state_flag;        // 借书状态（-2：借书逾期；-1：借书正常；0：已归还；1：归还未缴逾期罚款）
 }BookNode;
 
