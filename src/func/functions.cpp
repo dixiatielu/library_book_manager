@@ -2,7 +2,7 @@
 #include "../include/main.h"
 
 
-Time GetCurrentTime(void)
+Time GetCurrentTime()
 {
     static time_t raw_curtime;
     static struct tm *curtime;
@@ -18,11 +18,11 @@ Time GetCurrentTime(void)
     return r_time;
 }
 
-Time GetTimeInput(void)
+Time GetTimeInput()
 {
     float tmp_YY, tmp_MM, tmp_DD;
 
-    while (1) {
+    while (true) {
         std::cout << "请输入年份：";
         std::cin >> tmp_YY;
 
@@ -41,7 +41,7 @@ Time GetTimeInput(void)
             break;
         }
     }
-    while (1) {
+    while (true) {
         std::cout << "请输入月份：（输入 0 表示无该项信息）";
         std::cin >> tmp_MM;
 
@@ -60,7 +60,7 @@ Time GetTimeInput(void)
             break;
         }
     }
-    while (1) {
+    while (true) {
         std::cout << "请输入日期：（输入 0 表示无该项信息）";
         std::cin >> tmp_DD;
 
@@ -695,6 +695,6 @@ int LibraryBook_Update(Book &bk) {
     return 0;
 }
 
-Library InitializeLibrary(void) {
+Library InitializeLibrary() {
     return Library(0);
 }
