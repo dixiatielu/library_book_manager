@@ -1,0 +1,3 @@
+D:/Cp/Aca/1Programme/C/ClassTest/CLionProj/lib_book_manager/cmake-build-debug/CMakeFiles/library_book_manager.dir
+D:/Cp/Aca/1Programme/C/ClassTest/CLionProj/lib_book_manager/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Cp/Aca/1Programme/C/ClassTest/CLionProj/lib_book_manager/cmake-build-debug/CMakeFiles/rebuild_cache.dir

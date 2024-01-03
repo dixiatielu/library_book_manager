@@ -13,7 +13,7 @@
 #ifndef MY_STRUCT
 #define MY_STRUCT
 
-#include <vector>
+//#include <vector>
 #include <fstream>
 #include <iostream>
 #include "fmt/core.h"
