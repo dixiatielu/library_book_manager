@@ -13,7 +13,7 @@
 #ifndef MY_STRUCT
 #define MY_STRUCT
 
-#include <vector>
+//#include <vector>
 #include <fstream>
 #include "fmt/core.h"
 #include "nlohmann/json.hpp"
