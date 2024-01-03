@@ -1,7 +1,8 @@
 #include <utility>
+#include "../include/main.h"
 
 
-Time TimeGetCurrent(void)
+Time GetCurrentTime(void)
 {
     static time_t raw_curtime;
     static struct tm *curtime;
@@ -17,7 +18,7 @@ Time TimeGetCurrent(void)
     return r_time;
 }
 
-Time TimeGetInput(void)
+Time GetTimeInput(void)
 {
     float tmp_YY, tmp_MM, tmp_DD;
 
@@ -283,7 +284,7 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& 
     std::cin >> bk.publish_info.press;
 
     std::cout << "请输入出版日期\n";
-    bk.publish_info.date = TimeGetInput();
+    bk.publish_info.date = GetTimeInput();
 
     std::cout << "请输入价格\n$?-";
     std::cin >> bk.publish_info.price;
@@ -437,7 +438,7 @@ int UserBrrwHistory_UpdateBorrow(BorrowHistory &brrw_history, std::string bk_ID)
 {
     BookNode  brrw_bk_node = {
             .book_ID           = std::move(bk_ID),
-            .borrow_date       = TimeGetCurrent(),
+            .borrow_date       = GetCurrentTime(),
             .giveback_date     = {},
             .borrow_state_flag = -1
     };
@@ -452,7 +453,7 @@ int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::str
 {
     BorrowerNode brrwr_node = {
             .borrower_ID = std::move(brrwr_ID),
-            .lend_date = TimeGetCurrent()
+            .lend_date = GetCurrentTime()
     };
 
     ld_history.emplace_back(brrwr_node);
@@ -617,7 +618,7 @@ int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int giveback_brr
 {
     brrw_history.borrowed_books_cur--;
     brrw_history.book_list[giveback_brrwedbook_numero].borrow_state_flag = 0; // TODO: 若要考虑罚款问题，可赋值为1
-    brrw_history.book_list[giveback_brrwedbook_numero].giveback_date = TimeGetCurrent();
+    brrw_history.book_list[giveback_brrwedbook_numero].giveback_date = GetCurrentTime();
     return 0;
 }
 
@@ -692,4 +693,8 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
 
 int LibraryBook_Update(Book &bk) {
     return 0;
+}
+
+Library InitializeLibrary(void) {
+    return Library(0);
 }

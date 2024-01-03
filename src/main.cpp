@@ -10,16 +10,10 @@
 **/
 #include ".\include\main.h"
 using namespace std;
-int main(void)
+int main()
 {
     system("chcp 65001"); // 终端UTF-8编码
     Library library_local(0);
-
-    // Time a = TimeGetCurrent();
-    // std::cout << fmt::format("YY{}MM{}DD{}", a.YY, a.MM, a.DD);
-
-    // Book a;
-    // std::cout << a;
 
     while(true)
     {
@@ -32,7 +26,6 @@ int main(void)
             break;
         }
     }
-//    std::cout << library_local.book_list[1];
     library_local.writeToJSONFile("firstTestLib.json");
 
     return 0;
