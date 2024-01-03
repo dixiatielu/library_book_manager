@@ -27,4 +27,6 @@ add_executable(library_book_manager src/main.cpp
         src/functions/BookLendState_UpdateGiveback.cpp
         src/functions/UserBookGiveback.cpp
         src/functions/LibraryBook_Update.cpp
+        src/functions/menus/ShowMainMenu.cpp
+        src/functions/menus/DataBackupAndRestoreMenu.cpp
 )

@@ -15,9 +15,9 @@
 #include <queue>
 #include <algorithm>
 
-#include "fmt.h"
+#include "../include/fmt.h"
 #include "struct.h"
-#include "macro.h"
+#include "../include/macro.h"
 
 /**
  * @brief Get the Time Current object
@@ -41,7 +41,7 @@ Time GetTimeInput();
  * @return int 返回书单中的自然位置（1，2，3...）
  *             失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookIDSearch(Library lib, const std::string& id);
+std::vector<int> LibraryBookIDSearch(Library lib, const std::string &id);
 
 /**
  * @brief 按名称查找图书，并以vector返回书单中所有满足条件的图书的自然位置
@@ -51,7 +51,7 @@ std::vector<int> LibraryBookIDSearch(Library lib, const std::string& id);
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookNameSearch(Library lib, const std::string& bk_name);
+std::vector<int> LibraryBookNameSearch(Library lib, const std::string &bk_name);
 
 /**
  * @brief 按ISBN查找图书，并以vector返回书单中所有满足条件的图书的自然位置
@@ -61,7 +61,7 @@ std::vector<int> LibraryBookNameSearch(Library lib, const std::string& bk_name);
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookISBNSearch(Library lib, const std::string& ISBN);
+std::vector<int> LibraryBookISBNSearch(Library lib, const std::string &ISBN);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -82,7 +82,7 @@ int Library_DeletedBooks_sort(Library &lib);
  * @param book_sample
  * @return int
 **/
-int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& bk_ISBN);
+int LibraryBook_Append(Book &bk, const std::string &bk_name, const std::string &bk_ISBN);
 
 /**
  * @brief 添加图书副本
@@ -128,7 +128,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
  * @param id
  * @return int 存在则返回1，不存在返回0
 **/
-int UserID_Exist(BorrowerGroup gp, const std::string& id);
+int UserID_Exist(BorrowerGroup gp, const std::string &id);
 
 
 /**
@@ -140,7 +140,8 @@ int UserID_Exist(BorrowerGroup gp, const std::string& id);
  * @param id
  * @return
  */
-int UserValidation_Search_Borrow(BorrowerGroup gp, const std::string& id);
+int UserValidation_Search_Borrow(BorrowerGroup gp, const std::string &id);
+
 /**
  * @brief 无需检查用户是否有借书权限
  *        存在用户时，返回用户在名单中的位置1，2，3...，
@@ -150,7 +151,7 @@ int UserValidation_Search_Borrow(BorrowerGroup gp, const std::string& id);
  * @param id
  * @return
  */
-int UserValidation_Search_Giveback(BorrowerGroup gp, const std::string& id);
+int UserValidation_Search_Giveback(BorrowerGroup gp, const std::string &id);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -193,7 +194,7 @@ int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::str
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> User_BorrowedBook_NameSearch(Library lib, BorrowHistory brrw_history, const std::string& bk_name);
+std::vector<int> User_BorrowedBook_NameSearch(Library lib, BorrowHistory brrw_history, const std::string &bk_name);
 
 /**
  * @brief 按ISBN查找图书，并以vector返回书单中所有满足条件的图书的自然位置
@@ -203,7 +204,7 @@ std::vector<int> User_BorrowedBook_NameSearch(Library lib, BorrowHistory brrw_hi
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> User_BorrowedBook_ISBNSearch(Library lib, BorrowHistory brrw_history, const std::string& bk_ISBN);
+std::vector<int> User_BorrowedBook_ISBNSearch(Library lib, BorrowHistory brrw_history, const std::string &bk_ISBN);
 
 /*-----------------------------------------------------------------------------*/
 /**
@@ -227,7 +228,12 @@ std::vector<int> User_BorrowedBook_ISBNSearch(Library lib, BorrowHistory brrw_hi
  * @param lib
 **/
 void UserBookGiveback(BorrowerGroup &gp, Library &lib);
+
 int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int giveback_brrwedbook_numero);
-int BookLendState_UpdateGiveback(Library &lib, const std::string& giveback_bkID);
+
+int BookLendState_UpdateGiveback(Library &lib, const std::string &giveback_bkID);
 
 
+int ShowMainMenu(Library &lib);
+
+void DataBackupAndRestoreMenu(Library& lib);

@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2023
  *
 **/
-#include ".\include\function_definitions.h"
+#include "headers/function_definitions.h"
 
 using namespace std;
 
@@ -17,15 +17,10 @@ int main() {
     Library library_local(0);
 
     while (true) {
-        LibraryBook_Append_Update_Delete_Director(library_local);
-        cout << "是否继续键入图书？（0：否，1：是）" << endl;
-        int continue_flag;
-        cin >> continue_flag;
-        if (!continue_flag) {
-            break;
-        }
+        if(ShowMainMenu(library_local) == 0)break;
+        system("pause");
     }
-    library_local.writeToJSONFile("firstTestLib.json");
+//    library_local.writeToJSONFile("firstTestLib.json");
 
     return 0;
 }
