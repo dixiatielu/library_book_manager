@@ -1,9 +1,11 @@
 /**
  * @file struct.h
  * @author ChengPu (chengpu@stu.scu.edu.cn)
- * @brief
- * @version 0.5
- * @date 2023-1-2
+ * @brief Booknode + giveback_date
+ *        修改 链表结构 为 vector
+ *        JSON 模块有问题
+ * @version 0.6
+ * @date 2023-1-3
  *
  * @copyright Copyright (c) 2023
  *
@@ -45,17 +47,8 @@ typedef struct{
 // 借书者链表节点
 typedef struct BorrowerNode{
     std::string borrower_ID;                 // 借书者ID
-    Time lend_date;                       // 借书时间
-
-    BorrowerNode* next_ptr = nullptr;
-}BorrowerNode, *BorrowerNodePTR;
-
-// 借出历史
-typedef struct{
-    int lend_times;                   // 借出次数
-    BorrowerNodePTR borrower_list_hPTR = nullptr;   // 借书者链表头指针
-}LendHistory;
-
+    Time lend_date;                          // 借书时间
+}BorrowerNode;
 
 // 图书结构体
 typedef struct Book{
@@ -65,11 +58,12 @@ typedef struct Book{
     PublishInfo publish_info;       // 出版信息
     std::string identification;     // 唯一识别码
     int lend_state_flag = 2;          // 出借状态（-3：图书废弃；-2：图书逾期；-1：图书借出；0: 图书在馆；1：图书在途；2：无图书）
-    LendHistory lend_history;       // 借出历史
+    std::vector<BorrowerNode> lend_history;       // 借出历史
 
     Book() = default;
 
 // 重定义运算符 <<， 用于直接输出图书信息。用法 cout << bk
+// TODO: 修正 vector 下的 JSON 输出
     friend std::ostream &operator << (std::ostream &o_s, Book &bk)
     {
         o_s << fmt::format("书名          ：{:<30}\n"
@@ -105,7 +99,6 @@ typedef struct Book{
         o_s << fmt::format("借阅次数      ：{}\n", bk.lend_history.lend_times);
         return o_s;
     }
-
     void writeAsJSON(nlohmann::json &bookJson) const
     {
 
@@ -140,7 +133,6 @@ typedef struct Book{
         bookJson["lend_history"]["lend_times"] = lend_history.lend_times;
 
     }
-
     void readFromJSON(const nlohmann::json& bookJson)
     {
         // Fill Book structure from JSON
@@ -180,8 +172,6 @@ typedef struct Book{
         }
 
     }
-
-
 }Book, *BookList, *BookPTR;
 
 
@@ -276,16 +266,15 @@ struct Library{
 typedef struct BookNode{
     std::string book_ID;            // 图书唯一识别码
     Time borrow_date;               // 借书时间
+    Time giveback_date;             // 换书时间
     int borrow_state_flag;        // 借书状态（-2：借书逾期；-1：借书正常；0：已归还；1：归还未缴逾期罚款）
-
-    BookNode* next_ptr = nullptr;
-}BookNode, *BookNodePTR;
+}BookNode;
 
 // 借书历史
 typedef struct{
     int borrowed_books_acc;                 // 累计借书量
     int borrowed_books_cur;                 // 当前借书量
-    BookNodePTR book_list_hPTR = nullptr;             // 借书链表头指针
+    std::vector<BookNode> book_list;        // 借书表
 }BorrowHistory;
 
 // 借书者结构体
@@ -295,13 +284,12 @@ typedef struct Borrower{
     unsigned int permission_flag;      // 借书权限（0：允许借书；1：不允许借书）
 
     BorrowHistory borrow_history;        // 借阅历史
-    Borrower* next_borrower;
-}Borrower, *BorrowerList; // 使用链表建立借书者群
+}Borrower; // 使用链表建立借书者群
 
 // 借书者群（权限组）
 typedef struct{
     int borrower_amount;                 // 借书者总量
-    BorrowerList borrower_list = nullptr;          // 借书者名单
+    std::vector<Borrower> borrower_list; // 借书者名单（使用自然排序，1，2，3...）
     // TODO: 链表建立借书者群
 }BorrowerGroup;
 

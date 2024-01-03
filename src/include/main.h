@@ -51,10 +51,29 @@ BorrowerGroup GroupInitialize(void);
  * @param id
  * @return int 存在则返回1，不存在返回0
 **/
-int UserID_Exist(BorrowerGroup &gp, std::string id);
+int UserID_Exist(BorrowerGroup gp, std::string id);
 
-Borrower* UserValidation_Search_Borrow(BorrowerGroup gp, std::string id);
-Borrower* UserValidation_Search_Giveback(BorrowerGroup gp, std::string id);
+
+/**
+ * @brief 需要检查用户是否有借书权限，
+ *        存在用户且有结束权限时，返回用户在名单中的位置1，2，3...，
+ *        否则返回0
+ *
+ * @param gp
+ * @param id
+ * @return
+ */
+int UserValidation_Search_Borrow(BorrowerGroup gp, std::string id);
+/**
+ * @brief 无需检查用户是否有借书权限
+ *        存在用户时，返回用户在名单中的位置1，2，3...，
+ *        否则返回0
+ *
+ * @param gp
+ * @param id
+ * @return
+ */
+int UserValidation_Search_Giveback(BorrowerGroup gp, std::string id);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -91,7 +110,7 @@ std::vector<int> LibraryBookISBNSearch(Library lib, std::string ISBN);
 
 /*-----------------------------------------------------------------------------*/
 
-/**
+/**old
  * @brief 录入和修改图书
  *        可增强修改部分的方便性
  *        注意：
@@ -168,8 +187,8 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
  * @param lib
 **/
 void UserBookBorrow(BorrowerGroup &gp, Library &lib);
-int UserBookHistory_Append(BorrowHistory brrw_history, std::string bk_ID);
-int BookLendHistory_Append(LendHistory ld_history, std::string brrwr_ID);
+int UserBookHistory_UpdateBorrow(BorrowHistory &brrw_history, std::string bk_ID);
+int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::string brrwr_ID);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -215,6 +234,8 @@ std::vector<int> User_BorrowedBook_ISBNSearch(BorrowHistory brrw_history, std::s
  * @param lib
 **/
 void UserBookGiveback(BorrowerGroup &gp, Library &lib);
+int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int rt_brrwedbook_numero);
+int BookLendState_UpdateGiveback(Library &lib, std::string rt_bkID);
 
 
 

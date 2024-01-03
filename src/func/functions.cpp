@@ -285,7 +285,7 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, std::string bk_ISBN
     std::cin >> bk.publish_info.price;
 
     bk.lend_state_flag = 0;
-    bk.lend_history.lend_times = 0;
+    bk.lend_history = {};
     bk.identification = std::to_string(id);
 
     return 0;
@@ -299,70 +299,70 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
 
 /*-----------------------------------------------------------------------------*/
 
-int UserID_Exist(BorrowerGroup &gp, std::string id)
+int UserID_Exist(BorrowerGroup gp, std::string id)
 {
-    Borrower* brrwr_nxt_ptr = gp.borrower_list;
-    while (brrwr_nxt_ptr != nullptr) {
-        if (brrwr_nxt_ptr->ID == id) {
+    for (int i = 1; i <= gp.borrower_amount; i++) {
+        if (gp.borrower_list[i].ID == id) {
             return 1;
+        } else{
+            continue;
         }
-        brrwr_nxt_ptr = brrwr_nxt_ptr->next_borrower;
     }
     return 0;
 }
 
-// 需要检查用户是否有借书权限
-Borrower* UserValidation_Search_Borrow(BorrowerGroup gp, std::string id)
+
+int UserValidation_Search_Borrow(BorrowerGroup gp, std::string id)
 {
-    Borrower* brrwr_nxt_ptr = gp.borrower_list;
-    while (brrwr_nxt_ptr != nullptr) {
-        if (brrwr_nxt_ptr->ID == id) {
-            if (brrwr_nxt_ptr->permission_flag == 0) {
-                return brrwr_nxt_ptr;
-            } else{
-                return nullptr;
-            }
+    for (int i = 1; i <= gp.borrower_amount; i++) {
+        if ((gp.borrower_list[i].ID == id)
+            &&(gp.borrower_list[i].permission_flag == 0)) {
+            return i;
+        } else{
+            continue;
         }
-        brrwr_nxt_ptr = brrwr_nxt_ptr->next_borrower;
     }
-    return nullptr;
+    return 0;
 }
 
-// 无需检查用户是否有借书权限
-Borrower* UserValidation_Search_Giveback(BorrowerGroup gp, std::string id)
+int UserValidation_Search_Giveback(BorrowerGroup gp, std::string id)
 {
-    Borrower* brrwr_nxt_ptr = gp.borrower_list;
-    while (brrwr_nxt_ptr != nullptr) {
-        if (brrwr_nxt_ptr->ID == id) {
-            return brrwr_nxt_ptr;
+    for (int i = 1; i <= gp.borrower_amount; i++) {
+        if ((gp.borrower_list[i].ID == id)) {
+            return i;
+        } else{
+            continue;
         }
-        brrwr_nxt_ptr = brrwr_nxt_ptr->next_borrower;
     }
-    return nullptr;
+    return 0;
 }
 
-int UserBookHistory_Append(BorrowHistory brrw_history, std::string bk_ID)
+/*-----------------------------------------------------------------------------*/
+
+int UserBookHistory_UpdateBorrow(BorrowHistory &brrw_history, std::string bk_ID)
 {
     return 0;
 }
 
-int BookLendHistory_Append(LendHistory ld_history, std::string brrwr_ID)
+int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::string brrwr_ID)
 {
     return 0;
 }
+
+/*-----------------------------------------------------------------------------*/
 
 void UserBookBorrow(BorrowerGroup &gp, Library &lib)
 {
-    Borrower* user_ptr = nullptr;
+    int user_position;
 
     std::string user_identification;
     std::cout << "请输入您的ID：";
     std::cin >> user_identification;
-    user_ptr = UserValidation_Search_Borrow(gp, user_identification);
+    user_position = UserValidation_Search_Borrow(gp, user_identification);
 
-    if (user_ptr != nullptr) {
+    if (user_position != 0) {
         std::string bkISBN_input, bkname_input;
-        std::vector<int> result_search;
+        std::vector<int> result_position;
 
         int mode_flag;
         std::cout << "请选择输入模式\n"
@@ -376,54 +376,53 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
             case 1:
                 std::cout << "请输入ISBN:";
                 std::cin >> bkISBN_input;
-                result_search = LibraryBookISBNSearch(lib, bkISBN_input);
+                result_position = LibraryBookISBNSearch(lib, bkISBN_input);
                 break;
 
             case 2:
                 std::cout << "请输入书名";
                 std::cin >> bkname_input;
-                result_search = LibraryBookNameSearch(lib, bkname_input);
+                result_position = LibraryBookNameSearch(lib, bkname_input);
                 break;
 
             default:
                 break;
         }
-        if (result_search.size() != 0) {
-            BorrowerNodePTR brrwr_nxt_ptr = nullptr;
+        if (result_position.size() != 0) {
 
-            for (int i = 0; i <= result_search.size() - 1; i++) { // 历史查询，不能同时借两本相同ISBN/name的书
+            for (int i = 0; i <= result_position.size() - 1; i++) { // 历史查询，不能同时借两本相同ISBN/name的书
 
-                if ((lib.book_list[result_search[i]].lend_state_flag == -1)
-                    ||(lib.book_list[result_search[i]].lend_state_flag == -2)) {
+                if ((lib.book_list[result_position[i]].lend_state_flag == -1)
+                    ||(lib.book_list[result_position[i]].lend_state_flag == -2)) {
 
-                    brrwr_nxt_ptr = lib.book_list[result_search[i]].lend_history.borrower_list_hPTR;
-                    for (int i = 0; i <= lib.book_list[result_search[i]].lend_history.lend_times - 1; i++){
+                    for (int j = 0; j <= lib.book_list[result_position[i]].lend_history.size() - 1; j++){
 
-                        if (brrwr_nxt_ptr->borrower_ID == user_identification) {
+                        if (lib.book_list[result_position[i]].lend_history[j].borrower_ID == user_identification) {
 
                             std::cout << "该用户下有相同图书处于借出/逾期状态";
                             return;
 
                         } else{
-                            brrwr_nxt_ptr = brrwr_nxt_ptr->next_ptr;
                             continue;
                         }
                     }
                 }
             }
 
-            for (int i = 0; i <= result_search.size() - 1; i++) {
-                if (lib.book_list[result_search[i]].lend_state_flag == 0) {
-                    lib.book_list[result_search[i]].lend_state_flag = -1;
+            for (int i = 0; i <= result_position.size() - 1; i++) {
+                if (lib.book_list[result_position[i]].lend_state_flag == 0) {
+                    lib.book_list[result_position[i]].lend_state_flag = -1;
 
-                    UserBookHistory_Append(user_ptr->borrow_history, lib.book_list[result_search[i]].identification);
-                    BookLendHistory_Append(lib.book_list[result_search[i]].lend_history, user_identification);
+                    UserBookHistory_UpdateBorrow(gp.borrower_list[user_position].borrow_history
+                                                 , lib.book_list[result_position[i]].identification);
+                    BookLendHistory_UpdateBorrow(lib.book_list[result_position[i]].lend_history
+                                                 , user_identification);
                     // user_ptr->borrow_history.borrowed_books_acc++;
                     // user_ptr->borrow_history.borrowed_books_cur++;
                     // 并入 UB_A 函数
-
                     std::cout << "借书成功";
                     return;
+                    // 若存在该书，则此处函数结束
                 }
             }
 
@@ -431,7 +430,7 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
             return;
 
         } else{
-            std::cout << "查无此书！";
+            std::cout << "图书馆无该藏书！";
             return;
         }
 
@@ -439,24 +438,42 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
         std::cout << "不存在该用户！";
         return;
     } else{
-        std::cout << "该用户无借书权限";
+        std::cout << "该用户无借书权限！";
         return;
     }
 }
 
+/*-----------------------------------------------------------------------------*/
+
+int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int rt_brrwedbook_numero)
+{
+    brrw_history.borrowed_books_cur--;
+    brrw_history.book_list[rt_brrwedbook_numero].borrow_state_flag = 0; // TODO: 若要考虑罚款问题，可赋值为1
+    brrw_history.book_list[rt_brrwedbook_numero].giveback_date = TimeGetCurrent();
+    return 0;
+}
+
+int BookLendState_UpdateGiveback(Library &lib, std::string rt_bkID)
+{
+    std::vector<int> result_position = LibraryBookIDSearch(lib, rt_bkID);
+    lib.book_list[result_position.front()].lend_state_flag = 0; // TODO: 若要考虑运输时间，可赋值为1
+    return 0;
+}
+
+/*-----------------------------------------------------------------------------*/
+
+
 
 void UserBookGiveback(BorrowerGroup &gp, Library &lib)
 {
-    Borrower* user_ptr = nullptr;
-
     std::string user_identification;
     std::cout << "请输入您的ID：";
     std::cin >> user_identification;
-    user_ptr = UserValidation_Search_Giveback(gp, user_identification);
+    int user_position = UserValidation_Search_Giveback(gp, user_identification);
 
-    if (user_ptr != nullptr) {
+    if (user_position != 0) {
         std::string bkISBN_input, bkname_input;
-        std::vector<int> result_search;
+        std::vector<int> result_position;
 
         int mode_flag;
         std::cout << "请选择输入模式\n"
@@ -470,22 +487,29 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
             case 1:
                 std::cout << "请输入ISBN:";
                 std::cin >> bkISBN_input;
-                result_search = User_BorrowedBook_ISBNSearch(user_ptr->borrow_history, bkISBN_input);
-                // result_search = LibraryBookISBNSearch(lib, bkISBN_input);
+                result_position = User_BorrowedBook_ISBNSearch(
+                                gp.borrower_list[user_position].borrow_history
+                                                , bkISBN_input);
+                // result_position = LibraryBookISBNSearch(lib, bkISBN_input);
                 break;
 
             case 2:
                 std::cout << "请输入书名";
                 std::cin >> bkname_input;
-                result_search = User_BorrowedBook_NameSearch(user_ptr->borrow_history, bkname_input);
-                // result_search = LibraryBookNameSearch(lib, bkname_input);
+                result_position = User_BorrowedBook_NameSearch(
+                                gp.borrower_list[user_position].borrow_history
+                                                , bkname_input);
+                // result_position = LibraryBookNameSearch(lib, bkname_input);
                 break;
 
             default:
                 break;
         }
-        if (result_search.size() != 0) {
-            BorrowerNodePTR brrwr_nxt_ptr = nullptr;
+        if (result_position.size() != 0) { // TODO: 可添加罚款功能
+            UserBookHistory_UpdateGiveback(gp.borrower_list[user_position].borrow_history
+                                           , result_position.front());
+            BookLendState_UpdateGiveback(lib,
+                                         gp.borrower_list[user_position].borrow_history.book_list[result_position.front()].book_ID);
 
         } else{
             std::cout << "该用户下无该书处于借阅/逾期状态！";
