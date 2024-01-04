@@ -14,6 +14,7 @@ using namespace std;
 
 int main() {
     system("chcp 65001"); // 终端UTF-8编码
+    system("cls");
     Library library_local(0);
 
     while (true) {

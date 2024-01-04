@@ -64,7 +64,6 @@ typedef struct Book{
     Book() = default;
 
 // 重定义运算符 <<， 用于直接输出图书信息。用法 cout << bk
-// TODO: 修正 vector 下的 JSON 输出
     friend std::ostream &operator << (std::ostream &o_s, Book &bk)
     {
         o_s << fmt::format("书名          ：{:<30}\n"
@@ -97,35 +96,48 @@ typedef struct Book{
 
         o_s << fmt::format("图书唯一识别码：{}\n", bk.identification);
         o_s << fmt::format("图书借阅状态  ：{}\n", bk.lend_state_flag);
+
+        int borrower_count = 1;
         o_s << fmt::format("借阅次数      ：{}\n", bk.lend_history.size());
+        for (const auto &lendHistoryNode : bk.lend_history) {
+            o_s << fmt::format("\t{:->6}{:-<3}:\n"
+                               "\t\tID     ：{}\n"
+                               "\t\t借书时间：{}/{}/{}\n", "读者", borrower_count
+                                                        , lendHistoryNode.borrower_ID
+                                                        , lendHistoryNode.lend_date.YY
+                                                        , lendHistoryNode.lend_date.MM
+                                                        , lendHistoryNode.lend_date.DD);
+            borrower_count++;
+        }
         return o_s;
     }
+
     void writeAsJSON(nlohmann::json &bookJson) const
     {
 
-        bookJson["name"] = name;
+        bookJson["name"]       = name;
         bookJson["classifier"] = classifier;
 
         // Authors Info List
         nlohmann::json authorsInfoListJson;
-        for (const auto& authorInfo : authors_info_list)
-        {
-            nlohmann::json authorInfoJson;
-            authorInfoJson["name"] = authorInfo.name;
-            authorInfoJson["gender"] = authorInfo.gender;
-            authorInfoJson["nationality"] = authorInfo.nationality;
-            authorInfoJson["isTranslator"] = authorInfo.isTranslator;
-            authorsInfoListJson.push_back(authorInfoJson);
-        }
+            for (const auto& authorInfo : authors_info_list)
+            {
+                nlohmann::json authorInfoJson;
+                authorInfoJson["name"] = authorInfo.name;
+                authorInfoJson["gender"] = authorInfo.gender;
+                authorInfoJson["nationality"] = authorInfo.nationality;
+                authorInfoJson["isTranslator"] = authorInfo.isTranslator;
+                authorsInfoListJson.push_back(authorInfoJson);
+            }
         bookJson["authors_info_list"] = authorsInfoListJson;
 
         // Publish Info
         nlohmann::json publishInfoJson;
-        publishInfoJson["press"] = publish_info.press;
-        publishInfoJson["date"]["YY"] = publish_info.date.YY;
-        publishInfoJson["date"]["MM"] = publish_info.date.MM;
-        publishInfoJson["date"]["DD"] = publish_info.date.DD;
-        publishInfoJson["price"] = publish_info.price;
+            publishInfoJson["press"] = publish_info.press;
+            publishInfoJson["date"]["YY"] = publish_info.date.YY;
+            publishInfoJson["date"]["MM"] = publish_info.date.MM;
+            publishInfoJson["date"]["DD"] = publish_info.date.DD;
+            publishInfoJson["price"] = publish_info.price;
         bookJson["publish_info"] = publishInfoJson;
 
         // Other fields
@@ -214,55 +226,68 @@ typedef struct Book{
 
 
 // 图书馆结构体
-struct Library{
+struct Library {
     int book_amount;               // 图书馆藏书量
     BookList book_list;            // 图书馆书单
     // 构造函数
-    explicit Library(const int& BookAmount)
-    {
+    explicit Library(const int &BookAmount) {
         book_amount = BookAmount;
         book_list = new Book[BOOK_MAX_NUM + 1];
     }
 
-    void readFromJSONFile(const std::string& filePath)
-    {
+    void writeToJSONFile(const std::string &filePath) const {
+        nlohmann::json libraryJson;
+        libraryJson["book_amount"] = book_amount;
+
+        nlohmann::json bookListJson;
+        for (int i = 1; i <= book_amount; ++i) {
+            nlohmann::json bookJson;
+            book_list[i].writeAsJSON(bookJson);
+            bookListJson.push_back(bookJson);
+        }
+        libraryJson["book_list"] = bookListJson;
+
+        // Write JSON to file
+        std::ofstream file(filePath);
+        if (file.is_open()) {
+            file << libraryJson.dump(4); // Indentation level: 4 spaces
+            file.close();
+        } else {
+            std::cerr << "Error opening file for writing: " << filePath << std::endl;
+        }
+    }
+
+    void readFromJSONFile(const std::string &filePath) {
         std::ifstream file(filePath);
-        if (!file.is_open())
-        {
+        if (!file.is_open()) {
             std::cerr << "Error opening file: " << filePath << std::endl;
             return;
         }
 
         nlohmann::json libraryJson;
-        try
-        {
+        try {
             file >> libraryJson;
         }
-        catch (const std::exception& e)
-        {
+        catch (const std::exception &e) {
             std::cerr << "Error parsing JSON: " << e.what() << std::endl;
             file.close();
             return;
         }
 
         // Fill Library structure from JSON
-        try
-        {
+        try {
             book_amount = libraryJson["book_amount"];
-            const nlohmann::json& bookListJson = libraryJson["book_list"];
-            if(bookListJson.empty())
-            {
+            const nlohmann::json &bookListJson = libraryJson["book_list"];
+            if (bookListJson.empty()) {
                 std::cerr << "Book List is Empty!" << std::endl;
                 file.close();
                 return;
             }
-            for (int i = 1; i <= book_amount; ++i)
-            {
+            for (int i = 1; i <= book_amount; ++i) {
                 book_list[i].readFromJSON(bookListJson[i - 1]);
             }
         }
-        catch (const std::exception& e)
-        {
+        catch (const std::exception &e) {
             std::cerr << "Error reading data from JSON: " << e.what() << std::endl;
             file.close();
             return;
@@ -271,38 +296,12 @@ struct Library{
         file.close();
     }
 
-    void writeToJSONFile(const std::string& filePath) const
-    {
-        nlohmann::json libraryJson;
-        libraryJson["book_amount"] = book_amount;
-
-        nlohmann::json bookListJson;
-        for (int i = 1; i <= book_amount; ++i)
-        {
-            nlohmann::json bookJson;
-            book_list[i].writeAsJSON(bookJson);
-            bookListJson.push_back(bookJson);
-        }
-
-        libraryJson["book_list"] = bookListJson;
-
-        // Write JSON to file
-        std::ofstream file(filePath);
-        if (file.is_open())
-        {
-            file << libraryJson.dump(4); // Indentation level: 4 spaces
-            file.close();
-        }
-        else
-        {
-            std::cerr << "Error opening file for writing: " << filePath << std::endl;
-        }
-    }
+};
 
 
     /* 应使用数组建立，空0位使用自然排序（1，2，3...）
     */
-};
+
 
 /*-----------------------------------------------------------------------------*/
 // 借书链表节点
@@ -327,13 +326,149 @@ typedef struct Borrower{
     unsigned int permission_flag;      // 借书权限（0：允许借书；1：不允许借书）
 
     BorrowHistory borrow_history;        // 借阅历史
+
+    void writeAsJSON(nlohmann::json &brrwrJson) const
+    {
+        brrwrJson["ID"]              = ID;
+        brrwrJson["gender"]          = gender;
+        brrwrJson["permission_flag"] = permission_flag;
+
+        // Borrow History List
+        nlohmann::json brrwHistoryJson;
+        brrwHistoryJson["borrowed_books_accumulated"] = borrow_history.borrowed_books_acc;
+        brrwHistoryJson["borrowed_books_current"]     = borrow_history.borrowed_books_cur;
+            // Book List
+            nlohmann::json bookListJson;
+                for (const auto& brrwedBook : borrow_history.book_list) {
+                    bookListJson["Book_ID"] = brrwedBook.book_ID;
+
+                    bookListJson["borrow_state_flag"] = brrwedBook.borrow_state_flag;
+                    bookListJson["borrow_date"]["YY"] = brrwedBook.borrow_date.YY;
+                    bookListJson["borrow_date"]["MM"] = brrwedBook.borrow_date.MM;
+                    bookListJson["borrow_date"]["DD"] = brrwedBook.borrow_date.DD;
+
+                    bookListJson["giveback_date"]["YY"] = brrwedBook.borrow_date.YY;
+                    bookListJson["giveback_date"]["MM"] = brrwedBook.borrow_date.MM;
+                    bookListJson["giveback_date"]["DD"] = brrwedBook.borrow_date.DD;
+                }
+            brrwHistoryJson["book_list"] = bookListJson;
+        brrwrJson["borrow_history"] = brrwHistoryJson;
+    }
+
+    void readFromJSON(const nlohmann::json& brrwrJson)
+    {
+        // Fill Borrower structure from JSON
+        try
+        {
+            ID              = brrwrJson["ID"];
+            gender          = brrwrJson["gender"];
+            permission_flag = brrwrJson["permission_flag"];
+
+            const nlohmann::json& brrwHistoryJson = brrwrJson["borrow_history"];
+            borrow_history.borrowed_books_acc = brrwHistoryJson["borrowed_books_accumulated"];
+            borrow_history.borrowed_books_cur = brrwHistoryJson["borrowed_books_current"];
+
+            BookNode book_node;
+            borrow_history.book_list.clear();
+            for (const auto& bookListJson : brrwHistoryJson["book_list"]) {
+                if (bookListJson.empty()) {
+                    continue;
+                }
+                book_node.book_ID = bookListJson["Book_ID"];
+                book_node.borrow_state_flag = bookListJson["borrow_state_flag"];
+
+                book_node.borrow_date.YY = bookListJson["borrow_date"]["YY"];
+                book_node.borrow_date.MM = bookListJson["borrow_date"]["MM"];
+                book_node.borrow_date.DD = bookListJson["borrow_date"]["DD"];
+
+                book_node.giveback_date.YY = bookListJson["giveback_date"]["YY"];
+                book_node.giveback_date.MM = bookListJson["giveback_date"]["MM"];
+                book_node.giveback_date.DD = bookListJson["giveback_date"]["DD"];
+                borrow_history.book_list.emplace_back(book_node);
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Error reading data from JSON: " << e.what() << std::endl;
+            return;
+        }
+
+    }
+
 }Borrower; // 使用链表建立借书者群
 
 // 借书者群（权限组）
-typedef struct{
+struct BorrowerGroup{
     int borrower_amount;                 // 借书者总量
     std::vector<Borrower> borrower_list; // 借书者名单（使用自然排序，1，2，3...）
-    // TODO: 链表建立借书者群
-}BorrowerGroup;
+
+    void writeToJSONFile(const std::string& filePath) const
+    {
+        nlohmann::json brrwrGroupJson;
+        brrwrGroupJson["borrower_amount"] = borrower_amount;
+
+        nlohmann::json brrwrListJson;
+            for (int i = 1; i <= borrower_amount; i++) {
+                nlohmann::json brrwrJson;
+                    borrower_list[i].writeAsJSON(brrwrJson);
+                brrwrListJson.emplace_back(brrwrJson);
+            }
+        brrwrGroupJson["borrower_list"] = brrwrListJson;
+
+        // Write JSON to file
+        std::ofstream  file(filePath);
+        if (file.is_open()) {
+            file << brrwrGroupJson.dump(4);
+            file.close();
+        } else{
+            std::cerr << "Error opening file for writing: " << filePath << std::endl;
+        };
+    }
+
+    void readFromJSONFile(const std::string& filePath)
+    {
+        std::ifstream file(filePath);
+        if (!file.is_open()) {
+
+            std::cerr << "Error opening file: " << filePath << std::endl;
+            return;
+        }
+
+        nlohmann::json brrwrGpJson;
+        try
+        {
+            file >> brrwrGpJson;
+        }
+        catch  (const std::exception& e)
+        {
+            std::cerr << "Error parsing JSON: " << e.what() << std::endl;
+            file.close();
+            return;
+        }
+
+        // Fill BorrowerGroup structure from JSON
+        try
+        {
+            borrower_amount = brrwrGpJson["book_amount"];
+            const nlohmann::json& bookListJson = brrwrGpJson["borrower_list"];
+
+            if (bookListJson.empty()) {
+                std::cerr << "Borrower List is Empty!";
+                file.close();
+                return;
+            }
+            for (int i = 1; i <= borrower_amount; i++) {
+                borrower_list[i].readFromJSON(bookListJson[i - 1]);
+            }
+        }
+        catch  (const std::exception& e)
+        {
+            std::cerr << "Error parsing JSON: " << e.what() << std::endl;
+            file.close();
+            return;
+        }
+        file.close();
+    }
+};
 
 #endif

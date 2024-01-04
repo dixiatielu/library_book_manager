@@ -14,19 +14,20 @@ void DataBackupAndRestoreMenu(Library& lib)
         cout << "请选择功能（输入相应数字）：";
         cin >> choice;
 
+        string backupFileExtension = ".json";
         switch (choice) {
             case 1: {
                 string backupFileName;
                 cout << "请输入备份文件名（包含路径）：";
                 cin >> backupFileName;
-                lib.writeToJSONFile(backupFileName);
+                lib.writeToJSONFile(backupFileName + backupFileExtension);
             }
                 break;
             case 2: {
                 string restoreFileName;
                 cout << "请输入恢复文件名（包含路径）：";
                 cin >> restoreFileName;
-                lib.readFromJSONFile(restoreFileName);
+                lib.readFromJSONFile(restoreFileName + backupFileExtension);
             }
                 break;
             case 0:
