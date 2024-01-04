@@ -88,10 +88,10 @@ int LibraryBook_Append(Book &bk, const std::string &bk_name, const std::string &
  * @brief 添加图书副本
  *        将 book_sample 复制到 book_ptr 所指的位置
  * @param book_ptr
- * @param book_sample
+ * @param bk_sample
  * @return int
 **/
-int LibraryBook_Copy(Book &bk, Book book_sample);
+int LibraryBook_Copy(Book &bk, Book bk_sample);
 
 int LibraryBook_Update(Book &bk);
 
@@ -234,6 +234,6 @@ int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int giveback_brr
 int BookLendState_UpdateGiveback(Library &lib, const std::string &giveback_bkID);
 
 
-int ShowMainMenu(Library &lib);
+int ShowMainMenu(Library &lib, BorrowerGroup &gp);
 
-void DataBackupAndRestoreMenu(Library& lib);
+void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp);
