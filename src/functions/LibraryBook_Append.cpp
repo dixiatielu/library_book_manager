@@ -73,7 +73,7 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& 
     std::cin >> bk.publish_info.press;
 
     std::cout << "请输入出版日期\n";
-    bk.publish_info.date = GetTimeInput();
+    bk.publish_info.date = Get_TimeInput();
 
     std::cout << "请输入价格\n$?-";
     std::cin >> bk.publish_info.price;

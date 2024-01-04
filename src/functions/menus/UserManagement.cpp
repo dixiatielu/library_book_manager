@@ -7,31 +7,42 @@
 using namespace std;
 
 void displayUserManagementMenu() {
+
+//    SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_INTENSITY|FOREGROUND_GREEN);	// 设置输出字符颜色为强调、红色
+    cout << fmt::format("\n{:*^34}\n", "用户信息管理菜单");
     cout << "1. 显示所有用户信息" << endl;
     cout << "2. 添加新用户" << endl;
     cout << "3. 删除用户" << endl;
     cout << "4. 修改用户信息" << endl;
     cout << "0. 返回上一级菜单" << endl;
     cout << "请输入相应的数字进行操作: ";
+//    SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE); // 还原字符颜色
 }
 
 void displayAllUsers(const BorrowerGroup& g) {
-    cout << "所有用户信息：" << endl;
-    bool first_flag = true;
-    for (const User& user : g.borrower_list) {
-        if(first_flag){
-            first_flag = false;
-            continue;
+    if (g.borrower_amount == 0) {
+        cout << "\n当前无用户信息\n\n";
+    } else{
+        cout << "\n所有用户信息：\n" << endl;
+        bool first_flag = true;
+        for (const User& user : g.borrower_list) {
+            if(first_flag){
+                first_flag = false;
+                continue;
+            }
+            cout << user << endl;
         }
-        cout << user << endl;
+        cout << fmt::format("\n当前有{:-^5}名用户\n", g.borrower_amount);
     }
+
 }
 
 void addUser(BorrowerGroup& g) {
     User newUser;
 
-    cout << "请输入新用户的信息：" << endl;
-    cout << "用户ID: ";
+    cout << "\n请输入新用户的信息" << endl;
+    cout << "用户ID\n"
+            "&?-";
     cin >> newUser.ID;
 
     // Check if the user already exists
@@ -43,22 +54,27 @@ void addUser(BorrowerGroup& g) {
         return;
     }
 
-    cout << "性别（0表示男，1表示女）: ";
+    cout << "性别（0表示男，1表示女）\n"
+            "&?-";
     cin >> newUser.gender;
 
-    cout << "借书权限（0表示允许借书，1表示不允许借书）: ";
+    cout << "借书权限（0表示允许借书，1表示不允许借书）\n"
+            "&?-";
     cin >> newUser.permission_flag;
-
+    newUser.borrow_history.borrowed_books_cur = 0;
+    newUser.borrow_history.borrowed_books_acc = 0;
     // Add the new user to the group
     g.borrower_amount++;
-    g.borrower_list.push_back(newUser);
+    g.borrower_list.emplace_back(newUser);
 
     cout << "用户添加成功。" << endl;
 }
 
+// TODO: 只有用户当前没有借书、还清罚款时才能删除
 void deleteUser(BorrowerGroup& g) {
     string userID;
-    cout << "请输入要删除的用户ID: ";
+    cout << "请输入要删除的用户ID\n"
+            "&?-";
     cin >> userID;
 
     // Find the user by ID
@@ -70,15 +86,16 @@ void deleteUser(BorrowerGroup& g) {
         g.borrower_list.erase(it);
         g.borrower_amount--;
 
-        cout << "用户删除成功。" << endl;
+        cout << "用户删除成功!" << endl;
     } else {
-        cout << "未找到该用户。" << endl;
+        cout << "未找到该用户!" << endl;
     }
 }
 
 void modifyUserInfo(BorrowerGroup& g) {
     string userID;
-    cout << "请输入要修改的用户ID: ";
+    cout << "请输入要修改的用户ID\n"
+            "&?-";
     cin >> userID;
 
     // Find the user by ID
@@ -98,21 +115,21 @@ void modifyUserInfo(BorrowerGroup& g) {
             case 1:
                 cout << "请输入新的性别（0表示男，1表示女）: ";
                 cin >> it->gender;
-                cout << "用户性别修改成功。" << endl;
+                cout << "用户性别修改成功!" << endl;
                 break;
 
             case 2:
                 cout << "请输入新的借书权限（0表示允许借书，1表示不允许借书）: ";
                 cin >> it->permission_flag;
-                cout << "用户借书权限修改成功。" << endl;
+                cout << "用户借书权限修改成功!" << endl;
                 break;
 
             default:
-                cout << "无效的选项。" << endl;
+                cout << "无效的选项!" << endl;
                 break;
         }
     } else {
-        cout << "未找到该用户。" << endl;
+        cout << "未找到该用户!" << endl;
     }
 }
 

@@ -6,7 +6,7 @@ int UpdateUserBorrowHistory(BorrowHistory &brrw_history, std::string bk_ID)
 {
     BookNode  brrw_bk_node = {
             .book_ID           = std::move(bk_ID),
-            .borrow_date       = GetCurrentTime(),
+            .borrow_date       = Get_CurrentTime(),
             .giveback_date     = {},
             .borrow_state_flag = -1
     };

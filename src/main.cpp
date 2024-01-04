@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2023
  *
 **/
+
+#include "headers/macro.h"
 #include "headers/function_definitions.h"
 
 using namespace std;

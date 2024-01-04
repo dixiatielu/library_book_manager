@@ -4,7 +4,7 @@
 
 #include "../../headers/function_definitions.h"
 
-Time GetTimeInput()
+Time Get_TimeInput()
 {
     float tmp_YY, tmp_MM, tmp_DD;
 

@@ -6,7 +6,7 @@ int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::str
 {
     BorrowerNode brrwr_node = {
             .borrower_ID = std::move(brrwr_ID),
-            .lend_date = GetCurrentTime()
+            .lend_date = Get_CurrentTime()
     };
 
     ld_history.emplace_back(brrwr_node);
