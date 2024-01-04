@@ -60,7 +60,7 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
 
         case 4:
             // 调用用户权限管理的函数
-            // UserManagement();
+            UserManagement(gp);
             break;
 
         case 5:

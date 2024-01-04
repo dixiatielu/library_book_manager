@@ -258,4 +258,13 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp);
  */
 void LibrarySearchMenu(const Library& lib);
 
+/*!
+ * @brief 借书还书菜单
+ * @param lib
+ */
 void BorrowAndGiveBackMenu(const Library& lib);
+/*!
+ * @brief 用户管理菜单
+ * @param g
+ */
+void UserManagement(BorrowerGroup& g);
