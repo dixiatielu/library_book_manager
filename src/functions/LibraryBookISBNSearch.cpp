@@ -3,7 +3,7 @@
 //
 #include "../headers/function_definitions.h"
 
-std::vector<int> LibraryBookISBNSearch(Library lib, const std::string& bk_ISBN)
+std::vector<int> LibraryBookISBNSearch(const Library& lib, const std::string& bk_ISBN)
 {
     std::vector<int> bk_position;
     for (int i = 1; i <= lib.book_amount_total; i++)

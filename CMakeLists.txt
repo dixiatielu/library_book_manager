@@ -30,7 +30,7 @@ add_executable(library_book_manager
         src/functions/menus/LibraryBookAppendUpdateDeleteDirector.cpp
         src/functions/menus/DataBackupAndRestoreMenu.cpp
         src/functions/menus/LibrarySearchMenu.cpp
-        src/functions/menus/BorrowAndGiveBackMenu.cpp
+        src/functions/menus/UserBorrowAndGiveBackMenu.cpp
         src/main.cpp
         src/functions/menus/UserManagement.cpp
 )

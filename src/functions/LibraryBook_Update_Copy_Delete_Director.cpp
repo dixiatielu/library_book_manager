@@ -21,9 +21,9 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
     std::cin.ignore(500, '\n');						// 清空输入缓冲区
 
     if (!std::cin) {
-        std::cout << "请输入数字！\n";
+        std::cout << "输入非数字！\n"
+                     "将退出图书信息录入与更新程序\n";
         std::cin.clear();
-        std::cin.ignore(500, '\n');						// 清空输入缓冲区
         mode_flag = -1;
     }
 
@@ -42,7 +42,24 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             }
 
             std::cout << "\n请输入要修改副本对应的唯一识别码序号：";
-            std::cin >> bkpos_numero_selected; // TODO: 增强健壮性
+            std::cin >> bkpos_numero_selected;
+            std::cin.ignore(500, '\n');						// 清空输入缓冲区
+
+            if (!std::cin) {
+
+                std::cout << "输入非数字！\n"
+                             "将退出图书信息录入与更新程序\n";
+                std::cin.clear();
+                return; // 函数出口
+
+            } else if ((bkpos_numero_selected < 0) || (bkpos_numero_selected > bk_position.size() - 1)) {
+
+                std::cout << "序号不在范围内！\n"
+                             "将退出图书信息录入与更新程序\n";
+                std::cin.clear();
+                return; // 函数出口
+            }
+
             LibraryBook_Update(lib.book_list[bk_position[bkpos_numero_selected - 1]]);
 
             std::cout << "\n该副本修改完成！\n";
@@ -121,7 +138,8 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
 
             std::cout << "\n所有副本唯一识别码输出成功！\n";
             break;
+
         default:
-            return;
+            break;
     }
 }
