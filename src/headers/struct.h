@@ -386,6 +386,7 @@ struct User{
 
     void writeAsJSON(nlohmann::json &brrwrJson) const
     {
+//        std::cout << ID << std::endl;
         brrwrJson["ID"]              = ID;
         brrwrJson["gender"]          = gender;
         brrwrJson["permission_flag"] = permission_flag;
@@ -454,7 +455,7 @@ struct User{
 
     friend std::ostream &operator<<(std::ostream &os, const User &user) {
         os << "用户ID: " << user.ID << std::endl;
-        os << "性别: " << (user.gender == 1 ? "男" : "女") << std::endl;
+        os << "性别: " << (user.gender == 1 ? "女" : "男") << std::endl;
         os << "借书权限: " << (user.permission_flag == 0 ? "允许借书" : "不允许借书") << std::endl;
 
         // Display borrow history
@@ -486,7 +487,7 @@ struct BorrowerGroup{
         nlohmann::json brrwrListJson;
             for (int i = 1; i <= borrower_amount; i++) {
                 nlohmann::json brrwrJson;
-                    borrower_list[i].writeAsJSON(brrwrJson);
+                borrower_list[i - 1].writeAsJSON(brrwrJson);
                 brrwrListJson.emplace_back(brrwrJson);
             }
         brrwrGroupJson["borrower_list"] = brrwrListJson;
@@ -525,17 +526,44 @@ struct BorrowerGroup{
         // Fill BorrowerGroup structure from JSON
         try
         {
-            borrower_amount = brrwrGpJson["book_amount_total"];
-            const nlohmann::json& bookListJson = brrwrGpJson["borrower_list"];
+            int tmp_borrower_amount = borrower_amount;
+            borrower_amount = brrwrGpJson["borrower_amount"];
+            const nlohmann::json& borrowerListJson = brrwrGpJson["borrower_list"];
 
-            if (bookListJson.empty()) {
+            if (borrowerListJson.empty()) {
                 std::cerr << "Borrower List is Empty!";
                 file.close();
                 return;
             }
-            for (int i = 1; i <= borrower_amount; i++) {
-                borrower_list[i].readFromJSON(bookListJson[i - 1]);
+            while(true)
+            {
+                std::cout << "请选择导入模式：" << std::endl;
+                std::cout << "1. 覆盖导入" << std::endl;
+                std::cout << "2. 合并导入" << std::endl;
+                int choice;
+                std::cin >> choice;
+                if(choice == 1)
+                {
+                    borrower_list.resize(borrower_amount + 1);
+                    for (int i = 1; i <= borrower_amount; i++) {
+                        borrower_list[i].readFromJSON(borrowerListJson[i - 1]);
+                    }
+                }else if (choice == 2)
+                {
+                    borrower_amount = tmp_borrower_amount + borrower_amount;
+                    borrower_list.resize(borrower_amount + 1);
+                    for (int i = tmp_borrower_amount + 1, j = 0; i <= borrower_amount; i++,j++) {
+                        borrower_list[i].readFromJSON(borrowerListJson[j]);
+                    }
+                }
+                else
+                {
+                    std::cout << "导入模式选择不正确！" << std::endl;
+                    continue;
+                }
+                break;
             }
+
         }
         catch  (const std::exception& e)
         {

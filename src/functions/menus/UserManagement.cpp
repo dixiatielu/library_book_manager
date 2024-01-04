@@ -17,7 +17,12 @@ void displayUserManagementMenu() {
 
 void displayAllUsers(const BorrowerGroup& g) {
     cout << "所有用户信息：" << endl;
+    bool first_flag = true;
     for (const User& user : g.borrower_list) {
+        if(first_flag){
+            first_flag = false;
+            continue;
+        }
         cout << user << endl;
     }
 }
@@ -45,8 +50,8 @@ void addUser(BorrowerGroup& g) {
     cin >> newUser.permission_flag;
 
     // Add the new user to the group
-    g.borrower_list.push_back(newUser);
     g.borrower_amount++;
+    g.borrower_list.push_back(newUser);
 
     cout << "用户添加成功。" << endl;
 }
@@ -91,7 +96,7 @@ void modifyUserInfo(BorrowerGroup& g) {
 
         switch (choice) {
             case 1:
-                cout << "请输入新的性别（1表示男，2表示女）: ";
+                cout << "请输入新的性别（0表示男，1表示女）: ";
                 cin >> it->gender;
                 cout << "用户性别修改成功。" << endl;
                 break;
