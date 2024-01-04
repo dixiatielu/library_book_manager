@@ -9,7 +9,7 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
     std::vector<int> result_search;
 
     int mode_flag;
-    std::cout << "*****图书录入更新菜单*****" << std::endl;
+    std::cout << fmt::format("\n{:*^34}\n", "图书信息录入与更新菜单");
     std::cout << "请选择图书信息输入模式\n"
                  "\t1. ISBN\n"
                  "\t2. 书名\n"
@@ -48,7 +48,7 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
 
     if (result_search.empty()) {
         int append_flag; // 选项，是否添加书
-        std::cout << "图书馆中无相同书\n";
+        std::cout << "\n图书馆中无该图书信息\n";
         std::cout << "是否要添加该书？\n"
                      "\t0. 否\n"
                      "\t1. 是\n"
@@ -64,11 +64,12 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
 
             case 1:
                 std::cin.ignore(500, '\n');						// 清空输入缓冲区
-                if (lib.book_amount >= BOOK_MAX_NUM) {
+                if (lib.book_amount_total >= BOOK_MAX_NUM) {
                     std::cout << "图书馆藏书已满\n";
                 } else{
-                    lib.book_amount++;
-                    LibraryBook_Append(lib.book_list[lib.book_amount], bkname_input, bkISBN_input);
+                    LibraryBook_Append(lib.book_list[lib.book_amount_total + 1], bkname_input, bkISBN_input);
+                    lib.book_amount_total++;
+                    lib.book_amount_real++;
                 }
                 break;
             default:
@@ -76,7 +77,7 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
                 break;
         }
     } else{
-        std::cout << "图书馆中有相同书\n";
+        std::cout << "\n图书馆中有该图书信息\n";
         LibraryBook_Update_Copy_Delete_Director(lib, result_search);
     }
 }

@@ -28,8 +28,10 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
     }
 
     int bkpos_numero_selected = 0;
+
     int tmp_lend_state_flag   = 0;
     std::string tmp_identification;
+    std::vector<BorrowerNode> tmp_lend_history;
     switch (mode_flag) {
         case 1:
             std::cout << "\n各副本唯一识别码如下\n";
@@ -40,8 +42,10 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             }
 
             std::cout << "\n请输入要修改副本对应的唯一识别码序号：";
-            std::cin >> bkpos_numero_selected;
+            std::cin >> bkpos_numero_selected; // TODO: 增强健壮性
             LibraryBook_Update(lib.book_list[bk_position[bkpos_numero_selected - 1]]);
+
+            std::cout << "\n该副本修改完成！\n";
             break;
 
         case 2:
@@ -57,12 +61,14 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             for (int i = 1; i <= bk_position.size() - 1; i++) {
                 tmp_lend_state_flag = lib.book_list[bk_position[i]].lend_state_flag;
                 tmp_identification  = lib.book_list[bk_position[i]].identification;
+                tmp_lend_history    = lib.book_list[bk_position[i]].lend_history;
                 LibraryBook_Copy(lib.book_list[bk_position[i]], lib.book_list[bk_position[0]]);
 
                 lib.book_list[bk_position[i]].lend_state_flag = tmp_lend_state_flag;
                 lib.book_list[bk_position[i]].identification  = tmp_identification;
+                lib.book_list[bk_position[i]].lend_history    = tmp_lend_history;
             }
-            std::cout << "\n所有副本修改完成\n";
+            std::cout << "\n所有副本修改完成！\n";
             break;
 
         case 3:
@@ -76,7 +82,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             std::cout << "\n请输入要修改副本对应的唯一识别码序号：";
             std::cin >> bkpos_numero_selected;
             LibraryBook_Delete_fast(lib, bk_position[bkpos_numero_selected - 1]);
-            std::cout << "\n删除成功\n";
+            std::cout << "\n该副本删除成功！\n";
             break;
 
         case 4:
@@ -91,16 +97,18 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
 
                 LibraryBook_Delete_fast(lib, bk_position[i]);
             }
-            std::cout << "\n删除成功\n";
+
+            std::cout << "\n所有副本删除成功！\n";
             break;
 
         case 5:
-            LibraryBook_Copy(lib.book_list[lib.book_amount + 1], lib.book_list[bk_position[0]]);
-            lib.book_amount++;
-//            std::cout << lib.book_amount;
-
+            LibraryBook_Copy(lib.book_list[lib.book_amount_total + 1], lib.book_list[bk_position[0]]);
             time(&id); // 使用时间戳作为书本唯一识别码
-            lib.book_list[lib.book_amount].identification = std::to_string(id);
+            lib.book_list[lib.book_amount_total + 1].identification = std::to_string(id);
+            lib.book_amount_total++;
+            lib.book_amount_real++;
+
+            std::cout << "\n新副本添加成功！\n";
             break;
 
         case 6:
@@ -111,6 +119,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
                         ,i+1 , lib.book_list[bk_position[i]].identification);
             }
 
+            std::cout << "\n所有副本唯一识别码输出成功！\n";
             break;
         default:
             return;

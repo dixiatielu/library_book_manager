@@ -93,6 +93,7 @@ int LibraryBook_Append(Book &bk, const std::string &bk_name, const std::string &
 **/
 int LibraryBook_Copy(Book &bk, Book bk_sample);
 
+// 不修改id, time, lend_state, lend_history
 int LibraryBook_Update(Book &bk);
 
 
