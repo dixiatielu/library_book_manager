@@ -10,6 +10,8 @@ void LibrarySearchMenu(const Library &lib)
     std::vector<int> result_search;
 
     int mode_flag;
+
+//    SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_INTENSITY|FOREGROUND_GREEN);	// 设置输出字符颜色为强调、红色
     std::cout << fmt::format("\n{:*^34}\n", "图书检索搜索模式菜单");
     std::cout << "请选择图书根信息搜索模式\n"
                  "\t1. ISBN\n"
@@ -17,6 +19,8 @@ void LibrarySearchMenu(const Library &lib)
                  "\t3. ID（图书唯一识别码）\n"
                  "\t输入其他任意数字以退出\n"
                  "$?-";
+//    SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE); // 还原字符颜色
+
     std::cin >> mode_flag;
     std::cin.ignore(500, '\n');						// 清空输入缓冲区
 

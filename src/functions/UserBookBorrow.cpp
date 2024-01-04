@@ -25,13 +25,13 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
         switch (mode_flag)
         {
             case 1:
-                std::cout << "请输入ISBN:";
+                std::cout << "请输入ISBN：";
                 std::cin >> bkISBN_input;
                 result_position = LibraryBookISBNSearch(lib, bkISBN_input);
                 break;
 
             case 2:
-                std::cout << "请输入书名";
+                std::cout << "请输入书名：";
                 std::cin >> bkname_input;
                 result_position = LibraryBookNameSearch(lib, bkname_input);
                 break;

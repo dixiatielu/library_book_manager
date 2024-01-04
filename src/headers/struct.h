@@ -347,9 +347,9 @@ struct Library {
 // 借书链表节点
 struct BookNode{
     friend std::ostream &operator<<(std::ostream &os, const BookNode &node) {
-        os << "书籍ID: " << node.book_ID << " - 状态: " << node.borrow_state_flag << std::endl;
-        os << "借书日期: " << node.borrow_date.YY << "-" << node.borrow_date.MM << "-" << node.borrow_date.DD << std::endl;
-        os << "还书日期: " << node.giveback_date.YY << "-" << node.giveback_date.MM << "-" << node.giveback_date.DD << std::endl;
+        os << "\t书籍ID: " << node.book_ID << " - 状态: " << node.borrow_state_flag << std::endl;
+        os << "\t借书日期: " << node.borrow_date.YY << "/" << node.borrow_date.MM << "/" << node.borrow_date.DD << std::endl;
+        os << "\t还书日期: " << node.giveback_date.YY << "-" << node.giveback_date.MM << "-" << node.giveback_date.DD << std::endl;
         return os;
     }
 
@@ -371,8 +371,8 @@ struct BorrowHistory{
         return os;
     }
 
-    int borrowed_books_acc;                 // 累计借书量
-    int borrowed_books_cur;                 // 当前借书量
+    int borrowed_books_acc = 0;                 // 累计借书量
+    int borrowed_books_cur = 0;                 // 当前借书量
     std::vector<BookNode> book_list;        // 借书表
 };
 
@@ -405,9 +405,9 @@ struct User{
                     bookListJson["borrow_date"]["MM"] = brrwedBook.borrow_date.MM;
                     bookListJson["borrow_date"]["DD"] = brrwedBook.borrow_date.DD;
 
-                    bookListJson["giveback_date"]["YY"] = brrwedBook.borrow_date.YY;
-                    bookListJson["giveback_date"]["MM"] = brrwedBook.borrow_date.MM;
-                    bookListJson["giveback_date"]["DD"] = brrwedBook.borrow_date.DD;
+                    bookListJson["giveback_date"]["YY"] = brrwedBook.giveback_date.YY;
+                    bookListJson["giveback_date"]["MM"] = brrwedBook.giveback_date.MM;
+                    bookListJson["giveback_date"]["DD"] = brrwedBook.giveback_date.DD;
                 }
             brrwHistoryJson["book_list"] = bookListJson;
         brrwrJson["borrow_history"] = brrwHistoryJson;
@@ -477,6 +477,7 @@ struct BorrowerGroup{
     explicit BorrowerGroup(const int& brrwr_amount) {
         borrower_amount = brrwr_amount;
         borrower_list.clear();
+        borrower_list.resize(1);
     }
 
     void writeToJSONFile(const std::string& filePath) const
@@ -487,7 +488,7 @@ struct BorrowerGroup{
         nlohmann::json brrwrListJson;
             for (int i = 1; i <= borrower_amount; i++) {
                 nlohmann::json brrwrJson;
-                borrower_list[i - 1].writeAsJSON(brrwrJson);
+                borrower_list[i].writeAsJSON(brrwrJson);
                 brrwrListJson.emplace_back(brrwrJson);
             }
         brrwrGroupJson["borrower_list"] = brrwrListJson;

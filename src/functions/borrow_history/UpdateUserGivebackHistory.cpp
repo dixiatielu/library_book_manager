@@ -6,6 +6,6 @@ int UpdateUserGivebackHistory(BorrowHistory &brrw_history, int giveback_brrwedbo
 {
     brrw_history.borrowed_books_cur--;
     brrw_history.book_list[giveback_brrwedbook_numero].borrow_state_flag = 0; // TODO: 若要考虑罚款问题，可赋值为1
-    brrw_history.book_list[giveback_brrwedbook_numero].giveback_date = GetCurrentTime();
+    brrw_history.book_list[giveback_brrwedbook_numero].giveback_date = Get_CurrentTime();
     return 0;
 }

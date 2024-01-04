@@ -7,6 +7,7 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp)
 {
     int choice;
     do {
+//        SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_INTENSITY|FOREGROUND_GREEN);	// 设置输出字符颜色为强调、红色
         cout << fmt::format("\n{:*^34}\n", "系统数据备份与恢复");
         cout << "1. 图书数据备份" << endl;
         cout << "2. 图书数据导入" << endl;
@@ -14,6 +15,9 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp)
         cout << "4. 用户数据导入" << endl;
         cout << "0. 返回主菜单" << endl;
         cout << "请选择功能（输入相应数字）：";
+
+//        SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE); // 还原字符颜色
+
         cin >> choice;
 
         string fileExtension = ".json";

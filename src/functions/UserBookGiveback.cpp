@@ -10,6 +10,11 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
     int user_position = UserValidation_Search_Giveback(gp, user_identification);
 
     if (user_position != 0) {
+        if (gp.borrower_list[user_position].borrow_history.borrowed_books_cur == 0) {
+            std::cout << "用户当前无图书处于借阅/逾期状态！";
+            return;
+        }
+
         std::string bkISBN_input, bkname_input;
         std::vector<int> result_position;
 
@@ -47,9 +52,10 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
             UpdateUserGivebackHistory(gp.borrower_list[user_position].borrow_history, result_position.front());
             BookLendState_UpdateGiveback(lib,
                                          gp.borrower_list[user_position].borrow_history.book_list[result_position.front()].book_ID);
+            std::cout << "图书已归还";
 
         } else{
-            std::cout << "该用户下无该书处于借阅/逾期状态！";
+            std::cout << "该用户下无该图书处于借阅/逾期状态！";
             return;
         }
 

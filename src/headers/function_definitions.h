@@ -24,14 +24,14 @@
  *        获取当前时间并返回Time结构体
  * @return Time
 **/
-Time GetCurrentTime();
+Time Get_CurrentTime();
 
 /**
  * @brief Get the Time Input object
  *        在函数中获取用户输入的年、月、日时间并返回Time结构体
  * @return Time
 **/
-Time GetTimeInput();
+Time Get_TimeInput();
 
 /**
  * @brief 按唯一识别码查找图书（先查找ISBN，再查找副本号）
@@ -98,7 +98,7 @@ int LibraryBook_Update(Book &bk);
 
 
 /**
- * @brief 图书录入与修改、删除向导                                  // 未考虑藏书日期，可默认从 GetCurrentTime 返回值赋值
+ * @brief 图书录入与修改、删除向导                                  // 未考虑藏书日期，可默认从 Get_CurrentTime 返回值赋值
  *        要求用户输入书名或ISBN
  *        1. 当书单中不存在该书时，询问是否要录入该书，若是则在图书馆书单数组末尾录入；
  *        2. 当书单中存  在该书时，返回副本数，询问要
@@ -175,7 +175,7 @@ int UserValidation_Search_Giveback(BorrowerGroup gp, const std::string &id);
  *          若返回vector长度 为 0，则输出“查无此书”
  *        检测该用户是否已借出该书副本
  *        如以上任一条件不满足时，立即按值输出不满足原因并退出函数；
- *        如以上条件均满足，修改该 BookID 对应图书借出历史和用户借阅历史，借书时间从 GetCurrentTime 返回值赋值（仅精确到天） // 存在跨日可能
+ *        如以上条件均满足，修改该 BookID 对应图书借出历史和用户借阅历史，借书时间从 Get_CurrentTime 返回值赋值（仅精确到天） // 存在跨日可能
  *                        修改该 BookID 对应图书出借状态
  *
  * @param gp
