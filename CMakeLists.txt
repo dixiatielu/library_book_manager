@@ -33,4 +33,6 @@ add_executable(library_book_manager
         src/functions/menus/UserBorrowAndGiveBackMenu.cpp
         src/main.cpp
         src/functions/menus/UserManagement.cpp
+        src/functions/menus/Library_User_infoMenu.cpp
+
 )
