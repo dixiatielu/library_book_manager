@@ -9,7 +9,7 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
     system("cls");
 
     int choice;
-    cout << "\n*****主菜单*****" << endl;
+    cout << fmt::format("\n{:*^34}", "主菜单") << endl;
     cout << "1. 图书信息录入与更新" << endl;
     cout << "2. 图书检索" << endl;
     cout << "3. 图书借阅与归还" << endl;

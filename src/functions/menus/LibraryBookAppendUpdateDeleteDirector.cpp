@@ -9,7 +9,7 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
     std::vector<int> result_search;
 
     int mode_flag;
-    std::cout << fmt::format("\n{:*^34}\n", "图书信息录入与更新菜单");
+    std::cout << fmt::format("\n{:*^34}\n", "图书信息录入与更新输入模式菜单");
     std::cout << "请选择图书根信息输入模式\n"
                  "\t1. ISBN\n"
                  "\t2. 书名\n"
@@ -23,6 +23,7 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
         std::cout << "输入非数字！\n"
                      "将退出图书信息录入与更新程序\n";
         std::cin.clear();
+        std::cin.ignore(500, '\n');						// 清空输入缓冲区
         mode_flag = -1;
     }
 

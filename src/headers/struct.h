@@ -93,11 +93,11 @@ typedef struct Book{
                                           , bk.publish_info.date.DD == (std::string)"0" ? "N.A." : bk.publish_info.date.DD
                                           , bk.publish_info.price);
 
-        o_s << fmt::format("图书唯一识别码：{}\n", bk.identification);
-        o_s << fmt::format("图书借阅状态  ：{}\n", bk.lend_state_flag);
+//        o_s << fmt::format("图书唯一识别码：{}\n", bk.identification);
+//        o_s << fmt::format("图书借阅状态  ：{}\n", bk.lend_state_flag);
 
         int borrower_count = 1;
-        o_s << fmt::format("借阅次数      ：{}\n", bk.lend_history.size());
+        o_s << fmt::format("借阅次数：{}\n", bk.lend_history.size());
         for (const auto &lendHistoryNode : bk.lend_history) {
             o_s << fmt::format("\t{:->6}{:-<3}:\n"
                                "\t\tID     ：{}\n"
