@@ -253,9 +253,10 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp);
 void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp);
 
 /*!
- *
+ * @brief 按时间顺序整理函数功能：
+ *          1. 要求用户输入图书
  * @param lib
  */
 void LibrarySearchMenu(const Library& lib);
 
-void BorrowAndGiveBackMenu(const Library& lib);
+void UserBorrowAndGiveBackMenu(Library &lib, BorrowerGroup &gp);

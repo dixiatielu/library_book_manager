@@ -37,8 +37,8 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
                 cout << "\n是否继续录入和更新图书信息？（1：是，0：否）" << endl;
                 int continue_flag;
                 cin >> continue_flag;
-
                 cin.ignore(500, '\n');						// 清空输入缓冲区
+
                 if ((!continue_flag)||(!cin)) {
                     cin.clear();
                     cout << "\n退出图书信息录入与更新功能\n";
@@ -55,7 +55,7 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
 
         case 3:
             // 调用借阅与归还管理的函数
-            BorrowAndGiveBackMenu(lib);
+            UserBorrowAndGiveBackMenu(lib, gp);
             break;
 
         case 4:
