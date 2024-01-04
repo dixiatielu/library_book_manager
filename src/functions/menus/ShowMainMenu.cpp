@@ -64,7 +64,6 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
             // 调用系统数据备份与恢复的函数
             DataBackupAndRestoreMenu(lib, gp);
             break;
-        }
         case 0:
             std::cin.ignore(500, '\n');						// 清空输入缓冲区
             cout << "感谢使用，再见！" << endl;
