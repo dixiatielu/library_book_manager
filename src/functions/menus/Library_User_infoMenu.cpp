@@ -5,5 +5,5 @@
 
 void Library_User_InfoMenu(const Library& lib, const BorrowerGroup& gp)
 {
-
+    std::cout << fmt::format("当前图书馆中有{:-^5}本图书，{:-^5}名借书者", lib.book_amount_real, gp.borrower_amount);
 }

@@ -86,6 +86,7 @@ void LibrarySearchMenu(const Library &lib)
 
         std::cout << "\n图书出借状态：\n";
         // Important: (vector).size() 返回 unsigned 类型
+        // 也可以使用 < 比较实现
         std::cout << fmt::format("\t{:-^12}：{:^3}本\n","逾期状态", bk_overdue.size());
         for (int i = 0; i <= (signed)bk_overdue.size() - 1; i++) {
             std::cout << fmt::format("\t\t{}: {}\n", i+1, lib.book_list[bk_overdue[i]].identification);
