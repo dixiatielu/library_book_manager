@@ -22,7 +22,7 @@ int ShowMainMenu(Library &lib)
         {
             // 调用图书信息录入与更新的函数
             while(true) {
-                LibraryBook_Append_Update_Delete_Director(lib);
+                LibraryBookAppendUpdateDeleteDirector(lib);
                 cout << "是否继续键入图书？（0：否，1：是）" << endl;
                 int continue_flag;
                 cin >> continue_flag;
@@ -32,22 +32,26 @@ int ShowMainMenu(Library &lib)
             }
             break;
         }
-        case 2:
+        case 2: {
             // 调用图书检索与查询的函数
-            // SearchBook();
+            LibrarySearchMenu(lib);
             break;
-        case 3:
+        }
+        case 3: {
             // 调用借阅与归还管理的函数
-            // BorrowAndReturn();
+            BorrowAndGiveBackMenu(lib);
             break;
-        case 4:
+        }
+        case 4: {
             // 调用用户权限管理的函数
             // UserManagement();
             break;
-        case 5:
+        }
+        case 5:{
             // 调用系统数据备份与恢复的函数
             DataBackupAndRestoreMenu(lib);
             break;
+        }
         case 0:
             cout << "感谢使用，再见！" << endl;
             break;

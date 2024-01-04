@@ -13,12 +13,11 @@
 #ifndef MY_STRUCT
 #define MY_STRUCT
 
-//#include <vector>
 #include <fstream>
 #include <iostream>
 #include "../include/fmt/core.h"
 #include "../include/nlohmann/json.hpp"
-#include "../include/macro.h"
+#include "macro.h"
 
 // 时间结构体
 typedef struct{
@@ -29,33 +28,33 @@ typedef struct{
 
 
 // 作者信息
-typedef struct{
+struct Author{
     std::string name;
     std::string nationality;     // 使用ISO3166-1 alpha-2两字符代码标注国籍
-    unsigned int gender;       // 0 为男性，1 为女性
-    unsigned int isTranslator; // 0 表示为非译者，1 表示为译者
-}AuthorInfo;
+    unsigned int gender = 0;       // 0 为男性，1 为女性
+    unsigned int isTranslator = 0; // 0 表示为非译者，1 表示为译者
+};
 
 // 出版信息
-typedef struct{
+struct PublishInfo{
     std::string ISBN;               // ISBN号（eg：9787020024759）
     std::string press;              // 出版社
     Time date;                      // 出版日期
     float price = 0;                // 价格
-}PublishInfo;
+};
 
 
-// 借书者链表节点
-typedef struct BorrowerNode{
+// 单次借书对象
+struct BorrowerNode{
     std::string borrower_ID;                 // 借书者ID
     Time lend_date;                          // 借书时间
-}BorrowerNode;
+};
 
-// 图书结构体
+// 图书对象
 typedef struct Book{
     std::string name;               // 名称
     std::string classifier;    // 中图分类号
-    std::vector<AuthorInfo> authors_info_list;   // 作、译者表数组
+    std::vector<Author> authors_info_list;   // 作、译者表数组
     PublishInfo publish_info;       // 出版信息
     std::string identification;     // 唯一识别码
     int lend_state_flag = 2;          // 出借状态（-3：图书废弃；-2：图书逾期；-1：图书借出；0: 图书在馆；1：图书在途；2：无图书）
@@ -167,7 +166,7 @@ typedef struct Book{
                 {
                     continue;
                 }
-                AuthorInfo authorInfo;
+                Author authorInfo;
                 authorInfo.name = authorInfoJson["name"];
                 authorInfo.gender = authorInfoJson["gender"];
                 authorInfo.nationality = authorInfoJson["nationality"];
@@ -321,19 +320,19 @@ typedef struct{
 }BorrowHistory;
 
 // 借书者结构体
-typedef struct Borrower{
+struct User{
     std::string ID;                      // 借书者ID
     unsigned int gender;               // 性别
     unsigned int permission_flag;      // 借书权限（0：允许借书；1：不允许借书）
 
     BorrowHistory borrow_history;        // 借阅历史
-}Borrower; // 使用链表建立借书者群
+}; // 使用链表建立借书者群
 
 // 借书者群（权限组）
-typedef struct{
+
+struct BorrowerGroup{
     int borrower_amount;                 // 借书者总量
-    std::vector<Borrower> borrower_list; // 借书者名单（使用自然排序，1，2，3...）
-    // TODO: 链表建立借书者群
-}BorrowerGroup;
+    std::vector<User> borrower_list; // 借书者名单（使用自然排序，1，2，3...）
+};
 
 #endif
