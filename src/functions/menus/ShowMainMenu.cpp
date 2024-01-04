@@ -4,7 +4,7 @@
 #include "../../headers/function_definitions.h"
 
 using namespace std;
-int ShowMainMenu(Library &lib)
+int ShowMainMenu(Library &lib, BorrowerGroup &gp)
 {
     cout << "*****主菜单*****" << endl;
     cout << "1. 图书信息录入与更新" << endl;

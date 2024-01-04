@@ -229,6 +229,7 @@ typedef struct Book{
 struct Library {
     int book_amount;               // 图书馆藏书量
     BookList book_list;            // 图书馆书单
+                                        // 由于图书馆建成后，可藏书量固定，故使用数组建立
     // 构造函数
     explicit Library(const int &BookAmount) {
         book_amount = BookAmount;
@@ -401,6 +402,11 @@ typedef struct Borrower{
 struct BorrowerGroup{
     int borrower_amount;                 // 借书者总量
     std::vector<Borrower> borrower_list; // 借书者名单（使用自然排序，1，2，3...）
+
+    explicit BorrowerGroup(const int& brrwr_amount) {
+        borrower_amount = brrwr_amount;
+        borrower_list.clear();
+    }
 
     void writeToJSONFile(const std::string& filePath) const
     {

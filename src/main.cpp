@@ -15,10 +15,14 @@ using namespace std;
 int main() {
     system("chcp 65001"); // 终端UTF-8编码
     system("cls");
-    Library library_local(0);
 
+    Library library_local(0);
+    BorrowerGroup group_local(0);
     while (true) {
-        if(ShowMainMenu(library_local) == 0)break;
+        if(ShowMainMenu(library_local,group_local) == 0) {
+            break;
+        }
+
         system("pause");
     }
 //    library_local.writeToJSONFile("firstTestLib.json");
