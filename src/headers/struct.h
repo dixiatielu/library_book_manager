@@ -57,7 +57,7 @@ typedef struct Book{
     std::vector<Author> authors_info_list;   // 作、译者表数组
     PublishInfo publish_info;       // 出版信息
     std::string identification;     // 唯一识别码
-    int lend_state_flag = 2;          // 出借状态（-3：图书废弃；-2：图书逾期；-1：图书借出；0: 图书在馆；1：图书在途；2：无图书）
+    int lend_state_flag = 2;          // 出借状态（-3：图书已删除；-2：图书逾期；-1：图书借出；0: 图书在馆；1：图书在途；2：无图书）
     std::vector<BorrowerNode> lend_history;       // 借出历史
 
     Book() = default;
@@ -132,11 +132,12 @@ typedef struct Book{
 
         // Publish Info
         nlohmann::json publishInfoJson;
+            publishInfoJson["ISBN"]  = publish_info.ISBN;
             publishInfoJson["press"] = publish_info.press;
+            publishInfoJson["price"] = publish_info.price;
             publishInfoJson["date"]["YY"] = publish_info.date.YY;
             publishInfoJson["date"]["MM"] = publish_info.date.MM;
             publishInfoJson["date"]["DD"] = publish_info.date.DD;
-            publishInfoJson["price"] = publish_info.price;
         bookJson["publish_info"] = publishInfoJson;
 
         // Other fields
@@ -187,11 +188,12 @@ typedef struct Book{
             }
 
             // Publish Info
+            publish_info.ISBN  = bookJson["publish_info"]["ISBN"];
             publish_info.press = bookJson["publish_info"]["press"];
+            publish_info.price = bookJson["publish_info"]["price"];
             publish_info.date.YY = bookJson["publish_info"]["date"]["YY"];
             publish_info.date.MM = bookJson["publish_info"]["date"]["MM"];
             publish_info.date.DD = bookJson["publish_info"]["date"]["DD"];
-            publish_info.price = bookJson["publish_info"]["price"];
 
             // Other fields
             identification = bookJson["identification"];
@@ -226,25 +228,57 @@ typedef struct Book{
 
 // 图书馆结构体
 struct Library {
-    int book_amount;               // 图书馆藏书量
+    int book_amount_total;               // 图书馆藏书总量，程序运行时可能包含已删除的图书
+    int book_amount_real;          // 图书馆藏书量，统计未删除（lend_state_flag != -3）的图书
     BookList book_list;            // 图书馆书单
                                         // 由于图书馆建成后，可藏书量固定，故使用数组建立
     // 构造函数
     explicit Library(const int &BookAmount) {
-        book_amount = BookAmount;
+                                            book_amount_total      = BookAmount;
+        book_amount_real = BookAmount;
         book_list = new Book[BOOK_MAX_NUM + 1];
     }
 
-    void writeToJSONFile(const std::string &filePath) const {
+    void writeToJSONFile_Origin(const std::string &filePath) const {
         nlohmann::json libraryJson;
-        libraryJson["book_amount"] = book_amount;
+        libraryJson["book_amount_total"]      = book_amount_total;
+        libraryJson["book_amount_real"] = book_amount_real;
 
         nlohmann::json bookListJson;
-        for (int i = 1; i <= book_amount; ++i) {
+        for (int i = 1; i <= book_amount_total; ++i) {
             nlohmann::json bookJson;
             book_list[i].writeAsJSON(bookJson);
             bookListJson.push_back(bookJson);
         }
+        libraryJson["book_list"] = bookListJson;
+
+        // Write JSON to file
+        std::ofstream file(filePath);
+        if (file.is_open()) {
+            file << libraryJson.dump(4); // Indentation level: 4 spaces
+            file.close();
+        } else {
+            std::cerr << "Error opening file for writing: " << filePath << std::endl;
+        }
+    }
+
+    void writeToJSONFile_DeleteNotExistBooks(const std::string &filePath) const {
+        nlohmann::json libraryJson;
+        libraryJson["book_amount_total"]      = book_amount_real;
+        libraryJson["book_amount_real"] = book_amount_real;
+
+        nlohmann::json bookListJson;
+            for (int i = 1; i <= book_amount_total; ++i) {
+
+                if (book_list[i].lend_state_flag != -3) {
+
+                    nlohmann::json bookJson;
+                    book_list[i].writeAsJSON(bookJson);
+                    bookListJson.push_back(bookJson);
+                } else{
+                    continue;
+                }
+            }
         libraryJson["book_list"] = bookListJson;
 
         // Write JSON to file
@@ -276,14 +310,15 @@ struct Library {
 
         // Fill Library structure from JSON
         try {
-            book_amount = libraryJson["book_amount"];
+            book_amount_total      = libraryJson["book_amount_total"];
+            book_amount_real = libraryJson["book_amount_real"];
             const nlohmann::json &bookListJson = libraryJson["book_list"];
             if (bookListJson.empty()) {
                 std::cerr << "Book List is Empty!" << std::endl;
                 file.close();
                 return;
             }
-            for (int i = 1; i <= book_amount; ++i) {
+            for (int i = 1; i <= book_amount_total; ++i) {
                 book_list[i].readFromJSON(bookListJson[i - 1]);
             }
         }
@@ -455,7 +490,7 @@ struct BorrowerGroup{
         // Fill BorrowerGroup structure from JSON
         try
         {
-            borrower_amount = brrwrGpJson["book_amount"];
+            borrower_amount = brrwrGpJson["book_amount_total"];
             const nlohmann::json& bookListJson = brrwrGpJson["borrower_list"];
 
             if (bookListJson.empty()) {

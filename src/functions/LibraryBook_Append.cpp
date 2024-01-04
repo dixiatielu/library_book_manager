@@ -8,9 +8,11 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& 
     time_t id;
 //    time(&id); // 使用时间戳作为书本唯一识别码
 
+    /*-----------------------------------------------------------------------------*/
+
     if (!bk_name.empty()) {
         bk.name = bk_name;
-//        std::cout << "书名已输入\n";
+        std::cout << "书名已输入\n";
     }
     else {
         std::cout << "请输入书名\n$?-";
@@ -18,6 +20,8 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& 
     }
     std::cout << "请输入中图分类号\n$?-";
     std::cin >> bk.classifier;
+
+    /*-----------------------------------------------------------------------------*/
 
     std::cout << "\n下面输入作/译者信息\n";
     system("timeout 1");
@@ -51,13 +55,15 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& 
         bk.authors_info_list[i].isTranslator = 1;
     }
 
+    /*-----------------------------------------------------------------------------*/
+
     std::cout << "\n下面输入出版信息\n";
     system("timeout 1");
 
-    std::cout << "\n下面输入出版信息\n";
     if(!bk_ISBN.empty())
     {
         bk.publish_info.ISBN = bk_ISBN;
+        std::cout << "ISBN号已输入\n";
     }
     else {
         std::cout << "请输入ISBN号\n$?-";
@@ -72,10 +78,14 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& 
     std::cout << "请输入价格\n$?-";
     std::cin >> bk.publish_info.price;
 
+    /*-----------------------------------------------------------------------------*/
+
     bk.lend_state_flag = 0;
     bk.lend_history = {};
     time(&id); // 使用时间戳作为书本唯一识别码
     bk.identification = std::to_string(id);
+
+
     std::cout << "\n已完成图书信息录入！\n\n";
 
     return 0;
