@@ -3,14 +3,14 @@
 //
 #include "../headers/function_definitions.h"
 
-int UserID_Exist(BorrowerGroup gp, const std::string& id)
+bool UserID_Exist(BorrowerGroup gp, const std::string& id)
 {
     for (int i = 1; i <= gp.borrower_amount; i++) {
         if (gp.borrower_list[i].ID == id) {
-            return 1;
+            return true;
         } else{
             continue;
         }
     }
-    return 0;
+    return false;
 }

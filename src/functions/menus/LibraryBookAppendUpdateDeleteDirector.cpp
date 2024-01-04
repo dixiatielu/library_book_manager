@@ -1,15 +1,16 @@
 //
 // Created by 地铁DXTL on 2024/1/4.
 //
-#include "../headers/function_definitions.h"
+#include "../../headers/function_definitions.h"
 
-void LibraryBook_Append_Update_Delete_Director(Library &lib)
+void LibraryBookAppendUpdateDeleteDirector(Library &lib)
 {
     std::string bkISBN_input, bkname_input;
     std::vector<int> result_search;
 
     int mode_flag;
-    std::cout << "请选择输入模式\n"
+    std::cout << "*****图书录入更新菜单*****" << std::endl;
+    std::cout << "请选择图书信息输入模式\n"
                  "\t1. ISBN\n"
                  "\t2. 书名\n"
                  "\t输入其他任意字符以退出\n"

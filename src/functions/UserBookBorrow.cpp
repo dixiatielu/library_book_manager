@@ -64,8 +64,8 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
                 if (lib.book_list[result_position[i]].lend_state_flag == 0) {
                     lib.book_list[result_position[i]].lend_state_flag = -1;
 
-                    UserBrrwHistory_UpdateBorrow(gp.borrower_list[user_position].borrow_history,
-                                                 lib.book_list[result_position[i]].identification);
+                    UpdateUserBorrowHistory(gp.borrower_list[user_position].borrow_history,
+                                            lib.book_list[result_position[i]].identification);
                     BookLendHistory_UpdateBorrow(lib.book_list[result_position[i]].lend_history
                             , user_identification);
                     // user_ptr->borrow_history.borrowed_books_acc++;

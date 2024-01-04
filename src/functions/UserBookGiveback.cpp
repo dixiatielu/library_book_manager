@@ -44,8 +44,7 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
                 break;
         }
         if (!result_position.empty()) { // TODO: 可添加罚款功能
-            UserBookHistory_UpdateGiveback(gp.borrower_list[user_position].borrow_history
-                    , result_position.front());
+            UpdateUserGivebackHistory(gp.borrower_list[user_position].borrow_history, result_position.front());
             BookLendState_UpdateGiveback(lib,
                                          gp.borrower_list[user_position].borrow_history.book_list[result_position.front()].book_ID);
 

@@ -17,7 +17,7 @@
 
 #include "../include/fmt.h"
 #include "struct.h"
-#include "../include/macro.h"
+#include "macro.h"
 
 /**
  * @brief Get the Time Current object
@@ -113,10 +113,14 @@ int LibraryBook_Update(Book &bk);
  *           修改所有副本时，使用 LibraryBook_Copy 函数将首个修改后的图书复制到其他副本位置；
  *        3. 使用 LibraryBook_Delete 函数删除图书。
  * @param lib
- * @param bk_position
 **/
-void LibraryBook_Append_Update_Delete_Director(Library &lib);
+void LibraryBookAppendUpdateDeleteDirector(Library &lib);
 
+/*!
+ *
+ * @param lib
+ * @param bk_position
+ */
 void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_position);
 
 /*-----------------------------------------------------------------------------*/
@@ -128,12 +132,12 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
  * @param id
  * @return int 存在则返回1，不存在返回0
 **/
-int UserID_Exist(BorrowerGroup gp, const std::string &id);
+bool UserID_Exist(BorrowerGroup gp, const std::string &id);
 
 
 /**
  * @brief 需要检查用户是否有借书权限，
- *        存在用户且有结束权限时，返回用户在名单中的位置1，2，3...，
+ *        存在用户且有借书权限时，返回用户在名单中的位置1，2，3...，
  *        否则返回0
  *
  * @param gp
@@ -180,7 +184,7 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib);
 
 /*-----------------------------------------------------------------------------*/
 
-int UserBrrwHistory_UpdateBorrow(BorrowHistory &brrw_history, std::string bk_ID);
+int UpdateUserBorrowHistory(BorrowHistory &brrw_history, std::string bk_ID);
 
 int BookLendHistory_UpdateBorrow(std::vector<BorrowerNode> &ld_history, std::string brrwr_ID);
 
@@ -229,11 +233,28 @@ std::vector<int> User_BorrowedBook_ISBNSearch(Library lib, BorrowHistory brrw_hi
 **/
 void UserBookGiveback(BorrowerGroup &gp, Library &lib);
 
-int UserBookHistory_UpdateGiveback(BorrowHistory &brrw_history, int giveback_brrwedbook_numero);
+int UpdateUserGivebackHistory(BorrowHistory &brrw_history, int giveback_brrwedbook_numero);
 
 int BookLendState_UpdateGiveback(Library &lib, const std::string &giveback_bkID);
 
-
+/*!
+ *
+ * @param lib
+ * @return 选项
+ */
 int ShowMainMenu(Library &lib);
 
+
+/*!
+ * @brief 备份和恢复数据菜单
+ * @param lib
+ */
 void DataBackupAndRestoreMenu(Library& lib);
+
+/*!
+ *
+ * @param lib
+ */
+void LibrarySearchMenu(const Library& lib);
+
+void BorrowAndGiveBackMenu(const Library& lib);
