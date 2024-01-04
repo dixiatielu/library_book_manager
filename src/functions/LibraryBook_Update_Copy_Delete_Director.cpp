@@ -14,12 +14,21 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
                  "\t3. 删除某一副本\n"
                  "\t4. 删除所有副本\n"
                  "\t5. 添加一本副本\n"
+                 "\t6. 查看副本唯一识别码\n"
                  "\t输入其他任意字符以退出\n"
                  "$?-";
     std::cin >> mode_flag;
+    std::cin.ignore(500, '\n');						// 清空输入缓冲区
 
-    int bkpos_numero_selected;
-    int         tmp_lend_state_flag;
+    if (!std::cin) {
+        std::cout << "请输入数字！\n";
+        std::cin.clear();
+        std::cin.ignore(500, '\n');						// 清空输入缓冲区
+        mode_flag = -1;
+    }
+
+    int bkpos_numero_selected = 0;
+    int tmp_lend_state_flag   = 0;
     std::string tmp_identification;
     switch (mode_flag) {
         case 1:
@@ -69,6 +78,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             LibraryBook_Delete_fast(lib, bk_position[bkpos_numero_selected - 1]);
             std::cout << "\n删除成功\n";
             break;
+
         case 4:
             std::cout << "\n各副本唯一识别码如下\n";
             for (int i = 0; i <= bk_position.size() - 1; i++) {
@@ -83,12 +93,24 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             }
             std::cout << "\n删除成功\n";
             break;
+
         case 5:
-            LibraryBook_Copy(lib.book_list[lib.book_amount]
-                    , lib.book_list[bk_position[0]]);
+            LibraryBook_Copy(lib.book_list[lib.book_amount + 1], lib.book_list[bk_position[0]]);
+            lib.book_amount++;
+//            std::cout << lib.book_amount;
 
             time(&id); // 使用时间戳作为书本唯一识别码
             lib.book_list[lib.book_amount].identification = std::to_string(id);
+            break;
+
+        case 6:
+            std::cout << "\n各副本唯一识别码如下\n";
+            for (int i = 0; i <= bk_position.size() - 1; i++) {
+
+                std::cout << fmt::format("\t{}. {}\n"
+                        ,i+1 , lib.book_list[bk_position[i]].identification);
+            }
+
             break;
         default:
             return;

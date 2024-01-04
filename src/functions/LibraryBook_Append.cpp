@@ -76,6 +76,7 @@ int LibraryBook_Append(Book &bk, const std::string& bk_name, const std::string& 
     bk.lend_history = {};
     time(&id); // 使用时间戳作为书本唯一识别码
     bk.identification = std::to_string(id);
+    std::cout << "\n已完成图书信息录入！\n\n";
 
     return 0;
 }
