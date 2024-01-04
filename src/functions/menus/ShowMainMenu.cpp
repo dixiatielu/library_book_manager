@@ -11,10 +11,11 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
     int choice;
     cout << "\n*****主菜单*****" << endl;
     cout << "1. 图书信息录入与更新" << endl;
-    cout << "2. 图书检索与查询" << endl;
+    cout << "2. 图书检索" << endl;
     cout << "3. 图书借阅与归还" << endl;
     cout << "4. 用户权限管理" << endl;
     cout << "5. 系统数据备份与恢复" << endl;
+    cout << "6. 图书馆信息速览" << endl;
     cout << "0. 退出系统" << endl;
     cout << "请选择功能（输入相应数字）：";
     cin >> choice;
@@ -49,7 +50,7 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
         }
 
         case 2:
-            // 调用图书检索与查询的函数
+            // 调用图书检索的函数
             LibrarySearchMenu(lib);
             break;
 
@@ -60,13 +61,18 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
 
         case 4:
             // 调用用户权限管理的函数
-            // UserManagement();
+//             UserManagement();
             break;
 
         case 5:
             // 调用系统数据备份与恢复的函数
             DataBackupAndRestoreMenu(lib, gp);
             break;
+
+        case 6:
+            Library_User_InfoMenu(lib, gp);
+            break;
+
         case 0:
             cout << "感谢使用，再见！" << endl;
             break;
