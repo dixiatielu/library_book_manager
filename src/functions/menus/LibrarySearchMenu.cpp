@@ -60,7 +60,8 @@ void LibrarySearchMenu(const Library &lib)
     if (!result_search.empty()) {
 
         std::cout << fmt::format("\n找到了{:-^5}本符合搜索要求的书\n", result_search.size());
-        std::cout << lib.book_list[result_search[0]];
+        for(int i = 0; i <= result_search.size() - 1; i++)
+            std::cout << lib.book_list[result_search[i]] << std::endl << "--------------------------\n";
 
         std::vector<int> bk_overdue, bk_lent, bk_available, bk_transit;
         for (int i = 0; i <= result_search.size() - 1; i++) {

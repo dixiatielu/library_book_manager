@@ -34,5 +34,7 @@ add_executable(library_book_manager
         src/main.cpp
         src/functions/menus/UserManagement.cpp
         src/functions/menus/Library_User_infoMenu.cpp
+        src/functions/utils/KMP/kmp_algorithms.cpp
+        src/functions/utils/KMP/kmp_algorithms_definition.h
 
 )
