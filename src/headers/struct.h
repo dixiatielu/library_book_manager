@@ -526,7 +526,7 @@ struct BorrowerGroup{
         // Fill BorrowerGroup structure from JSON
         try
         {
-            int tmp_borrower_amount = borrower_amount;
+//            int tmp_borrower_amount = borrower_amount;
             borrower_amount = brrwrGpJson["borrower_amount"];
             const nlohmann::json& borrowerListJson = brrwrGpJson["borrower_list"];
 
@@ -594,6 +594,7 @@ struct BorrowerGroup{
                         }
                         borrower_list.emplace_back(tmp_user);
                     }
+                    borrower_amount = borrower_list.size() - 1;
                 }
                 else
                 {
