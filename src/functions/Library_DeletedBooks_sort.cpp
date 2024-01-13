@@ -3,7 +3,7 @@
 //
 #include "../headers/function_definitions.h"
 
-int Library_DeletedBooks_sort(Library &lib) {
+[[maybe_unused]] int Library_DeletedBooks_sort(Library &lib) {
     std::queue<int> books_deleted_position;
     for (int i = 1; i <= BOOK_MAX_NUM; i++) {
         if (lib.book_list[i].lend_state_flag == -3) {

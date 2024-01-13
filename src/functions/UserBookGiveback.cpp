@@ -32,7 +32,6 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib) {
                 result_position = User_BorrowedBook_ISBNSearch(lib,
                                                                gp.borrower_list[user_position].borrow_history,
                                                                bkISBN_input);
-                // result_position = LibraryBookISBNSearch(lib, bkISBN_input);
                 break;
 
             case 2:
@@ -41,7 +40,6 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib) {
                 result_position = User_BorrowedBook_NameSearch(lib,
                                                                gp.borrower_list[user_position].borrow_history,
                                                                bkname_input);
-                // result_position = LibraryBookNameSearch(lib, bkname_input);
                 break;
 
             default:

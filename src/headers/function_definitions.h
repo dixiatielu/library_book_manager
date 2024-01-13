@@ -67,7 +67,7 @@ std::vector<int> LibraryBookISBNSearch(const Library &lib, const std::string &IS
 
 void LibraryBook_Delete_fast(Library &lib, int bk_position);
 
-int Library_DeletedBooks_sort(Library &lib);
+[[maybe_unused]] int Library_DeletedBooks_sort(Library &lib);
 
 /*-----------------------------------------------------------------------------*/
 
