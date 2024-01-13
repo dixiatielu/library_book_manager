@@ -52,7 +52,7 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
             break;
 
         default:// 程序出口
-            std::cout << "\n退出图书信息录入与更新程序\n\n\n";
+            std::cout << "退出图书信息录入与更新程序" << std::endl;
             return;
     }
 

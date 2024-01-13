@@ -39,7 +39,7 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
             // 调用图书信息录入与更新的函数
             while(true) {
                 LibraryBookAppendUpdateDeleteDirector(lib);
-                cout << "\n是否继续录入和更新图书信息？（1：是，0：否）" << endl;
+                cout << "\n是否继续录入和更新图书信息？（1：是，0：否）：";
                 int continue_flag;
                 cin >> continue_flag;
                 cin.ignore(500, '\n');						// 清空输入缓冲区
