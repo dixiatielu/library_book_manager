@@ -3,13 +3,13 @@
 //
 
 #include "../headers/function_definitions.h"
-int UserValidation_Search_Borrow(BorrowerGroup gp, const std::string& id)
-{
+
+int UserValidation_Search_Borrow(BorrowerGroup gp, const std::string &id) {
     for (int i = 1; i <= gp.borrower_amount; i++) {
         if ((gp.borrower_list[i].ID == id)
-            &&(gp.borrower_list[i].permission_flag == 0)) {
+            && (gp.borrower_list[i].permission_flag == 0)) {
             return i;
-        } else{
+        } else {
             continue;
         }
     }

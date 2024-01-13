@@ -2,8 +2,8 @@
 // Created by 地铁DXTL on 2024/1/4.
 //
 #include "../headers/function_definitions.h"
-void UserBookGiveback(BorrowerGroup &gp, Library &lib)
-{
+
+void UserBookGiveback(BorrowerGroup &gp, Library &lib) {
     std::string user_identification;
     std::cout << "请输入您的ID：";
     std::cin >> user_identification;
@@ -25,8 +25,7 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
                      "$?-";
         std::cin >> mode_flag;
 
-        switch (mode_flag)
-        {
+        switch (mode_flag) {
             case 1:
                 std::cout << "请输入ISBN:";
                 std::cin >> bkISBN_input;
@@ -54,12 +53,12 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
                                          gp.borrower_list[user_position].borrow_history.book_list[result_position.front()].book_ID);
             std::cout << "图书已归还";
 
-        } else{
+        } else {
             std::cout << "该用户下无该图书处于借阅/逾期状态！";
             return;
         }
 
-    } else{
+    } else {
         std::cout << "不存在该用户！";
         return;
     }

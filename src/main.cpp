@@ -21,13 +21,12 @@ int main() {
     Library library_local(0);
     BorrowerGroup group_local(0);
     while (true) {
-        if(ShowMainMenu(library_local,group_local) == 0) {
+        if (ShowMainMenu(library_local, group_local) == 0) {
             break;
         }
 
         system("pause");
     }
-//    library_local.writeToJSONFile_Origin("firstTestLib.json");
 
     return 0;
 }

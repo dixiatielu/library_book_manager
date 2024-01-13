@@ -2,9 +2,10 @@
 // Created by 地铁DXTL on 2024/1/4.
 //
 #include "../../headers/function_definitions.h"
+
 using namespace std;
-void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp)
-{
+
+void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
     int choice;
     do {
 //        SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_INTENSITY|FOREGROUND_GREEN);	// 设置输出字符颜色为强调、红色
@@ -31,7 +32,7 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp)
                         "输入其他数字以退出图书数据备份程序\n"
                         "$-";
                 cin >> choice;
-                std::cin.ignore(500, '\n');						// 清空输入缓冲区
+                std::cin.ignore(500, '\n');                        // 清空输入缓冲区
 
                 if (!cin) {
                     cout << "输入非数字！\n"
@@ -70,7 +71,7 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp)
                                     "由 ./{} 路径下导入\n\n", restoreFilePath + fileExtension);
             }
                 break;
-            case 3:{
+            case 3: {
                 cout << "请输入备份文件名（包含路径）：";
                 cin >> backupFilePath;
                 gp.writeToJSONFile(backupFilePath + fileExtension);
@@ -93,5 +94,5 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp)
             default:
                 cout << "无效的选项，请重新选择。" << endl;
         }
-    }while(choice != 0);
+    } while (choice != 0);
 }

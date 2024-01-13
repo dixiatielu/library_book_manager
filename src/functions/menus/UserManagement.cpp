@@ -19,14 +19,14 @@ void displayUserManagementMenu() {
 //    SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE); // 还原字符颜色
 }
 
-void displayAllUsers(const BorrowerGroup& g) {
+void displayAllUsers(const BorrowerGroup &g) {
     if (g.borrower_amount == 0) {
         cout << "\n当前无用户信息\n\n";
-    } else{
+    } else {
         cout << "\n所有用户信息：\n" << endl;
         bool first_flag = true;
-        for (const User& user : g.borrower_list) {
-            if(first_flag){
+        for (const User &user: g.borrower_list) {
+            if (first_flag) {
                 first_flag = false;
                 continue;
             }
@@ -37,7 +37,7 @@ void displayAllUsers(const BorrowerGroup& g) {
 
 }
 
-void addUser(BorrowerGroup& g) {
+void addUser(BorrowerGroup &g) {
     User newUser;
 
     cout << "\n请输入新用户的信息" << endl;
@@ -47,7 +47,7 @@ void addUser(BorrowerGroup& g) {
 
     // Check if the user already exists
     auto it = find_if(g.borrower_list.begin(), g.borrower_list.end(),
-                      [&](const User& existingUser) { return existingUser.ID == newUser.ID; });
+                      [&](const User &existingUser) { return existingUser.ID == newUser.ID; });
 
     if (it != g.borrower_list.end()) {
         cout << "用户已存在，添加失败。" << endl;
@@ -71,7 +71,7 @@ void addUser(BorrowerGroup& g) {
 }
 
 // TODO: 只有用户当前没有借书、还清罚款时才能删除
-void deleteUser(BorrowerGroup& g) {
+void deleteUser(BorrowerGroup &g) {
     string userID;
     cout << "请输入要删除的用户ID\n"
             "&?-";
@@ -79,7 +79,7 @@ void deleteUser(BorrowerGroup& g) {
 
     // Find the user by ID
     auto it = find_if(g.borrower_list.begin(), g.borrower_list.end(),
-                      [&](const User& user) { return user.ID == userID; });
+                      [&](const User &user) { return user.ID == userID; });
 
     if (it != g.borrower_list.end()) {
         // Remove the user from the group
@@ -92,7 +92,7 @@ void deleteUser(BorrowerGroup& g) {
     }
 }
 
-void modifyUserInfo(BorrowerGroup& g) {
+void modifyUserInfo(BorrowerGroup &g) {
     string userID;
     cout << "请输入要修改的用户ID\n"
             "&?-";
@@ -100,7 +100,7 @@ void modifyUserInfo(BorrowerGroup& g) {
 
     // Find the user by ID
     auto it = find_if(g.borrower_list.begin(), g.borrower_list.end(),
-                      [&](const User& user) { return user.ID == userID; });
+                      [&](const User &user) { return user.ID == userID; });
 
     if (it != g.borrower_list.end()) {
         // Modify user information
@@ -133,7 +133,7 @@ void modifyUserInfo(BorrowerGroup& g) {
     }
 }
 
-void UserManagement(BorrowerGroup& g) {
+void UserManagement(BorrowerGroup &g) {
     int choice;
 
     do {

@@ -4,8 +4,7 @@
 
 #include "../../headers/function_definitions.h"
 
-void LibrarySearchMenu(const Library &lib)
-{
+void LibrarySearchMenu(const Library &lib) {
     std::string bkISBN_input, bkname_input, bkID_input;
     std::vector<int> result_search;
 
@@ -22,18 +21,17 @@ void LibrarySearchMenu(const Library &lib)
 //    SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE); // 还原字符颜色
 
     std::cin >> mode_flag;
-    std::cin.ignore(500, '\n');						// 清空输入缓冲区
+    std::cin.ignore(500, '\n');                        // 清空输入缓冲区
 
     if (!std::cin) {
         std::cout << "输入非数字！\n"
                      "将退出图书信息录入与更新程序\n";
         std::cin.clear();
-        std::cin.ignore(500, '\n');						// 清空输入缓冲区
+        std::cin.ignore(500, '\n');                        // 清空输入缓冲区
         mode_flag = -1;
     }
 
-    switch (mode_flag)
-    {
+    switch (mode_flag) {
         case 1:
             std::cout << "请输入ISBN:";
             std::cin >> bkISBN_input;
@@ -60,7 +58,7 @@ void LibrarySearchMenu(const Library &lib)
     if (!result_search.empty()) {
 
         std::cout << fmt::format("\n找到了{:-^5}本符合搜索要求的书\n", result_search.size());
-        for(int i = 0; i <= result_search.size() - 1; i++)
+        for (int i = 0; i <= result_search.size() - 1; i++)
             std::cout << lib.book_list[result_search[i]] << std::endl << "--------------------------\n";
 
         std::vector<int> bk_overdue, bk_lent, bk_available, bk_transit;
@@ -92,27 +90,27 @@ void LibrarySearchMenu(const Library &lib)
         std::cout << "\n图书出借状态：\n";
         // Important: (vector).size() 返回 unsigned 类型
         // 也可以使用 < 比较实现
-        std::cout << fmt::format("\t{:-^12}：{:^3}本\n","逾期状态", bk_overdue.size());
-        for (int i = 0; i <= (signed)bk_overdue.size() - 1; i++) {
-            std::cout << fmt::format("\t\t{}: {}\n", i+1, lib.book_list[bk_overdue[i]].identification);
+        std::cout << fmt::format("\t{:-^12}：{:^3}本\n", "逾期状态", bk_overdue.size());
+        for (int i = 0; i <= (signed) bk_overdue.size() - 1; i++) {
+            std::cout << fmt::format("\t\t{}: {}\n", i + 1, lib.book_list[bk_overdue[i]].identification);
         }
 
-        std::cout << fmt::format("\t{:-^12}：{:^3}本\n","借出状态", bk_lent.size());
-        for (int i = 0; i <= (signed)bk_lent.size() - 1; i++) {
-            std::cout << fmt::format("\t\t{}: {}\n", i+1, lib.book_list[bk_lent[i]].identification);
+        std::cout << fmt::format("\t{:-^12}：{:^3}本\n", "借出状态", bk_lent.size());
+        for (int i = 0; i <= (signed) bk_lent.size() - 1; i++) {
+            std::cout << fmt::format("\t\t{}: {}\n", i + 1, lib.book_list[bk_lent[i]].identification);
         }
 
-        std::cout << fmt::format("\t{:-^12}：{:^3}本\n","在馆状态", bk_available.size());
-        for (int i = 0; i <= (signed)bk_available.size() - 1; i++) {
-            std::cout << fmt::format("\t\t{}: {}\n", i+1, lib.book_list[bk_available[i]].identification);
+        std::cout << fmt::format("\t{:-^12}：{:^3}本\n", "在馆状态", bk_available.size());
+        for (int i = 0; i <= (signed) bk_available.size() - 1; i++) {
+            std::cout << fmt::format("\t\t{}: {}\n", i + 1, lib.book_list[bk_available[i]].identification);
         }
 
-        std::cout << fmt::format("\t{:-^12}：{:^3}本\n","在途状态", bk_transit.size());
-        for (int i = 0; i <= (signed)bk_transit.size() - 1; i++) {
-            std::cout << fmt::format("\t\t{}: {}\n", i+1, lib.book_list[bk_transit[i]].identification);
+        std::cout << fmt::format("\t{:-^12}：{:^3}本\n", "在途状态", bk_transit.size());
+        for (int i = 0; i <= (signed) bk_transit.size() - 1; i++) {
+            std::cout << fmt::format("\t\t{}: {}\n", i + 1, lib.book_list[bk_transit[i]].identification);
         }
 
-    } else{
+    } else {
         std::cout << "\n未找到符合搜索要求的书\n";
     }
 

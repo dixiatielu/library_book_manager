@@ -13,8 +13,7 @@
 **    作用：
 **        根据模式串构建next数组（即此处index_ls数组）
 ---------------------------------------------------------*/
-void index_construct(int* index_ls, const std::string& sst_patt)
-{
+void index_construct(int *index_ls, const std::string &sst_patt) {
     for (int i = 1; i <= sst_patt.length(); i++) {
         index_ls[i] = index_find(sst_patt, i) + 1;       // 注意：index_ls中的序号为自然排序序号
     }
@@ -28,13 +27,12 @@ void index_construct(int* index_ls, const std::string& sst_patt)
 **    作用：
 **        根据模式串计算next数组中的数值（即此处index_ls数组）
 ---------------------------------------------------------*/
-int index_find(const std::string& patt, int pos_limit)
-{
+int index_find(const std::string &patt, int pos_limit) {
     int accu = 0;
     int pos_smp = 1; // abbr. of "position of sample"，前缀相同串的测试点
     int pos_cmp = 2; // abbr. of "position of co-sample"，后缀相同串的测试点
 
-    if (pos_limit == 1){
+    if (pos_limit == 1) {
         return -1; // 使next数组第一个元素（next[1]）为0
 
     } else {
@@ -64,8 +62,7 @@ int index_find(const std::string& patt, int pos_limit)
 **    作用：
 **        根据模式串计算nextval数组中的数值
 ---------------------------------------------------------*/
-void nextval_construct(int* nextval_ls, int* index_ls, const std::string& sst_patt)
-{
+void nextval_construct(int *nextval_ls, int *index_ls, const std::string &sst_patt) {
     for (int i = 1; i <= sst_patt.length(); i++) {
         nextval_ls[i] = nextval_find(index_ls, sst_patt, i); // 注意：nextval_ls中的序号为自然排序序号
     }
@@ -82,8 +79,7 @@ void nextval_construct(int* nextval_ls, int* index_ls, const std::string& sst_pa
 **    注意：
 **        存在递归调用
 ---------------------------------------------------------*/
-int nextval_find(int* index_ls, const std::string& patt, int pos)
-{
+int nextval_find(int *index_ls, const std::string &patt, int pos) {
     if (pos == 1) {
         return 0; // 使nextval数组第一个元素（nextval[1]）为0
 
@@ -105,8 +101,8 @@ int nextval_find(int* index_ls, const std::string& patt, int pos)
 **    作用：
 **        使用nextval数组在主串中寻找是否存在模式串，并返回0（表示未找到）或模式串在主串中的位置
 ---------------------------------------------------------*/
-int seek(const std::string& sst_main, const std::string& sst_pattern, int* nextval_ls, int main_position, int pattern_position)
-{
+int seek(const std::string &sst_main, const std::string &sst_pattern, int *nextval_ls, int main_position,
+         int pattern_position) {
     while ((main_position <= sst_main.length()) && (pattern_position <= sst_pattern.length())) { // 当主串检测位和模式串检测位均未越位时
         if ((pattern_position == 0) || (sst_main[main_position - 1] == sst_pattern[pattern_position - 1])) {
             // 当模式串检测位为零或主串和模式串检测位对应字符相同时

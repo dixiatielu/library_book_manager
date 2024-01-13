@@ -3,8 +3,7 @@
 //
 #include "../headers/function_definitions.h"
 
-int LibraryBook_Copy(Book &bk, Book bk_sample)
-{
+int LibraryBook_Copy(Book &bk, Book bk_sample) {
     bk = std::move(bk_sample);
     return 0;
 }

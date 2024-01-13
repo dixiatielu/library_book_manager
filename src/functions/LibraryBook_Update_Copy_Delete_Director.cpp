@@ -2,8 +2,8 @@
 // Created by 地铁DXTL on 2024/1/4.
 //
 #include "../headers/function_definitions.h"
-void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_position)
-{
+
+void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_position) {
     time_t id;
 //    time(&id); // 使用时间戳作为书本唯一识别码
 
@@ -18,7 +18,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
                  "\t输入其他任意字符以退出\n"
                  "$?-";
     std::cin >> mode_flag;
-    std::cin.ignore(500, '\n');						// 清空输入缓冲区
+    std::cin.ignore(500, '\n');                        // 清空输入缓冲区
 
     if (!std::cin) {
         std::cout << "输入非数字！\n"
@@ -29,7 +29,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
 
     int bkpos_numero_selected = 0;
 
-    int tmp_lend_state_flag   = 0;
+    int tmp_lend_state_flag = 0;
     std::string tmp_identification;
     std::vector<BorrowerNode> tmp_lend_history;
     switch (mode_flag) {
@@ -37,13 +37,12 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             std::cout << "\n各副本唯一识别码如下\n";
             for (int i = 0; i <= bk_position.size() - 1; i++) {
 
-                std::cout << fmt::format("\t{}. {}\n"
-                        ,i+1 , lib.book_list[bk_position[i]].identification);
+                std::cout << fmt::format("\t{}. {}\n", i + 1, lib.book_list[bk_position[i]].identification);
             }
 
             std::cout << "\n请输入要修改副本对应的唯一识别码序号：";
             std::cin >> bkpos_numero_selected;
-            std::cin.ignore(500, '\n');						// 清空输入缓冲区
+            std::cin.ignore(500, '\n');                        // 清空输入缓冲区
 
             if (!std::cin) {
 
@@ -69,21 +68,20 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             std::cout << "\n各副本唯一识别码如下\n";
             for (int i = 0; i <= bk_position.size() - 1; i++) {
 
-                std::cout << fmt::format("\t{}. {}\n"
-                        ,i+1 , lib.book_list[bk_position[i]].identification);
+                std::cout << fmt::format("\t{}. {}\n", i + 1, lib.book_list[bk_position[i]].identification);
             }
 
             std::cout << "\n请修改样本\n";
             LibraryBook_Update(lib.book_list[bk_position[0]]);
             for (int i = 1; i <= bk_position.size() - 1; i++) {
                 tmp_lend_state_flag = lib.book_list[bk_position[i]].lend_state_flag;
-                tmp_identification  = lib.book_list[bk_position[i]].identification;
-                tmp_lend_history    = lib.book_list[bk_position[i]].lend_history;
+                tmp_identification = lib.book_list[bk_position[i]].identification;
+                tmp_lend_history = lib.book_list[bk_position[i]].lend_history;
                 LibraryBook_Copy(lib.book_list[bk_position[i]], lib.book_list[bk_position[0]]);
 
                 lib.book_list[bk_position[i]].lend_state_flag = tmp_lend_state_flag;
-                lib.book_list[bk_position[i]].identification  = tmp_identification;
-                lib.book_list[bk_position[i]].lend_history    = tmp_lend_history;
+                lib.book_list[bk_position[i]].identification = tmp_identification;
+                lib.book_list[bk_position[i]].lend_history = tmp_lend_history;
             }
             std::cout << "\n所有副本修改完成！\n";
             break;
@@ -92,8 +90,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             std::cout << "\n各副本唯一识别码如下\n";
             for (int i = 0; i <= bk_position.size() - 1; i++) {
 
-                std::cout << fmt::format("\t{}. {}\n"
-                        ,i+1 , lib.book_list[bk_position[i]].identification);
+                std::cout << fmt::format("\t{}. {}\n", i + 1, lib.book_list[bk_position[i]].identification);
             }
 
             std::cout << "\n请输入要修改副本对应的唯一识别码序号：";
@@ -106,11 +103,10 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             std::cout << "\n各副本唯一识别码如下\n";
             for (int i = 0; i <= bk_position.size() - 1; i++) {
 
-                std::cout << fmt::format("\t{}. {}\n"
-                        ,i+1 , lib.book_list[bk_position[i]].identification);
+                std::cout << fmt::format("\t{}. {}\n", i + 1, lib.book_list[bk_position[i]].identification);
             }
 
-            for (int i = 0; i <= bk_position.size() - 1; i++){
+            for (int i = 0; i <= bk_position.size() - 1; i++) {
 
                 LibraryBook_Delete_fast(lib, bk_position[i]);
             }
@@ -132,8 +128,7 @@ void LibraryBook_Update_Copy_Delete_Director(Library &lib, std::vector<int> bk_p
             std::cout << "\n各副本唯一识别码如下\n";
             for (int i = 0; i <= bk_position.size() - 1; i++) {
 
-                std::cout << fmt::format("\t{}. {}\n"
-                        ,i+1 , lib.book_list[bk_position[i]].identification);
+                std::cout << fmt::format("\t{}. {}\n", i + 1, lib.book_list[bk_position[i]].identification);
             }
 
             std::cout << "\n所有副本唯一识别码输出成功！\n";

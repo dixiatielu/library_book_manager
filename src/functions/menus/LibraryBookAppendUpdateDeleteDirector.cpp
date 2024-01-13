@@ -3,8 +3,7 @@
 //
 #include "../../headers/function_definitions.h"
 
-void LibraryBookAppendUpdateDeleteDirector(Library &lib)
-{
+void LibraryBookAppendUpdateDeleteDirector(Library &lib) {
     std::string bkISBN_input, bkname_input, bkID_input;
     std::vector<int> result_search;
 
@@ -21,18 +20,17 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
 //    SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE); // 还原字符颜色
 
     std::cin >> mode_flag;
-    std::cin.ignore(500, '\n');						// 清空输入缓冲区
+    std::cin.ignore(500, '\n');                        // 清空输入缓冲区
 
     if (!std::cin) {
         std::cout << "输入非数字！\n"
                      "将退出图书信息录入与更新程序\n";
         std::cin.clear();
-        std::cin.ignore(500, '\n');						// 清空输入缓冲区
+        std::cin.ignore(500, '\n');                        // 清空输入缓冲区
         mode_flag = -1;
     }
 
-    switch (mode_flag)
-    {
+    switch (mode_flag) {
         case 1:
             std::cout << "请输入ISBN:";
             std::cin >> bkISBN_input;
@@ -56,7 +54,7 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
             return;
     }
 
-    if (result_search.empty()&&(mode_flag != 3)) {
+    if (result_search.empty() && (mode_flag != 3)) {
         int append_flag; // 选项，是否添加书
         std::cout << "\n图书馆中无该图书信息\n";
         std::cout << "是否要添加该书？\n"
@@ -93,10 +91,10 @@ void LibraryBookAppendUpdateDeleteDirector(Library &lib)
                 break;
         }
 
-    } else if (result_search.empty()&&(mode_flag == 3)) {
+    } else if (result_search.empty() && (mode_flag == 3)) {
         std::cout << "不能直接以ID（图书唯一识别码）保存图书信息";
 
-    } else{
+    } else {
         std::cout << "\n图书馆中有该图书信息\n";
         LibraryBook_Update_Copy_Delete_Director(lib, result_search);
     }

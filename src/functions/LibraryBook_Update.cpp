@@ -4,8 +4,7 @@
 
 #include "../headers/function_definitions.h"
 
-int LibraryBook_Update(Book &bk)
-{
+int LibraryBook_Update(Book &bk) {
     std::cout << "请输入书名\n$?-";
     std::cin >> bk.name;
 
@@ -21,26 +20,26 @@ int LibraryBook_Update(Book &bk)
     std::cin >> authors_num >> translator_num;
 
     bk.authors_info_list.resize(authors_num + translator_num);
-    for(int i = 0; i <= authors_num - 1; i++) {
-        std::cout << fmt::format("请输入第{:^3}个作者的姓名\n$?-", i+1);
+    for (int i = 0; i <= authors_num - 1; i++) {
+        std::cout << fmt::format("请输入第{:^3}个作者的姓名\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i].name;
 
-        std::cout << fmt::format("请输入第{:^3}个作者的性别（0 为男性，1 为女性）\n$?-", i+1);
+        std::cout << fmt::format("请输入第{:^3}个作者的性别（0 为男性，1 为女性）\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i].gender;
 
-        std::cout << fmt::format("请输入第{:^3}个作者的国籍\n$?-", i+1);
+        std::cout << fmt::format("请输入第{:^3}个作者的国籍\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i].nationality;
 
         bk.authors_info_list[i].isTranslator = 0;
     }
-    for(int i = 0;i <= translator_num - 1; i++){
-        std::cout << fmt::format("\n请输入第{:^3}个译者的姓名\n$?-", i+1);
+    for (int i = 0; i <= translator_num - 1; i++) {
+        std::cout << fmt::format("\n请输入第{:^3}个译者的姓名\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i + authors_num].name;
 
-        std::cout << fmt::format("请输入第{:^3}个译者的性别（0 为男性，1 为女性）\n$?-", i+1);
+        std::cout << fmt::format("请输入第{:^3}个译者的性别（0 为男性，1 为女性）\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i + authors_num].gender;
 
-        std::cout << fmt::format("请输入第{:^3}个译者的国籍\n$?-", i+1);
+        std::cout << fmt::format("请输入第{:^3}个译者的国籍\n$?-", i + 1);
         std::cin >> bk.authors_info_list[i + authors_num].nationality;
 
         bk.authors_info_list[i].isTranslator = 1;

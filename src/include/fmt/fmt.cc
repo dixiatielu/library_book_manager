@@ -36,38 +36,53 @@ module;
 #include <version>
 
 #if __has_include(<cxxabi.h>)
+
 #  include <cxxabi.h>
+
 #endif
 #if defined(_MSC_VER) || defined(__MINGW32__)
+
 #  include <intrin.h>
+
 #endif
 #if defined __APPLE__ || defined(__FreeBSD__)
 #  include <xlocale.h>
 #endif
 #if __has_include(<winapifamily.h>)
+
 #  include <winapifamily.h>
+
 #endif
 #if (__has_include(<fcntl.h>) || defined(__APPLE__) || \
      defined(__linux__)) &&                            \
     (!defined(WINAPI_FAMILY) || (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP))
+
 #  include <fcntl.h>
 #  include <sys/stat.h>
 #  include <sys/types.h>
+
 #  ifndef _WIN32
 #    include <unistd.h>
 #  else
+
 #    include <io.h>
+
 #  endif
 #endif
 #ifdef _WIN32
 #  if defined(__GLIBCXX__)
+
 #    include <ext/stdio_filebuf.h>
 #    include <ext/stdio_sync_filebuf.h>
+
 #  define WIN32_LEAN_AND_MEAN
+
 #  include <windows.h>
+
 #endif
 
-export module fmt;
+export module
+fmt;
 
 #define FMT_EXPORT export
 #define FMT_BEGIN_EXPORT export {
@@ -100,7 +115,8 @@ extern "C++" {
 
 // gcc doesn't yet implement private module fragments
 #if !FMT_GCC_VERSION
-module : private;
+module :
+private;
 #endif
 
 #include "format.cc"

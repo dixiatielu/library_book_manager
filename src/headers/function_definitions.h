@@ -41,7 +41,7 @@ Time Get_TimeInput();
  * @return int 返回书单中的自然位置（1，2，3...）
  *             失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookIDSearch(const Library& lib, const std::string &id);
+std::vector<int> LibraryBookIDSearch(const Library &lib, const std::string &id);
 
 /**
  * @brief 按名称查找图书，并以vector返回书单中所有满足条件的图书的自然位置
@@ -51,7 +51,7 @@ std::vector<int> LibraryBookIDSearch(const Library& lib, const std::string &id);
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookNameSearch(const Library& lib, const std::string &bk_name);
+std::vector<int> LibraryBookNameSearch(const Library &lib, const std::string &bk_name);
 
 /**
  * @brief 按ISBN查找图书，并以vector返回书单中所有满足条件的图书的自然位置
@@ -61,7 +61,7 @@ std::vector<int> LibraryBookNameSearch(const Library& lib, const std::string &bk
  * @return vector 返回书单中的自然位置（1，2，3...）
  *                失败返回长度为0的vector
 **/
-std::vector<int> LibraryBookISBNSearch(const Library& lib, const std::string &ISBN);
+std::vector<int> LibraryBookISBNSearch(const Library &lib, const std::string &ISBN);
 
 /*-----------------------------------------------------------------------------*/
 
@@ -259,14 +259,14 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp);
  *          3. 输出当前图书状态（-2：1）；
  * @param lib
  */
-void LibrarySearchMenu(const Library& lib);
+void LibrarySearchMenu(const Library &lib);
 
 /**
  * @brief 供快速查看当前图书馆藏书数、借书人数...
  * @param lib
  * @param gp
  */
-void Library_User_InfoMenu(const Library& lib, const BorrowerGroup &gp);
+void Library_User_InfoMenu(const Library &lib, const BorrowerGroup &gp);
 
 void UserBorrowAndGiveBackMenu(Library &lib, BorrowerGroup &gp);
 
@@ -274,9 +274,10 @@ void UserBorrowAndGiveBackMenu(Library &lib, BorrowerGroup &gp);
  * @brief 借书还书菜单
  * @param lib
  */
-void BorrowAndGiveBackMenu(const Library& lib);
+void BorrowAndGiveBackMenu(const Library &lib);
+
 /*!
  * @brief 用户管理菜单
  * @param g
  */
-void UserManagement(BorrowerGroup& g);
+void UserManagement(BorrowerGroup &g);

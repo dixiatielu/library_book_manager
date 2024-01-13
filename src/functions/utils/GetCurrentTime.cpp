@@ -4,8 +4,7 @@
 
 #include "../../headers/function_definitions.h"
 
-Time Get_CurrentTime()
-{
+Time Get_CurrentTime() {
     static time_t raw_curtime;
     static struct tm *curtime;
     Time r_time;

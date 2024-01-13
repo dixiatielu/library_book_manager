@@ -4,8 +4,8 @@
 #include "../../headers/function_definitions.h"
 
 using namespace std;
-int ShowMainMenu(Library &lib, BorrowerGroup &gp)
-{
+
+int ShowMainMenu(Library &lib, BorrowerGroup &gp) {
     system("cls");
 
     int choice;
@@ -23,28 +23,26 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
 
 //    std::cin.ignore(500, '\n');						// 清空输入缓冲区
     cin >> choice;
-    std::cin.ignore(500, '\n');						// 清空输入缓冲区
+    std::cin.ignore(500, '\n');                        // 清空输入缓冲区
 
     if (!cin) {
         cout << "输入非数字！\n"
                 "将退出系统\n\n\n";
         cin.clear();
-        std::cin.ignore(500, '\n');						// 清空输入缓冲区
+        std::cin.ignore(500, '\n');                        // 清空输入缓冲区
         choice = 0;
     }
-    switch (choice)
-    {
-        case 1:
-        {
+    switch (choice) {
+        case 1: {
             // 调用图书信息录入与更新的函数
-            while(true) {
+            while (true) {
                 LibraryBookAppendUpdateDeleteDirector(lib);
                 cout << "\n是否继续录入和更新图书信息？（1：是，0：否）：";
                 int continue_flag;
                 cin >> continue_flag;
-                cin.ignore(500, '\n');						// 清空输入缓冲区
+                cin.ignore(500, '\n');                        // 清空输入缓冲区
 
-                if ((!continue_flag)||(!cin)) {
+                if ((!continue_flag) || (!cin)) {
                     cin.clear();
                     cout << "\n退出图书信息录入与更新功能\n";
                     break;
