@@ -37,7 +37,7 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
                 break;
 
             case 2:
-                std::cout << "请输入书名";
+                std::cout << "请输入完整书名：";
                 std::cin >> bkname_input;
                 result_position = User_BorrowedBook_NameSearch(lib,
                                                                gp.borrower_list[user_position].borrow_history,
@@ -48,7 +48,7 @@ void UserBookGiveback(BorrowerGroup &gp, Library &lib)
             default:
                 break;
         }
-        if (!result_position.empty()) { // TODO: 可添加罚款功能
+        if (!result_position.empty()) {
             UpdateUserGivebackHistory(gp.borrower_list[user_position].borrow_history, result_position.front());
             BookLendState_UpdateGiveback(lib,
                                          gp.borrower_list[user_position].borrow_history.book_list[result_position.front()].book_ID);

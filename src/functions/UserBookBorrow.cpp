@@ -40,15 +40,31 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
                 break;
         }
         if (!result_position.empty()) {
+            std::cout << "查询到以下符合条件的图书：" << std::endl;
+            for(int i = 0; i <= result_position.size() - 1; i++) {
+                std::cout << "序号" << i << ". " << std::endl;
+                std::cout << lib.book_list[result_position[i]] << std::endl << "--------------------------\n";
+            }
+            int bk_position;
+            do {
+                std::cout << "请输入您要借阅的图书序号：";
+                std::cin >> bk_position;
+                if (bk_position > result_position.size() - 1) {
+                    std::cout << "输入序号超出范围！";
+                    continue;
+                } else{
+                    break;
+                }
+            }while(true);
 
-            for (int i = 0; i <= result_position.size() - 1; i++) { // 历史查询，不能同时借两本相同ISBN/name的书
+             // 历史查询，不能同时借两本相同ISBN/name的书
 
-                if ((lib.book_list[result_position[i]].lend_state_flag == -1)
-                    ||(lib.book_list[result_position[i]].lend_state_flag == -2)) {
+                if ((lib.book_list[result_position[bk_position]].lend_state_flag == -1)
+                    ||(lib.book_list[result_position[bk_position]].lend_state_flag == -2)) {
 
-                    for (int j = 0; j <= lib.book_list[result_position[i]].lend_history.size() - 1; j++){
+                    for (int j = 0; j <= lib.book_list[result_position[bk_position]].lend_history.size() - 1; j++){
 
-                        if (lib.book_list[result_position[i]].lend_history[j].borrower_ID == user_identification) {
+                        if (lib.book_list[result_position[bk_position]].lend_history[j].borrower_ID == user_identification) {
 
                             std::cout << "该用户下有相同图书处于借出/逾期状态";
                             return;
@@ -58,24 +74,18 @@ void UserBookBorrow(BorrowerGroup &gp, Library &lib)
                         }
                     }
                 }
-            }
 
-            for (int i = 0; i <= result_position.size() - 1; i++) {
-                if (lib.book_list[result_position[i]].lend_state_flag == 0) {
-                    lib.book_list[result_position[i]].lend_state_flag = -1;
+                if (lib.book_list[result_position[bk_position]].lend_state_flag == 0) {
+                    lib.book_list[result_position[bk_position]].lend_state_flag = -1;
 
                     UpdateUserBorrowHistory(gp.borrower_list[user_position].borrow_history,
-                                            lib.book_list[result_position[i]].identification);
-                    BookLendHistory_UpdateBorrow(lib.book_list[result_position[i]].lend_history
+                                            lib.book_list[result_position[bk_position]].identification);
+                    BookLendHistory_UpdateBorrow(lib.book_list[result_position[bk_position]].lend_history
                             , user_identification);
-                    // user_ptr->borrow_history.borrowed_books_acc++;
-                    // user_ptr->borrow_history.borrowed_books_cur++;
-                    // 并入 UB_A 函数
                     std::cout << "借书成功";
                     return;
                     // 若存在该书，则此处函数结束
                 }
-            }
 
             std::cout << "该书均已借出！";
             return;
