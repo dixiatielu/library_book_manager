@@ -1,8 +1,15 @@
-/*
-**    文件名：kmp_algorithms.cpp
-**    文件内容：
-**        包含KMP算法所使用的所有函数
-*/
+/**
+ * @file kmp_algorithms.cpp
+ * @authors
+ * Chengpu
+ * dixiatielu
+ * @brief KMP算法函数实现
+ * @version 1.0
+ * @date 2024.1
+ *
+ * @copyright Copyright (c) 2024
+ *
+**/
 
 #include "kmp_algorithms_definition.h"
 //------------------------------------------------------

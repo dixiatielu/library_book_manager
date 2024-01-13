@@ -1,11 +1,13 @@
 /**
  * @file main.cpp
- * @author ChengPu (chengpu@stu.scu.edu.cn)
- * @brief 测试
- * @version 0.2
- * @date 2023-12-26
+ * @authors
+ * Chengpu
+ * dixiatielu
+ * @brief 程序入口
+ * @version 1.0
+ * @date 2024.1
  *
- * @copyright Copyright (c) 2023
+ * @copyright Copyright (c) 2024
  *
 **/
 

@@ -1,3 +1,14 @@
+/**
+ * @file macro.h
+ * @authors
+ * Chengpu
+ * @brief 全局宏定义
+ * @version 1.0
+ * @date 2024.1
+ *
+ * @copyright Copyright (c) 2024
+ *
+**/
 #ifndef MY_MACRO
 #define MY_MACRO
 
@@ -5,8 +16,5 @@
 #define Status int
 #define OK 1
 #define ERROR 0
-
-//#include <windows.h>
-//HANDLE ConsoleColorHandle = GetStdHandle(STD_OUTPUT_HANDLE); // Windows api，用于调整输出文字颜色
 
 #endif

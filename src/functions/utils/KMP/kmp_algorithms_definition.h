@@ -1,6 +1,15 @@
-//
-// Created by 地铁DXTL on 2024/1/13.
-//
+/**
+ * @file kmp_algorithms_definitions.h
+ * @authors
+ * Chengpu
+ * dixiatielu
+ * @brief KMP算法函数声明
+ * @version 1.0
+ * @date 2024.1
+ *
+ * @copyright Copyright (c) 2024
+ *
+**/
 
 #ifndef LIBRARY_BOOK_MANAGER_KMP_ALGORITHMS_DEFINITION_H
 #define LIBRARY_BOOK_MANAGER_KMP_ALGORITHMS_DEFINITION_H

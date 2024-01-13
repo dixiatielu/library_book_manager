@@ -1,0 +1,370 @@
+{
+  "book_amount_real": 10,
+  "book_amount_total": 10,
+  "book_list": [
+    {
+      "authors_info_list": [
+        {
+          "gender": 0,
+          "isTranslator": 0,
+          "name": "乔治·奥威尔",
+          "nationality": "UK"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "隗静秋",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "I561.45",
+      "identification": "1705128793",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 23,
+      "name": "动物庄园",
+      "publish_info": {
+        "date": {
+          "DD": "3",
+          "MM": "1",
+          "YY": "2011"
+        },
+        "ISBN": "9787544720748",
+        "press": "译林出版社",
+        "price": 18
+      }
+    },
+    {
+      "authors_info_list": [
+        {
+          "gender": 1,
+          "isTranslator": 0,
+          "name": "玛格丽特·杜拉斯",
+          "nationality": "FR"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "谭立德",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "I565.35",
+      "identification": "1705128794",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 16,
+      "name": "广岛之恋",
+      "publish_info": {
+        "date": {
+          "DD": "25",
+          "MM": "10",
+          "YY": "2010"
+        },
+        "ISBN": "9787532751662",
+        "press": "上海译文出版社",
+        "price": 22
+      }
+    },
+    {
+      "authors_info_list": [
+        {
+          "gender": 1,
+          "isTranslator": 0,
+          "name": "紫式部",
+          "nationality": "JPN"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "丰子恺",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "I313.43",
+      "identification": "1705128795",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 43,
+      "name": "源氏物语",
+      "publish_info": {
+        "date": {
+          "DD": "28",
+          "MM": "5",
+          "YY": "1980"
+        },
+        "ISBN": "7020038913",
+        "press": "Press",
+        "price": 45
+      }
+    },
+    {
+      "authors_info_list": [
+        {
+          "gender": 0,
+          "isTranslator": 0,
+          "name": "菲利普·图塞",
+          "nationality": "FR"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "李伟",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "K827",
+      "identification": "1705128796",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 34,
+      "name": "微动作心理学",
+      "publish_info": {
+        "date": {
+          "DD": "17",
+          "MM": "6",
+          "YY": "2013"
+        },
+        "ISBN": "9787544738323",
+        "press": "译林出版社",
+        "price": 35
+      }
+    },
+    {
+      "authors_info_list": [
+        {
+          "gender": 0,
+          "isTranslator": 0,
+          "name": "伦道夫·A·史密斯",
+          "nationality": "US"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "方双虎",
+          "nationality": "CN"
+        },
+        {
+          "gender": 1,
+          "isTranslator": 1,
+          "name": "王维娜",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "B80",
+      "identification": "1705128797",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 204,
+      "name": "挑战你的成见 : 心理学批判性思维",
+      "publish_info": {
+        "date": {
+          "DD": "27",
+          "MM": "7",
+          "YY": "2010"
+        },
+        "ISBN": "9787300120300",
+        "press": "中国人民大学出版社",
+        "price": 32
+      }
+    },
+    {
+      "authors_info_list": [
+        {
+          "gender": 0,
+          "isTranslator": 0,
+          "name": "奥肯",
+          "nationality": "US"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "高申春",
+          "nationality": "CN"
+        },
+        {
+          "gender": 1,
+          "isTranslator": 1,
+          "name": "魏连娣",
+          "nationality": "CN"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "冯晓杭",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "C932-05",
+      "identification": "1705128798",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 5,
+      "name": "如何有效地助人：会谈与咨询的技术",
+      "publish_info": {
+        "date": {
+          "DD": "17",
+          "MM": "8",
+          "YY": "2000"
+        },
+        "ISBN": "9787040262223",
+        "press": "高等教育出版社",
+        "price": 39.40
+      }
+    },
+
+    {
+      "authors_info_list": [
+        {
+          "gender": 1,
+          "isTranslator": 0,
+          "name": "简·博克",
+          "nationality": "US"
+        },
+        {
+          "gender": 1,
+          "isTranslator": 0,
+          "name": "莱诺拉·袁",
+          "nationality": "US"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "蒋永强",
+          "nationality": "CN"
+        },
+        {
+          "gender": 1,
+          "isTranslator": 1,
+          "name": "陆正芳",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "B84",
+      "identification": "1705128799",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 76,
+      "name": "拖延心理学",
+      "publish_info": {
+        "date": {
+          "DD": "7",
+          "MM": "12",
+          "YY": "2009"
+        },
+        "ISBN": "9787300113906",
+        "press": "中国人民大学出版社",
+        "price": 39.80
+      }
+    },
+    {
+      "authors_info_list": [
+        {
+          "gender": 0,
+          "isTranslator": 0,
+          "name": "萨姆·高斯林",
+          "nationality": "US"
+        },
+        {
+          "gender": 1,
+          "isTranslator": 1,
+          "name": "李玮",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "B84-49",
+      "identification": "1705128800",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 174,
+      "name": "窥探术：谁泄露了我的秘密著",
+      "publish_info": {
+        "date": {
+          "DD": "12",
+          "MM": "2",
+          "YY": "2012"
+        },
+        "ISBN": "9787300112459",
+        "press": "中国人民大学出版社",
+        "price": 36
+      }
+    },
+    {
+      "authors_info_list": [
+        {
+          "gender": 0,
+          "isTranslator": 0,
+          "name": "大卫·C·范德",
+          "nationality": "US"
+        },
+        {
+          "gender": 1,
+          "isTranslator": 1,
+          "name": "许燕",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "B848.9",
+      "identification": "1705128801",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 68,
+      "name": "人格谜题",
+      "publish_info": {
+        "date": {
+          "DD": "31",
+          "MM": "11",
+          "YY": "2009"
+        },
+        "ISBN": "9787506277280",
+        "press": "上海译文出版社",
+        "price": 69
+      }
+    },
+    {
+      "authors_info_list": [
+        {
+          "gender": 0,
+          "isTranslator": 0,
+          "name": "塔嫩鲍姆",
+          "nationality": "US"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 0,
+          "name": "斯蒂恩",
+          "nationality": "US"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "辛春生",
+          "nationality": "CN"
+        },
+        {
+          "gender": 0,
+          "isTranslator": 1,
+          "name": "陈宗斌",
+          "nationality": "CN"
+        }
+      ],
+      "classifier": "TP338.8",
+      "identification": "1705128802",
+      "lend_history": null,
+      "lend_state_flag": 0,
+      "lend_times": 683,
+      "name": "分布式系统原理与范型",
+      "publish_info": {
+        "date": {
+          "DD": "21",
+          "MM": "10",
+          "YY": "2008"
+        },
+        "ISBN": "9787302172796",
+        "press": "清华大学出版社",
+        "price": 59
+      }
+    }
+
+  ]
+}
