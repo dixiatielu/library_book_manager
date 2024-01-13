@@ -21,7 +21,7 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp)
     cout << "请选择功能（输入相应数字）：";
 //    SetConsoleTextAttribute(ConsoleColorHandle, FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE); // 还原字符颜色
 
-    std::cin.ignore(500, '\n');						// 清空输入缓冲区
+//    std::cin.ignore(500, '\n');						// 清空输入缓冲区
     cin >> choice;
     std::cin.ignore(500, '\n');						// 清空输入缓冲区
 
