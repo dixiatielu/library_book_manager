@@ -563,6 +563,10 @@ struct BorrowerGroup{
                                 std::cout << "1. 覆盖" << std::endl;
                                 std::cout << "2. 跳过" << std::endl;
                                 std::cout << "3. 更改此用户ID，然后导入" << std::endl;
+                                std::cout << "------------原信息--------------" << std::endl;
+                                std::cout << *now_user << std::endl;
+                                std::cout << "------------新信息--------------" << std::endl;
+                                std::cout << tmp_user << std::endl;
                                 int choice_;
                                 std::cin >> choice_;
                                 if(choice_ == 1) {
