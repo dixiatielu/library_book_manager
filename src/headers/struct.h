@@ -507,7 +507,6 @@ struct BorrowerGroup{
     {
         std::ifstream file(filePath);
         if (!file.is_open()) {
-
             std::cerr << "Error opening file: " << filePath << std::endl;
             return;
         }
@@ -551,10 +550,49 @@ struct BorrowerGroup{
                     }
                 }else if (choice == 2)
                 {
-                    borrower_amount = tmp_borrower_amount + borrower_amount;
-                    borrower_list.resize(borrower_amount + 1);
-                    for (int i = tmp_borrower_amount + 1, j = 0; i <= borrower_amount; i++,j++) {
-                        borrower_list[i].readFromJSON(borrowerListJson[j]);
+                    for(int i = 0;i < borrower_amount;i++)
+                    {
+                        bool continue_flag = false;
+                        User tmp_user;
+                        tmp_user.readFromJSON(borrowerListJson[i]);
+                        for(auto now_user = borrower_list.begin();now_user != borrower_list.end();now_user++)
+                        {
+                            if(now_user->ID == tmp_user.ID){
+                                continue_flag = true;
+                                std::cout << "发现已存在的用户ID，请选择处理方式：" << std::endl;
+                                std::cout << "1. 覆盖" << std::endl;
+                                std::cout << "2. 跳过" << std::endl;
+                                std::cout << "3. 更改此用户ID，然后导入" << std::endl;
+                                int choice_;
+                                std::cin >> choice_;
+                                if(choice_ == 1) {
+                                    *now_user = tmp_user;
+                                    break;
+                                }
+                                else if(choice_ == 2)
+                                {
+                                    break;
+                                }
+                                else if(choice_ == 3)
+                                {
+                                    std::cout << "请输入新的用户ID：";
+                                    std::cin >> tmp_user.ID;
+                                    borrower_list.emplace_back(tmp_user);
+                                    break;
+                                }
+                                else
+                                {
+                                    std::cout << "输入错误，默认覆盖！" << std::endl;
+                                    *now_user = tmp_user;
+                                    break;
+                                }
+                            }
+                        }
+                        if(continue_flag)
+                        {
+                            continue;
+                        }
+                        borrower_list.emplace_back(tmp_user);
                     }
                 }
                 else
