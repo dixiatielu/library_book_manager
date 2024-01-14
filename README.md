@@ -6,11 +6,14 @@
 4.	用户权限管理
 5.	系统数据备份与恢复（JSON格式）
 
-## 架构说明
+## 文件架构说明
 ```shell
 └─src // 源码根目录
     ├─functions // 函数文件目录
-    │  └─menus // 显示菜单的函数放在这里
+    │  ├─borrow_history // 借书历史模块
+    │  ├─menus // 显示菜单的函数放在这里
+    │  └─utils // 工具函数模块
+    │      └─KMP // KMP字符串匹配模块
     ├─headers // 头文件
     └─include // 库文件
         ├─fmt // C++23 格式库文件
@@ -24,5 +27,7 @@
 
 ## 开发环境
 CLion 2023.3
+
 CMake 3.27
+
 C++ Standard 17
