@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(library_book_manager)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 add_executable(library_book_manager
         src/functions/utils/GetCurrentTime.cpp
