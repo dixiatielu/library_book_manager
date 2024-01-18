@@ -22,8 +22,7 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
         cin >> choice;
 
         string fileExtension = ".json";
-        string backupFilePath;
-        string restoreFilePath;
+        string backupFilePath, restoreFilePath, fileName;
         switch (choice) {
             case 1: {
                 cout << "\n是否要永久删除所有已删除的图书数据：\n"
@@ -44,17 +43,21 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
                     case 1:
                         cout << "请输入备份文件名（包含路径）：";
                         cin >> backupFilePath;
-                        lib.writeToJSONFile_DeleteNotExistBooks(backupFilePath + fileExtension);
+
+                        fileName = backupFilePath + fileExtension;
+                        lib.writeToJSONFile_DeleteNotExistBooks(fileName);
                         cout << fmt::format("\n图书数据备份成功\n"
-                                            "已保存在 {} 路径下\n\n", backupFilePath + fileExtension);
+                                            "已保存在 {} 路径下\n\n", fileName);
                         break;
 
                     case 2:
                         cout << "请输入备份文件名（包含路径）：";
                         cin >> backupFilePath;
-                        lib.writeToJSONFile_Origin(backupFilePath + fileExtension);
+
+                        fileName = backupFilePath + fileExtension;
+                        lib.writeToJSONFile_Origin(fileName);
                         cout << fmt::format("\n图书数据备份成功\n"
-                                            "已保存在 {} 路径下\n\n", backupFilePath + fileExtension);
+                                            "已保存在 {} 路径下\n\n", fileName);
                         break;
 
                     default:
@@ -66,26 +69,43 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
             case 2: {
                 cout << "请输入导入文件名（包含路径）：";
                 cin >> restoreFilePath;
-                lib.readFromJSONFile(restoreFilePath + fileExtension);
-                cout << fmt::format("\n图书数据导入成功\n"
-                                    "由 ./{} 路径下导入\n\n", restoreFilePath + fileExtension);
+
+                fileName = restoreFilePath + fileExtension;
+                if (isFileExist(fileName)) {
+
+                    lib.readFromJSONFile(fileName);
+                    cout << fmt::format("\n图书数据导入成功\n"
+                                        "由 ./{} 路径下导入\n\n", fileName);
+                } else{
+                    cout << fmt::format("\n不存在 ./{} 路径!\n\n", fileName);
+                }
+
             }
                 break;
             case 3: {
                 cout << "请输入备份文件名（包含路径）：";
                 cin >> backupFilePath;
-                gp.writeToJSONFile(backupFilePath + fileExtension);
+
+                fileName = backupFilePath + fileExtension;
+                gp.writeToJSONFile(fileName);
                 cout << fmt::format("\n用户数据备份成功\n"
-                                    "已保存在 {} 路径下\n\n", backupFilePath + fileExtension);
+                                    "已保存在 {} 路径下\n\n", fileName);
 
             }
                 break;
             case 4: {
                 cout << "请输入恢复文件名（包含路径）：";
                 cin >> restoreFilePath;
-                gp.readFromJSONFile(restoreFilePath + fileExtension);
-                cout << fmt::format("\n用户数据导入成功\n"
-                                    "由 {} ./路径下导入\n\n", restoreFilePath + fileExtension);
+
+                fileName = restoreFilePath + fileExtension;
+                if (isFileExist(fileName)) {
+
+                    gp.readFromJSONFile(fileName);
+                    cout << fmt::format("\n用户数据导入成功\n"
+                                        "由 {} ./路径下导入\n\n", fileName);
+                } else{
+                    cout << fmt::format("\n不存在 ./{} 路径!\n\n", fileName);
+                }
             }
                 break;
             case 0:
