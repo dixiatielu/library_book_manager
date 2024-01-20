@@ -21,12 +21,16 @@
 
 // 时间结构体
 struct Time {
+    std::string YY = "10000",
+                MM = "10000",
+                DD = "10000"; // 取 10000 为无效值
+
     friend std::ostream &operator<<(std::ostream &os, const Time &time1) {
-        os << time1.YY << "年" << time1.MM << "月" << time1.DD << "日" << std::endl;
+        os << time1.YY << "年"
+           << time1.MM << "月"
+           << time1.DD << "日" << std::endl;
         return os;
     }
-
-    std::string YY, MM, DD; // 取 10000 为无效值
 };
 
 /*-----------------------------------------------------------------------------*/
@@ -218,7 +222,7 @@ typedef struct Book {
 
 // 图书馆结构体
 struct Library {
-    int book_amount_total;               // 图书馆藏书总量，程序运行时可能包含已删除的图书
+    int book_amount_total;         // 图书馆藏书总量，程序运行时可能包含已删除的图书
     int book_amount_real;          // 图书馆藏书量，统计未删除（lend_state_flag != -3）的图书
     BookList book_list;            // 图书馆书单
     // 由于图书馆建成后，可藏书量固定，故使用数组建立
@@ -454,7 +458,7 @@ struct User {
 
 struct BorrowerGroup {
     int borrower_amount;                 // 借书者总量
-    std::vector<User> borrower_list; // 借书者名单（使用自然排序，1，2，3...）
+    std::vector<User> borrower_list;     // 借书者名单（使用自然排序，1，2，3...）
 
     explicit BorrowerGroup(const int &brrwr_amount) {
         borrower_amount = brrwr_amount;

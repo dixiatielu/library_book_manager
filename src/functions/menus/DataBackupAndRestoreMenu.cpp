@@ -22,7 +22,7 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
         cin >> choice;
 
         string fileExtension = ".json";
-        string backupFilePath, restoreFilePath, fileName;
+        string backupFilePath, restoreFilePath, filePath;
         switch (choice) {
             case 1: {
                 cout << "\n是否要永久删除所有已删除的图书数据：\n"
@@ -44,20 +44,20 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
                         cout << "请输入备份文件名（包含路径）：";
                         cin >> backupFilePath;
 
-                        fileName = backupFilePath + fileExtension;
-                        lib.writeToJSONFile_DeleteNotExistBooks(fileName);
+                        filePath = backupFilePath + fileExtension;
+                        lib.writeToJSONFile_DeleteNotExistBooks(filePath);
                         cout << fmt::format("\n图书数据备份成功\n"
-                                            "已保存在 {} 路径下\n\n", fileName);
+                                            "已保存在 {} 路径下\n\n", filePath);
                         break;
 
                     case 2:
                         cout << "请输入备份文件名（包含路径）：";
                         cin >> backupFilePath;
 
-                        fileName = backupFilePath + fileExtension;
-                        lib.writeToJSONFile_Origin(fileName);
+                        filePath = backupFilePath + fileExtension;
+                        lib.writeToJSONFile_Origin(filePath);
                         cout << fmt::format("\n图书数据备份成功\n"
-                                            "已保存在 {} 路径下\n\n", fileName);
+                                            "已保存在 {} 路径下\n\n", filePath);
                         break;
 
                     default:
@@ -70,14 +70,14 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
                 cout << "请输入导入文件名（包含路径）：";
                 cin >> restoreFilePath;
 
-                fileName = restoreFilePath + fileExtension;
-                if (isFileExist(fileName)) {
+                filePath = restoreFilePath + fileExtension;
+                if (isFileExist(filePath)) {
 
-                    lib.readFromJSONFile(fileName);
+                    lib.readFromJSONFile(filePath);
                     cout << fmt::format("\n图书数据导入成功\n"
-                                        "由 ./{} 路径下导入\n\n", fileName);
+                                        "由 ./{} 路径下导入\n\n", filePath);
                 } else{
-                    cout << fmt::format("\n不存在 ./{} 路径!\n\n", fileName);
+                    cout << fmt::format("\n不存在 ./{} 路径!\n\n", filePath);
                 }
 
             }
@@ -86,10 +86,10 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
                 cout << "请输入备份文件名（包含路径）：";
                 cin >> backupFilePath;
 
-                fileName = backupFilePath + fileExtension;
-                gp.writeToJSONFile(fileName);
+                filePath = backupFilePath + fileExtension;
+                gp.writeToJSONFile(filePath);
                 cout << fmt::format("\n用户数据备份成功\n"
-                                    "已保存在 {} 路径下\n\n", fileName);
+                                    "已保存在 {} 路径下\n\n", filePath);
 
             }
                 break;
@@ -97,14 +97,14 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
                 cout << "请输入恢复文件名（包含路径）：";
                 cin >> restoreFilePath;
 
-                fileName = restoreFilePath + fileExtension;
-                if (isFileExist(fileName)) {
+                filePath = restoreFilePath + fileExtension;
+                if (isFileExist(filePath)) {
 
-                    gp.readFromJSONFile(fileName);
+                    gp.readFromJSONFile(filePath);
                     cout << fmt::format("\n用户数据导入成功\n"
-                                        "由 {} ./路径下导入\n\n", fileName);
+                                        "由 {} ./路径下导入\n\n", filePath);
                 } else{
-                    cout << fmt::format("\n不存在 ./{} 路径!\n\n", fileName);
+                    cout << fmt::format("\n不存在 ./{} 路径!\n\n", filePath);
                 }
             }
                 break;
@@ -115,4 +115,6 @@ void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp) {
                 cout << "无效的选项，请重新选择。" << endl;
         }
     } while (choice != 0);
+
+    std::cout << "\n退出系统数据备份与恢复程序\n\n\n";
 }

@@ -3,10 +3,10 @@
 //
 #include "../../headers/function_definitions.h"
 
-bool isFileExist(const std::string& file_name)
+bool isFileExist(const std::string& filePath)
 {
     bool file_state_flag;
-    std::ifstream f_in(file_name);
+    std::ifstream f_in(filePath);
     file_state_flag = f_in.good();
     f_in.close();
 

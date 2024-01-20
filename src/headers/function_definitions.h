@@ -251,7 +251,7 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp);
  * @param lib
  */
 void DataBackupAndRestoreMenu(Library &lib, BorrowerGroup &gp);
-bool isFileExist(const std::string& file_name);
+bool isFileExist(const std::string& filePath);
 
 /*!
  * @brief 按时间顺序整理函数功能：

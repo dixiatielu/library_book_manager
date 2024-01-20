@@ -6,7 +6,7 @@
 using namespace std;
 
 int ShowMainMenu(Library &lib, BorrowerGroup &gp) {
-    system("cls");
+    system("cls");  // 设置Windows下终端清屏
 
     int choice;
     cout << fmt::format("\n{:*^34}", "主菜单") << endl;
@@ -22,7 +22,7 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp) {
     cin >> choice;
     std::cin.ignore(500, '\n');                        // 清空输入缓冲区
 
-    if (!cin) {
+    if (!cin) { // 当用户输入非数字时
         cout << "输入非数字！\n"
                 "将退出系统\n\n\n";
         cin.clear();
@@ -49,17 +49,17 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp) {
         }
 
         case 2:
-            // 调用图书检索的函数
+            // 调用图书信息检索的函数
             LibrarySearchMenu(lib);
             break;
 
         case 3:
-            // 调用借阅与归还管理的函数
+            // 调用图书借阅与归还管理的函数
             UserBorrowAndGiveBackMenu(lib, gp);
             break;
 
         case 4:
-            // 调用用户权限管理的函数
+            // 调用用户信息管理的函数
             UserManagement(gp);
             break;
 
@@ -69,16 +69,18 @@ int ShowMainMenu(Library &lib, BorrowerGroup &gp) {
             break;
 
         case 6:
+            // 调用图书馆信息速览的函数
             Library_User_InfoMenu(lib, gp);
             break;
 
-        case 0:
-            cout << "感谢使用，再见！" << endl;
+        case 0: // 用户输入 0 或其他非数字字符时
+            // 退出系统
+            cout << "\n感谢使用，再见！" << endl;
             break;
 
-        default:
-            cout << "无效的选项，请重新选择。" << endl;
-            break;
+        default: // 发生未知输入错误时
+            cout << "\n发生未知输入错误！" << endl;
+            exit(1);
     }
     return choice;
 }
